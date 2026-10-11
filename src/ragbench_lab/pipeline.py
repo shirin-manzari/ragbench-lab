@@ -5,15 +5,16 @@ from __future__ import annotations
 import json
 import statistics
 from collections import Counter
-from dataclasses import asdict
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from time import perf_counter
+from typing import Any
 
 from ragbench_lab.chunking import Chunk, chunk_document
 from ragbench_lab.config import ExperimentConfig
 from ragbench_lab.context import pack_context
 from ragbench_lab.data.preparation import canonical, digest, load_prepared
-from ragbench_lab.data.records import DataError, Document
+from ragbench_lab.data.records import DataError, DatasetBundle, Document
 from ragbench_lab.metrics import evidence_metrics
 from ragbench_lab.retrieval import BM25Index, reciprocal_rank_fusion
 from ragbench_lab.tokenization import ReferenceTokenizer
@@ -169,13 +170,25 @@ def build_index(config: ExperimentConfig, data: Path, tokenizer_path: Path, meth
     return manifest
 
 
-def retrieve(config: ExperimentConfig, data: Path, directory: Path, tokenizer_path: Path,
-             question_id: str | None, output: Path, recipe: str | None = None,
-             models_root: Path = Path("models")) -> dict:
-    if output.exists():
-        raise DataError("retrieval output already exists; choose a new file")
+@dataclass
+class RetrievalSession:
+    config: ExperimentConfig
+    source: dict
+    bundle: DatasetBundle
+    tokenizer: ReferenceTokenizer
+    manifest: dict
+    bm25: BM25Index | None
+    dense: Any
+    encoder: Any
+    offline_load_seconds: float
+
+
+def load_retriever(config: ExperimentConfig, data: Path, directory: Path, tokenizer_path: Path,
+                   recipe: str | None = None, models_root: Path = Path("models"),
+                   prepared: tuple[dict, DatasetBundle] | None = None,
+                   encoder_override=None) -> RetrievalSession:
     initialization = perf_counter()
-    source, bundle = load_prepared(data)
+    source, bundle = prepared if prepared is not None else load_prepared(data)
     tokenizer = ReferenceTokenizer(tokenizer_path, config.chunking)
     manifest = json.loads((directory / "manifest.json").read_text(encoding="utf-8"))
     identity = manifest.pop("manifest_sha256")
@@ -213,10 +226,6 @@ def retrieve(config: ExperimentConfig, data: Path, directory: Path, tokenizer_pa
                 or chunk.chunk_id != digest([chunk.document_id, chunk.method,
                                             chunk.target_size, chunk.start, chunk.end])):
             raise DataError("invalid indexed chunk source mapping or token length")
-    question_id = question_id or source["split"]["development_ids"][0]
-    if question_id not in source["split"]["development_ids"]:
-        raise DataError("diagnostic retrieval accepts development questions only")
-    question = next(q for q in bundle.questions if q.question_id == question_id)
     bm25 = dense = encoder = None
     if recipe == "bm25" or recipe.startswith("hybrid_"):
         if "bm25_postings_sha256" in manifest:
@@ -234,7 +243,8 @@ def retrieve(config: ExperimentConfig, data: Path, directory: Path, tokenizer_pa
 
         if config.embedding is None:
             raise DataError("Dense/Hybrid requires [embedding] configuration")
-        encoder = LocalEncoder(recipe.rsplit("_", 1)[1], models_root, config.embedding)
+        encoder = encoder_override or LocalEncoder(recipe.rsplit("_", 1)[1], models_root,
+                                                   config.embedding)
         if (manifest["embedding"] != encoder.identity
                 or manifest["faiss"]["version"] != version("faiss-cpu")
                 or manifest["faiss"]["threads"] != config.embedding.threads
@@ -242,7 +252,21 @@ def retrieve(config: ExperimentConfig, data: Path, directory: Path, tokenizer_pa
                 or manifest["faiss"]["sha256"] != file_sha256(directory / "dense.faiss")):
             raise DataError("dense index/model identity mismatch")
         dense = DenseIndex.load(directory / "dense.faiss", chunks, 384, config.embedding.threads)
-    offline_load_seconds = perf_counter() - initialization
+    return RetrievalSession(config, source, bundle, tokenizer, manifest, bm25, dense, encoder,
+                            perf_counter() - initialization)
+
+
+def retrieve_query(session: RetrievalSession, question_id: str,
+                   allowed_ids: list[str] | None = None) -> dict:
+    config, source, manifest = session.config, session.source, session.manifest
+    permitted = source["split"]["development_ids"] if allowed_ids is None else allowed_ids
+    if question_id not in permitted:
+        raise DataError("question is not authorized for this retrieval split")
+    question = next(q for q in session.bundle.questions if q.question_id == question_id)
+    tokenizer, bm25 = session.tokenizer, session.bm25
+    dense, encoder = session.dense, session.encoder
+    recipe, identity = manifest["recipe"], manifest["manifest_sha256"]
+    offline_load_seconds = session.offline_load_seconds
     online = perf_counter()
     timings = {"query_embedding": 0.0, "bm25_search": 0.0, "dense_search": 0.0, "fusion": 0.0}
     constituents = {}
@@ -293,5 +317,15 @@ def retrieve(config: ExperimentConfig, data: Path, directory: Path, tokenizer_pa
                             "packing": packed - searched,
                             "online_retrieval_path": packed - online},
     }
+    return result
+
+
+def retrieve(config: ExperimentConfig, data: Path, directory: Path, tokenizer_path: Path,
+             question_id: str | None, output: Path, recipe: str | None = None,
+             models_root: Path = Path("models")) -> dict:
+    if output.exists():
+        raise DataError("retrieval output already exists; choose a new file")
+    session = load_retriever(config, data, directory, tokenizer_path, recipe, models_root)
+    result = retrieve_query(session, question_id or session.source["split"]["development_ids"][0])
     write_new_json(output, result)
     return result

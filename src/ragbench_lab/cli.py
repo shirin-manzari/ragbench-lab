@@ -41,6 +41,31 @@ def _parser() -> argparse.ArgumentParser:
     download = subparsers.add_parser("download-embedders",
                                     help="download and verify pinned BGE/E5 assets")
     download.add_argument("--models-dir", type=Path, default=Path("models"))
+    plan = subparsers.add_parser("stage-a-plan", help="enumerate the Stage A matrix")
+    plan.add_argument("config")
+    run = subparsers.add_parser("stage-a-run", help="run or resume sequential Stage A blocks")
+    run.add_argument("config")
+    run.add_argument("--squad-dir", required=True, type=Path)
+    run.add_argument("--hotpot-dir", required=True, type=Path)
+    run.add_argument("--index-root", type=Path, default=Path("indexes/stage-a"))
+    run.add_argument("--output", required=True, type=Path)
+    run.add_argument("--tokenizer-json", type=Path,
+                     default=Path("models/bge-small-en-v1.5/tokenizer.json"))
+    run.add_argument("--models-dir", type=Path, default=Path("models"))
+    run.add_argument("--split", choices=("development", "evaluation"), default="development")
+    run.add_argument("--freeze", type=Path)
+    for limit in ("document", "question", "condition"):
+        run.add_argument(f"--{limit}-limit", type=int, help="diagnostic-only bounded run")
+    run.add_argument("--max-requests", type=int, help="stop after N new attempts; resume later")
+    run.add_argument("--resume", action="store_true")
+    run.add_argument("--retry-failures", action="store_true")
+    select = subparsers.add_parser("stage-a-select", help="inspect development selection scores")
+    select.add_argument("--run-dir", required=True, type=Path)
+    select.add_argument("--output", required=True, type=Path)
+    select.add_argument("--freeze", type=Path, help="write a new final selection manifest")
+    report = subparsers.add_parser("stage-a-report", help="summarize saved retrieval records")
+    report.add_argument("--run-dir", required=True, type=Path)
+    report.add_argument("--output", required=True, type=Path)
     for name, help_text in (
         ("chunks", "inspect all six chunk profiles"),
         ("index", "build a BM25, Dense, or Hybrid index artifact"),
@@ -86,11 +111,36 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(f"valid prepared dataset: {manifest['dataset']}")
             print(f"manifest sha256: {manifest['manifest_sha256']}")
             return 0
+        if args.command == "stage-a-select":
+            from ragbench_lab.selection import select_run
+
+            print(json.dumps(select_run(args.run_dir, args.output, args.freeze), indent=2))
+            return 0
+        if args.command == "stage-a-report":
+            from ragbench_lab.reporting import summarize_run
+
+            print(json.dumps(summarize_run(args.run_dir, args.output), indent=2))
+            return 0
         config = load_config(args.config)
-        if args.command in {"index", "retrieve"} and config.embedding is not None:
+        if args.command == "stage-a-plan":
+            from ragbench_lab.conditions import stage_a_conditions
+
+            print(json.dumps([c.record() for c in stage_a_conditions(config)], indent=2))
+            return 0
+        if args.command in {"index", "retrieve", "stage-a-run"} and config.embedding is not None:
             from ragbench_lab.native import configure_cli_native_environment
 
             configure_cli_native_environment(list(argv) if argv is not None else sys.argv[1:])
+        if args.command == "stage-a-run":
+            from ragbench_lab.stage_a import run_stage_a
+
+            result = run_stage_a(
+                config, {"squad": args.squad_dir, "hotpot_qa": args.hotpot_dir},
+                args.index_root, args.output, args.tokenizer_json, args.models_dir,
+                args.split, args.document_limit, args.question_limit, args.condition_limit,
+                args.resume, args.retry_failures, args.max_requests, args.freeze)
+            print(json.dumps(result, indent=2))
+            return 1 if result["failed_attempts"] or result["setup_failures"] else 0
         if args.command in {"chunks", "index", "retrieve"}:
             from ragbench_lab.pipeline import build_index, chunk_profiles, retrieve
 
