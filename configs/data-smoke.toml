@@ -1,0 +1,28 @@
+schema_version = 1
+name = "phase-1-data-smoke"
+
+[dataset]
+names = ["squad", "hotpot_qa"]
+# prepare requires the concrete source version and SHA-256 on the command line.
+revision = "pin-during-phase-1"
+development_questions = 2
+evaluation_questions = 3
+sampling_seed = 20261011
+
+[retrieval]
+recipes = ["bm25", "dense_bge", "dense_e5", "hybrid_bge", "hybrid_e5"]
+candidate_depth = 50
+rrf_constant = 60
+context_budget_tokens = 1024
+
+[chunking]
+methods = ["fixed_token", "sentence_aware"]
+sizes = [64, 128, 256]
+overlap_percent = 0
+reference_tokenizer = "BAAI/bge-small-en-v1.5"
+tokenizer_revision = "pin-before-download"
+
+[timing]
+repetitions = 3
+sequential = true
+quality_repetition = 1
