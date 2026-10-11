@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-11",
+  "timezone": "Asia/Tehran",
+  "os": {
+    "name": "Microsoft Windows 11 Pro",
+    "version": "10.0.26200",
+    "architecture": "64-bit"
+  },
+  "python": "3.13.5",
+  "cpu": {
+    "name": "12th Gen Intel(R) Core(TM) i5-12400F",
+    "physical_cores": 6,
+    "logical_cores": 12
+  },
+  "memory": {
+    "total_bytes": 17009049600
+  },
+  "gpu": [
+    {
+      "name": "NVIDIA GeForce RTX 3070",
+      "memory_mib": 8192,
+      "driver": "591.86"
+    }
+  ],
+  "workspace_disk": {
+    "drive": "C:",
+    "total_bytes": 499036188672,
+    "free_bytes": 45213605888
+  },
+  "serving_backend": {
+    "name": "ollama",
+    "executable_available": false,
+    "api_available": false,
+    "version": null
+  },
+  "notes": [
+    "GPU memory is reported by nvidia-smi; the Windows adapter RAM field was not used.",
+    "Model access, quantization, and measured feasibility remain Phase 6 decisions."
+  ]
+}
