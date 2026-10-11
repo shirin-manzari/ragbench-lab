@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "purpose": "phase 1 data verification; not a frozen final study",
+  "dataset": "hotpot_qa",
+  "source_type": "revision-pinned third-party mirror; official endpoint unavailable",
+  "source_url": "https://huggingface.co/datasets/namlh2004/hotpotqa/resolve/7e54db4656209750ff487f6fdf8e39a66dba136b/hotpot_dev_distractor_v1.json",
+  "official_source_url": "http://curtis.ml.cmu.edu/datasets/hotpot/hotpot_dev_distractor_v1.json",
+  "source_revision": "namlh2004/hotpotqa@7e54db4656209750ff487f6fdf8e39a66dba136b",
+  "source_sha256": "e3da074df24e8369009918aa5cdbdd254dadcde4c63f7569d36afd6f2268caa8",
+  "published_sha256_matched": true,
+  "official_byte_equivalence_verified": false,
+  "corpus_sha256": "7e2d75eb7b369d74e311dfa6582745f5b36f30a2d2d6c6d5bf822ce6dbc4d76c",
+  "questions_sha256": "8cd38daa5c985d8f9f4420ca615acdd85bd4c382300906540a6cb6f5e0bb2dab",
+  "config_sha256": "c90cc90e511cda328c6d700ebe1bb1f6685b95c97b083aea32dca2f6fce7d365",
+  "prepared_manifest_sha256": "1b33f8d785170e3896a6e9563583731c148af1eeaae540ae1723a4c3ee0c18e9",
+  "artifact_directory": "data/prepared/hotpot-pilot-v1",
+  "pool_policy": "entire supplied distractor validation JSON",
+  "pool_question_count": 7405,
+  "document_count": 66635,
+  "eligible_question_count": 7404,
+  "exclusion_count": 1,
+  "exclusions": [
+    {"question_id": "5ae61bfd5542992663a4f261", "reason": "missing_supporting_sentence"}
+  ],
+  "same_title_variant_count": 54,
+  "development_questions": 10,
+  "evaluation_questions": 10,
+  "sampling_seed": 20261011,
+  "overlapping_document_ids": [],
+  "overlapping_titles": []
+}
