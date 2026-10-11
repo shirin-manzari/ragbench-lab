@@ -1,0 +1,38 @@
+{
+  "kind": "validation_protocol_not_a_frozen_experiment",
+  "schema_version": 1,
+  "matrix": "5 recipes x 2 chunkers x 3 sizes = 30 per dataset",
+  "execution": {
+    "parallel_requests": false,
+    "warmups_per_condition_block": 1,
+    "timing_repetitions": 3,
+    "quality_repetition": 1,
+    "query_cache": false,
+    "quality_retry_policy": "failed first attempts block automatic selection"
+  },
+  "selection": {
+    "coverage": "packed-context evidence; equal dataset weight; Dense/Hybrid and all three sizes",
+    "close_absolute": 0.01,
+    "tie_breakers": ["mean per-question retrieval latency", "indexing cost", "lexical pair"],
+    "indexing_cost": "chunking + BM25 build + corpus embedding + FAISS build + persistence",
+    "final_split_counts": {"development": 50, "evaluation": 100},
+    "diagnostic_freeze": "forbidden"
+  },
+  "resume_invariants": [
+    "exclusive writer lock",
+    "same configuration, data, models, source fingerprint, environment and limits",
+    "append-only hash chain; consecutive attempts; no request after success",
+    "partial or corrupt tails preserved and rejected, never silently repaired",
+    "max-requests is a stop control, not an experiment change"
+  ],
+  "reporting": {
+    "quality": "first repetition, first attempt only",
+    "timing": "successful first attempts; retries and failures counted separately",
+    "uncertainty": "500 question-cluster bootstrap resamples; no interval with one question"
+  },
+  "validation_commands": [
+    "PYTHONPATH=src .venv/bin/python -m ragbench_lab stage-a-plan configs/retrieval-pilot.toml",
+    "DYLD_LIBRARY_PATH=\"$PWD/.venv/lib/python3.14/site-packages/torch/lib\" PYTHONPATH=src .venv/bin/python -m unittest discover -s tests -v"
+  ],
+  "tests": "local ignored tests are optional validation aids; normal commands never depend on them"
+}
