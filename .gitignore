@@ -1,3 +1,6 @@
+# Markdown stays local for now; use git add -f PATH for an explicit exception.
+*.[mM][dD]
+
 # Local explanatory documents
 [Rr][Ee][Aa][Dd][Mm][Ee]*
 [Pp][Rr][Oo][Jj][Ee][Cc][Tt]_[Dd][Ee][Ee][Pp]_[Dd][Ii][Vv][Ee]*
@@ -40,4 +43,10 @@ dist/
 /reports/
 /artifacts/
 *.log
+
+
+PRD.md
+PLAN.md
+PROGRESS.md
+README.md
 
