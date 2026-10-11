@@ -1,0 +1,43 @@
+# Local explanatory documents
+[Rr][Ee][Aa][Dd][Mm][Ee]*
+[Pp][Rr][Oo][Jj][Ee][Cc][Tt]_[Dd][Ee][Ee][Pp]_[Dd][Ii][Vv][Ee]*
+[Pp][Rr][Oo][Jj][Ee][Cc][Tt]-[Dd][Ee][Ee][Pp]-[Dd][Ii][Vv][Ee]*
+
+# Local tests and test artifacts
+tests/
+test/
+test_*.py
+*_test.py
+conftest.py
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+junit*.xml
+
+# Python and tooling
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.ruff_cache/
+.mypy_cache/
+
+# Secrets and local settings
+.env
+.env.*
+!.env.example
+.DS_Store
+
+# Downloaded assets and generated experiment outputs
+/data/
+/models/
+/indexes/
+/runs/
+/reports/
+/artifacts/
+*.log
+
