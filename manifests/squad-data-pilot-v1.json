@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "purpose": "phase 1 data verification; not a frozen final study",
+  "dataset": "squad",
+  "source_url": "https://raw.githubusercontent.com/rajpurkar/SQuAD-explorer/master/dataset/dev-v1.1.json",
+  "source_revision": "squad-dev-v1.1",
+  "source_sha256": "95aa6a52d5d6a735563366753ca50492a658031da74f301ac5238b03966972c9",
+  "corpus_sha256": "a7a33dcee6fb0a9e8cc85edfbdbaed1df1fae488e089eca1051215c9f56df873",
+  "questions_sha256": "ab2254de1d546f6519ae8250cb690cc5f3799cf50b3894bdab0fa7af866eb913",
+  "config_sha256": "c90cc90e511cda328c6d700ebe1bb1f6685b95c97b083aea32dca2f6fce7d365",
+  "prepared_manifest_sha256": "9893c13ff89d482bac5412ff28cbdd7136a3053bede3abcd685ca81e7951734d",
+  "artifact_directory": "data/prepared/squad-pilot-v1",
+  "document_count": 48,
+  "eligible_question_count": 10570,
+  "exclusion_count": 0,
+  "development_questions": 10,
+  "evaluation_questions": 10,
+  "sampling_seed": 20261011,
+  "overlapping_document_ids": [],
+  "overlapping_titles": []
+}
