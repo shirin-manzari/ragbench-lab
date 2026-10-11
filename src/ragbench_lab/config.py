@@ -67,6 +67,28 @@ class TimingConfig:
 
 
 @dataclass(frozen=True)
+class EmbeddingConfig:
+    bge_revision: str = "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a"
+    e5_revision: str = "ffb93f3bd4047442299a41ebb6fa998a38507c52"
+    device: str = "cpu"
+    batch_size: int = 16
+    threads: int = 4
+    seed: int = 20261011
+
+    def __post_init__(self) -> None:
+        if (self.bge_revision != "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a"
+                or self.e5_revision != "ffb93f3bd4047442299a41ebb6fa998a38507c52"):
+            raise ConfigError("unsupported embedding revision; pin new artifacts explicitly")
+        if self.device != "cpu":
+            raise ConfigError("Phase 3 supports explicit CPU float32 encoding only")
+        for name in ("batch_size", "threads"):
+            if type(getattr(self, name)) is not int or getattr(self, name) <= 0:
+                raise ConfigError(f"embedding.{name} must be positive")
+        if type(self.seed) is not int or not 0 <= self.seed < 2**32:
+            raise ConfigError("embedding.seed must be an unsigned 32-bit integer")
+
+
+@dataclass(frozen=True)
 class ExperimentConfig:
     schema_version: int
     name: str
@@ -75,9 +97,13 @@ class ExperimentConfig:
     chunking: ChunkingConfig
     timing: TimingConfig
     bm25: BM25Config = BM25Config()
+    embedding: EmbeddingConfig | None = None
 
     def as_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        result = asdict(self)
+        if self.embedding is None:
+            result.pop("embedding")  # Preserve resolved identities of Phase 2 configs.
+        return result
 
     def sha256(self) -> str:
         canonical = json.dumps(self.as_dict(), sort_keys=True, separators=(",", ":"))
@@ -122,6 +148,11 @@ def load_config(path: str | Path) -> ExperimentConfig:
     chunking = _table(raw, "chunking")
     timing = _table(raw, "timing")
     bm25_raw = raw.get("bm25", {})
+    embedding_raw = raw.get("embedding")
+    if embedding_raw is not None and (not isinstance(embedding_raw, dict)
+            or set(embedding_raw) - {"bge_revision", "e5_revision", "device", "batch_size",
+                                     "threads", "seed"}):
+        raise ConfigError("unsupported embedding settings")
     if not isinstance(bm25_raw, dict) or set(bm25_raw) - {"k1", "b", "preprocessing", "idf"}:
         raise ConfigError("[bm25] must contain only supported settings")
 
@@ -155,6 +186,7 @@ def load_config(path: str | Path) -> ExperimentConfig:
             quality_repetition=_positive_int(timing, "quality_repetition"),
         ),
         bm25=BM25Config(**bm25_raw),
+        embedding=EmbeddingConfig(**embedding_raw) if embedding_raw is not None else None,
     )
     _validate(config)
     return config

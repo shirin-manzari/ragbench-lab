@@ -15,7 +15,8 @@ from ragbench_lab.hardware import collect_inventory
 
 
 def _parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="ragbench", description="Run controlled local RAG benchmarks.")
+    parser = argparse.ArgumentParser(prog="ragbench",
+                                     description="Run controlled local RAG benchmarks.")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     validate = subparsers.add_parser("validate", help="load and validate an experiment config")
@@ -34,12 +35,16 @@ def _parser() -> argparse.ArgumentParser:
     data.add_argument("--pool-limit", type=int, help="first N HotpotQA validation rows")
     data.add_argument("--allow-source-overlap", action="store_true",
                       help="explicitly allow and record shared evidence documents/article titles")
-    inspect = subparsers.add_parser("inspect-data", help="verify prepared hashes, evidence, and splits")
+    inspect = subparsers.add_parser("inspect-data",
+                                   help="verify prepared hashes, evidence, and splits")
     inspect.add_argument("directory", type=Path)
+    download = subparsers.add_parser("download-embedders",
+                                    help="download and verify pinned BGE/E5 assets")
+    download.add_argument("--models-dir", type=Path, default=Path("models"))
     for name, help_text in (
         ("chunks", "inspect all six chunk profiles"),
-        ("index", "build source chunks and a BM25 index artifact"),
-        ("retrieve", "retrieve and score a development question with BM25"),
+        ("index", "build a BM25, Dense, or Hybrid index artifact"),
+        ("retrieve", "retrieve and score a development question"),
     ):
         command = subparsers.add_parser(name, help=help_text)
         command.add_argument("config")
@@ -47,11 +52,17 @@ def _parser() -> argparse.ArgumentParser:
         command.add_argument("--tokenizer-json", type=Path,
                              default=Path("models/bge-small-en-v1.5/tokenizer.json"))
         command.add_argument("--output", required=True, type=Path)
+        if name in {"index", "retrieve"}:
+            command.add_argument("--recipe", choices=("bm25", "dense_bge", "dense_e5",
+                                                      "hybrid_bge", "hybrid_e5"),
+                                 default="bm25" if name == "index" else None)
+            command.add_argument("--models-dir", type=Path, default=Path("models"))
         if name in {"chunks", "index"}:
             command.add_argument("--document-limit", type=int,
                                  help="source-order prefix; diagnostic-only smaller corpus")
         if name == "index":
-            command.add_argument("--method", choices=("fixed_token", "sentence_aware"), required=True)
+            command.add_argument("--method", choices=("fixed_token", "sentence_aware"),
+                                 required=True)
             command.add_argument("--size", type=int, choices=(64, 128, 256), required=True)
         if name == "retrieve":
             command.add_argument("--index", required=True, type=Path)
@@ -65,12 +76,21 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(json.dumps(collect_inventory(args.workspace), indent=2, sort_keys=True))
         return 0
     try:
+        if args.command == "download-embedders":
+            from ragbench_lab.embeddings import download_models
+
+            print(json.dumps(download_models(args.models_dir), indent=2, sort_keys=True))
+            return 0
         if args.command == "inspect-data":
             manifest = inspect_prepared(args.directory)
             print(f"valid prepared dataset: {manifest['dataset']}")
             print(f"manifest sha256: {manifest['manifest_sha256']}")
             return 0
         config = load_config(args.config)
+        if args.command in {"index", "retrieve"} and config.embedding is not None:
+            from ragbench_lab.native import configure_cli_native_environment
+
+            configure_cli_native_environment(list(argv) if argv is not None else sys.argv[1:])
         if args.command in {"chunks", "index", "retrieve"}:
             from ragbench_lab.pipeline import build_index, chunk_profiles, retrieve
 
@@ -80,14 +100,16 @@ def main(argv: Sequence[str] | None = None) -> int:
                 print(f"saved {len(result['profiles'])} chunk profiles to {args.output}")
             elif args.command == "index":
                 result = build_index(config, args.data_dir, args.tokenizer_json, args.method,
-                                     args.size, args.output, args.document_limit)
+                                     args.size, args.output, args.document_limit,
+                                     args.recipe, args.models_dir)
                 print(f"indexed {result['statistics']['chunk_count']} chunks into {args.output}")
             else:
                 result = retrieve(config, args.data_dir, args.index, args.tokenizer_json,
-                                  args.question_id, args.output)
+                                  args.question_id, args.output, args.recipe, args.models_dir)
                 print(json.dumps({"question_id": result["question_id"],
                                   "context_tokens": result["context"]["reference_tokens"],
-                                  "metrics": result["metrics"], "output": str(args.output)}, indent=2))
+                                  "metrics": result["metrics"], "output": str(args.output)},
+                                 indent=2))
             return 0
         if args.command == "prepare":
             manifest = prepare(config, args.dataset, args.source, args.revision, args.sha256,

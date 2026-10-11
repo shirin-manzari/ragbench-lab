@@ -1,0 +1,58 @@
+# Phase 3 contract: all five recipes use identical reference chunks and source-only text.
+# BGE: CLS + query instruction, unprefixed passages; E5: masked mean + query:/passage:.
+# CPU float32, L2 normalization, FAISS IndexFlatIP; no approximate search or query cache.
+# Count model-native prefixes/special tokens and fail before encoding >512-token inputs.
+# RRF: sum 1/(60+rank), 1-based ranks, 50 hits per constituent, best 50 unique IDs.
+# Score ties sort by chunk ID, including Dense ties spanning the candidate boundary.
+# Index load validates source/config/tokenizer/model/postings/vector fingerprints.
+# macOS CLI shares PyTorch's OpenMP runtime via a pre-import restart; no binary patch
+# or KMP_DUPLICATE_LIB_OK. Library/test callers set DYLD_LIBRARY_PATH before startup
+# to the torch/lib path reported by importlib.metadata.distribution("torch").
+# Non-fixture validation: ragbench validate configs/retrieval-pilot.toml
+# Acquisition: ragbench download-embedders --models-dir models
+# Smoke: ragbench index configs/retrieval-pilot.toml --data-dir DATA --method fixed_token \
+#   --size 128 --recipe dense_e5 --document-limit 2 --output NEW_INDEX
+# Then: ragbench retrieve configs/retrieval-pilot.toml --data-dir DATA --index NEW_INDEX \
+#   --output NEW_JSON (dev-only; model load offline, query embedding/search/fusion online).
+schema_version = 1
+name = "phase-3-retrieval-pilot"
+
+[dataset]
+names = ["squad", "hotpot_qa"]
+revision = "see-prepared-source-manifests"
+development_questions = 10
+evaluation_questions = 10
+sampling_seed = 20261011
+
+[retrieval]
+recipes = ["bm25", "dense_bge", "dense_e5", "hybrid_bge", "hybrid_e5"]
+candidate_depth = 50
+rrf_constant = 60
+context_budget_tokens = 1024
+
+[bm25]
+k1 = 1.5
+b = 0.75
+preprocessing = "unicode_words_casefold_v1"
+idf = "log1p_robertson_v1"
+
+[chunking]
+methods = ["fixed_token", "sentence_aware"]
+sizes = [64, 128, 256]
+overlap_percent = 0
+reference_tokenizer = "BAAI/bge-small-en-v1.5"
+tokenizer_revision = "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a"
+tokenizer_sha256 = "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66"
+
+[embedding]
+bge_revision = "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a"
+e5_revision = "ffb93f3bd4047442299a41ebb6fa998a38507c52"
+device = "cpu"
+batch_size = 16
+threads = 4
+seed = 20261011
+
+[timing]
+repetitions = 3
+sequential = true
+quality_repetition = 1
