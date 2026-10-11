@@ -36,6 +36,26 @@ def _parser() -> argparse.ArgumentParser:
                       help="explicitly allow and record shared evidence documents/article titles")
     inspect = subparsers.add_parser("inspect-data", help="verify prepared hashes, evidence, and splits")
     inspect.add_argument("directory", type=Path)
+    for name, help_text in (
+        ("chunks", "inspect all six chunk profiles"),
+        ("index", "build source chunks and a BM25 index artifact"),
+        ("retrieve", "retrieve and score a development question with BM25"),
+    ):
+        command = subparsers.add_parser(name, help=help_text)
+        command.add_argument("config")
+        command.add_argument("--data-dir", required=True, type=Path)
+        command.add_argument("--tokenizer-json", type=Path,
+                             default=Path("models/bge-small-en-v1.5/tokenizer.json"))
+        command.add_argument("--output", required=True, type=Path)
+        if name in {"chunks", "index"}:
+            command.add_argument("--document-limit", type=int,
+                                 help="source-order prefix; diagnostic-only smaller corpus")
+        if name == "index":
+            command.add_argument("--method", choices=("fixed_token", "sentence_aware"), required=True)
+            command.add_argument("--size", type=int, choices=(64, 128, 256), required=True)
+        if name == "retrieve":
+            command.add_argument("--index", required=True, type=Path)
+            command.add_argument("--question-id", help="development ID; defaults to first saved ID")
     return parser
 
 
@@ -51,6 +71,24 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(f"manifest sha256: {manifest['manifest_sha256']}")
             return 0
         config = load_config(args.config)
+        if args.command in {"chunks", "index", "retrieve"}:
+            from ragbench_lab.pipeline import build_index, chunk_profiles, retrieve
+
+            if args.command == "chunks":
+                result = chunk_profiles(config, args.data_dir, args.tokenizer_json,
+                                        args.output, args.document_limit)
+                print(f"saved {len(result['profiles'])} chunk profiles to {args.output}")
+            elif args.command == "index":
+                result = build_index(config, args.data_dir, args.tokenizer_json, args.method,
+                                     args.size, args.output, args.document_limit)
+                print(f"indexed {result['statistics']['chunk_count']} chunks into {args.output}")
+            else:
+                result = retrieve(config, args.data_dir, args.index, args.tokenizer_json,
+                                  args.question_id, args.output)
+                print(json.dumps({"question_id": result["question_id"],
+                                  "context_tokens": result["context"]["reference_tokens"],
+                                  "metrics": result["metrics"], "output": str(args.output)}, indent=2))
+            return 0
         if args.command == "prepare":
             manifest = prepare(config, args.dataset, args.source, args.revision, args.sha256,
                                args.output, args.pool_limit, args.allow_source_overlap)

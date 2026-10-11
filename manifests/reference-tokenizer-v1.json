@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "name": "BAAI/bge-small-en-v1.5",
+  "revision": "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a",
+  "source_url": "https://huggingface.co/BAAI/bge-small-en-v1.5/resolve/5c38ec7c405ec4b44b94cc5a9bb96e735b38267a/tokenizer.json",
+  "artifact": "models/bge-small-en-v1.5/tokenizer.json",
+  "sha256": "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66",
+  "tokenizers_version": "0.22.1",
+  "automatically_added_special_tokens": false,
+  "truncation": false,
+  "padding": false,
+  "model_weights_downloaded": false
+}
