@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import tomllib
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -38,6 +39,24 @@ class ChunkingConfig:
     overlap_percent: int
     reference_tokenizer: str
     tokenizer_revision: str
+    tokenizer_sha256: str = ""
+
+
+@dataclass(frozen=True)
+class BM25Config:
+    k1: float = 1.5
+    b: float = 0.75
+    preprocessing: str = "unicode_words_casefold_v1"
+    idf: str = "log1p_robertson_v1"
+
+    def __post_init__(self) -> None:
+        if (type(self.k1) not in (int, float) or not math.isfinite(self.k1) or self.k1 <= 0):
+            raise ConfigError("bm25.k1 must be finite and positive")
+        if (type(self.b) not in (int, float) or not math.isfinite(self.b) or not 0 <= self.b <= 1):
+            raise ConfigError("bm25.b must be between 0 and 1")
+        if (self.preprocessing != "unicode_words_casefold_v1"
+                or self.idf != "log1p_robertson_v1"):
+            raise ConfigError("unsupported BM25 preprocessing or IDF formula")
 
 
 @dataclass(frozen=True)
@@ -55,6 +74,7 @@ class ExperimentConfig:
     retrieval: RetrievalConfig
     chunking: ChunkingConfig
     timing: TimingConfig
+    bm25: BM25Config = BM25Config()
 
     def as_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -101,6 +121,9 @@ def load_config(path: str | Path) -> ExperimentConfig:
     retrieval = _table(raw, "retrieval")
     chunking = _table(raw, "chunking")
     timing = _table(raw, "timing")
+    bm25_raw = raw.get("bm25", {})
+    if not isinstance(bm25_raw, dict) or set(bm25_raw) - {"k1", "b", "preprocessing", "idf"}:
+        raise ConfigError("[bm25] must contain only supported settings")
 
     config = ExperimentConfig(
         schema_version=_positive_int(raw, "schema_version"),
@@ -124,12 +147,14 @@ def load_config(path: str | Path) -> ExperimentConfig:
             overlap_percent=chunking.get("overlap_percent"),
             reference_tokenizer=str(chunking.get("reference_tokenizer", "")).strip(),
             tokenizer_revision=str(chunking.get("tokenizer_revision", "")).strip(),
+            tokenizer_sha256=str(chunking.get("tokenizer_sha256", "")).strip(),
         ),
         timing=TimingConfig(
             repetitions=_positive_int(timing, "repetitions"),
             sequential=timing.get("sequential"),
             quality_repetition=_positive_int(timing, "quality_repetition"),
         ),
+        bm25=BM25Config(**bm25_raw),
     )
     _validate(config)
     return config

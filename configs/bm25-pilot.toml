@@ -1,0 +1,44 @@
+# Phase 2 contract: exact source slices, no overlap, independently verified token counts.
+# Context counts include bracketed chunk IDs and separators, with exact final-slice offsets.
+# Validate without local fixtures: ragbench validate configs/bm25-pilot.toml
+# Data identity/evidence checks: ragbench inspect-data data/prepared/DATASET_DIRECTORY
+# Diagnostic retrieval: ragbench retrieve configs/bm25-pilot.toml --data-dir DATA \
+#   --index INDEX --output NEW_JSON_FILE (development questions only).
+schema_version = 1
+name = "phase-2-bm25-pilot"
+
+[dataset]
+names = ["squad", "hotpot_qa"]
+revision = "see-prepared-source-manifests"
+development_questions = 10
+evaluation_questions = 10
+sampling_seed = 20261011
+
+[retrieval]
+recipes = ["bm25", "dense_bge", "dense_e5", "hybrid_bge", "hybrid_e5"]
+candidate_depth = 50
+rrf_constant = 60
+context_budget_tokens = 1024
+
+[bm25]
+# Unicode word tokens, casefolding, no stemming/stopword filtering; count repeated query terms.
+# IDF = log(1 + (N - df + 0.5) / (df + 0.5)); tf saturation uses standard k1/b.
+# Ties use ascending chunk ID. Return min(50, corpus chunks), including zero-score hits.
+k1 = 1.5
+b = 0.75
+preprocessing = "unicode_words_casefold_v1"
+idf = "log1p_robertson_v1"
+
+[chunking]
+# Counts exclude automatically inserted special tokens; no tokenizer truncation or padding.
+methods = ["fixed_token", "sentence_aware"]
+sizes = [64, 128, 256]
+overlap_percent = 0
+reference_tokenizer = "BAAI/bge-small-en-v1.5"
+tokenizer_revision = "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a"
+tokenizer_sha256 = "d241a60d5e8f04cc1b2b3e9ef7a4921b27bf526d9f6050ab90f9267a1f9e5c66"
+
+[timing]
+repetitions = 3
+sequential = true
+quality_repetition = 1

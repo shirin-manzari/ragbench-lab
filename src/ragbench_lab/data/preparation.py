@@ -155,7 +155,7 @@ def prepare(config: ExperimentConfig, dataset: str, source: Path, revision: str,
     return json.loads(canonical(manifest))
 
 
-def inspect_prepared(directory: Path) -> dict[str, Any]:
+def load_prepared(directory: Path) -> tuple[dict[str, Any], DatasetBundle]:
     """Check saved hashes, evidence offsets, and declared split isolation on disk."""
     manifest = json.loads((directory / "manifest.json").read_text(encoding="utf-8"))
     stored_hash = manifest.pop("manifest_sha256")
@@ -187,4 +187,8 @@ def inspect_prepared(directory: Path) -> dict[str, Any]:
             or manifest["eligible_question_count"] != len(questions)
             or manifest["exclusion_count"] != len(bundle.exclusions)):
         raise DataError("prepared manifest counts mismatch")
-    return manifest
+    return manifest, bundle
+
+
+def inspect_prepared(directory: Path) -> dict[str, Any]:
+    return load_prepared(directory)[0]
