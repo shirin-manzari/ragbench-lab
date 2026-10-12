@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "purpose": "phase 4 capacity decision; estimates are not full-run measurements",
+  "recorded_date": "2026-10-12",
+  "timezone": "Asia/Shanghai",
+  "status": "preparation complete; development screening pending",
+  "config_sha256": "2d94038ed1ffa0ea93becb277a1136c7addd7341e5d3eb7bb13f83b93421292b",
+  "preflight_summary": "artifacts/stage-a-preflight-v1/summary.json",
+  "preflight_summary_sha256": "7fdf45c0cf33c36666cdf04f4a4f8f5fab65598c67acc8b885a3b9a2ac900f36",
+  "preflight_profiles": "artifacts/stage-a-preflight-v1/profiles.jsonl",
+  "preflight_profiles_sha256": "605e17f87d766f451a25a2281ec5d694be2a59b1fdc1211ea79a77a601a4e559",
+  "hardware": {
+    "model": "MacBookPro17,1",
+    "architecture": "arm64",
+    "logical_cores": 8,
+    "memory_total_bytes": 17179869184,
+    "memory_validation_command": "sysctl -n hw.memsize hw.model",
+    "embedding_device": "cpu",
+    "embedding_threads": 4,
+    "embedding_batch_size": 16,
+    "historical_windows_inventory": "manifests/hardware.json; not the current run machine"
+  },
+  "measured": {
+    "completed_full_corpus_profiles": 12,
+    "profile_chunk_instances": 675234,
+    "passage_lengths_valid_for_both_models": true,
+    "maximum_passage_tokens_bge": 258,
+    "maximum_passage_tokens_e5": 260,
+    "development_query_tokens_max": {
+      "squad": {"bge": 35, "e5": 29},
+      "hotpot_qa": {"bge": 46, "e5": 40}
+    },
+    "preflight_peak_rss_bytes": 2003140608,
+    "encoding_sample_chunks_per_profile_model": 64,
+    "encoding_timing_repetitions": 3,
+    "historical_diagnostic_request_bytes_mean": 72472.05555555556,
+    "historical_diagnostic_request_heap_bytes_mean": 134008.6888888889,
+    "historical_diagnostic_requests": 180
+  },
+  "estimates": {
+    "corpus_embedding_seconds": 34075.89421380527,
+    "chunking_and_bm25_seconds": 1265.881209385232,
+    "index_payload_bytes": 7034265166,
+    "development_raw_request_bytes": 652248500,
+    "evaluation_raw_request_bytes": 1304497000,
+    "development_request_history_heap_bytes": 1206078200,
+    "evaluation_request_history_heap_bytes": 2412156400,
+    "limitations": [
+      "encoding is extrapolated from warmed source-only samples, not a completed full build",
+      "thermal slowdown and variation in padded batch lengths can change actual runtime",
+      "index payload estimate excludes manifests and filesystem overhead",
+      "compute estimate excludes model/index loading, serialization, persistence, online work and analysis",
+      "raw-log and heap estimates use a smaller-corpus diagnostic; full records can differ",
+      "preflight peak RSS does not measure the complete runner with accumulated history"
+    ]
+  },
+  "planning_allowances": {
+    "development_compute_hours": 24,
+    "disk_bytes": 21474836480,
+    "process_memory_bytes": 8589934592,
+    "enforcement": "planning allowances only; no automatic timeout or memory cap",
+    "overrun_policy": "preserve records and reassess; do not reduce sample or alter algorithms mid-run"
+  },
+  "scope": {
+    "development_questions_per_dataset": 50,
+    "evaluation_questions_per_dataset": 100,
+    "conditions": 60,
+    "development_requests": 9000,
+    "evaluation_requests": 18000,
+    "source_corpora": "complete prepared corpora from declared SQuAD source and pinned HotpotQA mirror",
+    "held_out_use": "evaluation only after a complete development run and selection freeze"
+  },
+  "commands": {
+    "preflight": "DYLD_LIBRARY_PATH=$PWD/.venv/lib/python3.14/site-packages/torch/lib PYTHONPATH=src .venv/bin/python -m ragbench_lab.feasibility configs/stage-a-study.toml --squad-dir data/prepared/squad-study-v1 --hotpot-dir data/prepared/hotpot-study-v1 --output artifacts/stage-a-preflight-v1",
+    "development_planned": "PYTHONPATH=src .venv/bin/python -m ragbench_lab stage-a-run configs/stage-a-study.toml --squad-dir data/prepared/squad-study-v1 --hotpot-dir data/prepared/hotpot-study-v1 --index-root indexes/stage-a-study-v1 --output runs/stage-a-development-v1",
+    "selection_planned": "PYTHONPATH=src .venv/bin/python -m ragbench_lab stage-a-select --run-dir runs/stage-a-development-v1 --output reports/stage-a-selection-v1.json --freeze manifests/stage-a-selection-v1.json",
+    "evaluation_planned": "PYTHONPATH=src .venv/bin/python -m ragbench_lab stage-a-run configs/stage-a-study.toml --squad-dir data/prepared/squad-study-v1 --hotpot-dir data/prepared/hotpot-study-v1 --index-root indexes/stage-a-study-v1 --output runs/stage-a-evaluation-v1 --split evaluation --freeze manifests/stage-a-selection-v1.json"
+  },
+  "resume_policy": "same command plus --resume; no configuration, source or environment changes",
+  "scientific_limitation": "HotpotQA mirror official-byte equivalence remains unverified"
+}
