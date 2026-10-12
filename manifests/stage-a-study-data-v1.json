@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "purpose": "phase 4 data preparation; selection freeze pending",
+  "recorded_date": "2026-10-12",
+  "timezone": "Asia/Shanghai",
+  "config_path": "configs/stage-a-study.toml",
+  "config_sha256": "2d94038ed1ffa0ea93becb277a1136c7addd7341e5d3eb7bb13f83b93421292b",
+  "development_questions_per_dataset": 50,
+  "evaluation_questions_per_dataset": 100,
+  "sampling_seed": 20261011,
+  "corpus_policy": "entire supplied source; source text unchanged from pilot",
+  "sources": {
+    "squad": {
+      "artifact_directory": "data/prepared/squad-study-v1",
+      "source_revision": "squad-dev-v1.1",
+      "source_sha256": "95aa6a52d5d6a735563366753ca50492a658031da74f301ac5238b03966972c9",
+      "corpus_sha256": "a7a33dcee6fb0a9e8cc85edfbdbaed1df1fae488e089eca1051215c9f56df873",
+      "prepared_manifest_sha256": "e1d096f336c3ab6aee6055a366bb68c801fcb82df091da1b8322a6fe7b152e15",
+      "document_count": 48,
+      "eligible_questions": 10570,
+      "exclusions": 0,
+      "overlapping_document_ids": [],
+      "overlapping_titles": []
+    },
+    "hotpot_qa": {
+      "artifact_directory": "data/prepared/hotpot-study-v1",
+      "source_revision": "namlh2004/hotpotqa@7e54db4656209750ff487f6fdf8e39a66dba136b",
+      "source_sha256": "e3da074df24e8369009918aa5cdbdd254dadcde4c63f7569d36afd6f2268caa8",
+      "corpus_sha256": "7e2d75eb7b369d74e311dfa6582745f5b36f30a2d2d6c6d5bf822ce6dbc4d76c",
+      "prepared_manifest_sha256": "69f4d2555d3b12f16a497dc2dded4fb730f2638b2c860988a809810bf365dacb",
+      "document_count": 66635,
+      "eligible_questions": 7404,
+      "exclusions": [
+        {"question_id": "5ae61bfd5542992663a4f261", "reason": "missing_supporting_sentence"}
+      ],
+      "overlapping_document_ids": [],
+      "overlapping_titles": [],
+      "official_byte_equivalence_verified": false,
+      "source_limitation": "pinned mirror retained as declared adapted corpus; equivalence to official bytes unverified"
+    }
+  },
+  "validation_commands": [
+    "PYTHONPATH=src .venv/bin/python -m ragbench_lab validate configs/stage-a-study.toml",
+    "PYTHONPATH=src .venv/bin/python -m ragbench_lab inspect-data data/prepared/squad-study-v1",
+    "PYTHONPATH=src .venv/bin/python -m ragbench_lab inspect-data data/prepared/hotpot-study-v1"
+  ],
+  "archive_requirement": "preserve full prepared manifests, corpus and question records separately from Git"
+}
