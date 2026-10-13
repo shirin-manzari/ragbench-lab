@@ -59,6 +59,19 @@ def _parser() -> argparse.ArgumentParser:
     run.add_argument("--max-requests", type=int, help="stop after N new attempts; resume later")
     run.add_argument("--resume", action="store_true")
     run.add_argument("--retry-failures", action="store_true")
+    pilot = subparsers.add_parser("pilot", help="paired development feasibility/cache pilot")
+    pilot.add_argument("config")
+    pilot.add_argument("--plan", type=Path, required=True)
+    pilot.add_argument("--selection", type=Path, required=True)
+    pilot.add_argument("--squad-dir", type=Path, required=True)
+    pilot.add_argument("--hotpot-dir", type=Path, required=True)
+    pilot.add_argument("--assets", type=Path, required=True)
+    pilot.add_argument("--index-root", type=Path, required=True)
+    pilot.add_argument("--output", type=Path, required=True)
+    pilot.add_argument("--server-pid", type=int, required=True)
+    pilot.add_argument("--base-url", required=True)
+    pilot.add_argument("--cache-proof", type=Path, required=True)
+    pilot.add_argument("--freeze", type=Path)
     select = subparsers.add_parser("stage-a-select", help="inspect development selection scores")
     select.add_argument("--run-dir", required=True, type=Path)
     select.add_argument("--output", required=True, type=Path)
@@ -143,12 +156,21 @@ def main(argv: Sequence[str] | None = None) -> int:
 
             print(json.dumps([c.record() for c in stage_a_conditions(config)], indent=2))
             return 0
-        if (args.command == "answer" or (
+        if (args.command in {"answer", "pilot"} or (
                 args.command in {"index", "retrieve", "stage-a-run"}
                 and config.embedding is not None)):
             from ragbench_lab.native import configure_cli_native_environment
 
             configure_cli_native_environment(list(argv) if argv is not None else sys.argv[1:])
+        if args.command == "pilot":
+            from ragbench_lab.pilot import run_pilot
+
+            result = run_pilot(config, args.plan, args.selection,
+                {"squad": args.squad_dir, "hotpot_qa": args.hotpot_dir}, args.assets,
+                args.index_root, args.output, args.server_pid, args.base_url,
+                args.cache_proof, args.freeze)
+            print(json.dumps(result, indent=2))
+            return 0 if result["freeze_ready"] else 1
         if args.command == "answer":
             from ragbench_lab.answering import answer
 

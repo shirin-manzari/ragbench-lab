@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "status": "20-question paired feasibility pilot verified; prospective study plan frozen",
+  "pilot_plan": "configs/generation-pilot.json",
+  "pilot_manifest_sha256": "3faa45435037d104300a61a35184c3b4c812c6fe974331c665dd2b1e1c5ac5f3",
+  "study_plan": "manifests/stage-b-study-v1.json",
+  "independent_questions": 20,
+  "paired_model_requests": 40,
+  "pilot_profiles": 6,
+  "main_pipeline_profiles": 12,
+  "cache_control": "unload selected model, require empty dedicated residency list, empty-prompt preload with pinned options, require one resident pinned model/context, require integer zero cached prompt tokens",
+  "warmup": "generation warmup once per model; retrieval and reranker warmup offline for each pilot session; subsequent decoder reset may leave cold kernel state",
+  "timing_boundary": "online begins at fresh query search and ends after generation receipt/validation; scoring and serialization excluded; unload/preload preparation measured separately and included in wall projection",
+  "memory": "sampled summed RSS of pilot and dedicated server descendants; record device allocation separately because unified memory may overlap",
+  "runtime_scope": "14,400 main requests plus projected sequential block setup; separate baselines, reports, archive and analysis are additional",
+  "projection_limit": "equal representative-stratum weighting; six profiles do not measure every factorial interaction; 1.5x planning headroom is not a confidence interval",
+  "freeze_boundary": "scientific model/sample/prompt/context/cache settings frozen now; Phase 7 must pin execution runner revision and fingerprint in its own run manifest before launching requests",
+  "normal_validation": [
+    "python -m ragbench_lab pilot --help",
+    "python -m ragbench_lab inspect-data PREPARED_DIRECTORY"
+  ],
+  "local_ignored_validation": "DYLD_LIBRARY_PATH=TORCH_LIBRARY_DIRECTORY PYTHONPATH=src python -m unittest discover -s tests -v",
+  "critical_invariants": [
+    "development-only deterministic sampling, with two models paired on the same question/profile",
+    "exact native/backend prompt counts, no silent context overflow or input truncation",
+    "same paired context text and identical initial reranker candidate membership",
+    "missing cache counts or missing/error memory samples block freeze",
+    "failed attempts preserved and not replaced by retries",
+    "no Stage B execution without an explicit frozen execution manifest"
+  ]
+}

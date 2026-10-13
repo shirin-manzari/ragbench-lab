@@ -29,11 +29,20 @@ class _MemoryStatus(ctypes.Structure):
 
 
 def _ram_bytes() -> int | None:
+    if platform.system() == "Darwin":
+        result = subprocess.run(
+            ["sysctl", "-n", "hw.memsize"], capture_output=True, text=True, timeout=5, check=False
+        )
+        return int(result.stdout.strip()) if result.returncode == 0 else None
     if os.name != "nt":
         return None
     status = _MemoryStatus()
     status.length = ctypes.sizeof(status)
-    return status.total_physical if ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(status)) else None
+    return (
+        status.total_physical
+        if ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(status))
+        else None
+    )
 
 
 def _nvidia() -> list[dict[str, Any]]:
@@ -41,7 +50,11 @@ def _nvidia() -> list[dict[str, Any]]:
     if not executable:
         return []
     result = subprocess.run(
-        [executable, "--query-gpu=name,memory.total,driver_version", "--format=csv,noheader,nounits"],
+        [
+            executable,
+            "--query-gpu=name,memory.total,driver_version",
+            "--format=csv,noheader,nounits",
+        ],
         capture_output=True,
         text=True,
         timeout=10,
@@ -76,7 +89,11 @@ def collect_inventory(workspace: str | Path = ".") -> dict[str, Any]:
     usage = shutil.disk_usage(Path(workspace).resolve())
     return {
         "schema_version": 1,
-        "os": {"system": platform.system(), "release": platform.release(), "version": platform.version()},
+        "os": {
+            "system": platform.system(),
+            "release": platform.release(),
+            "version": platform.version(),
+        },
         "python": platform.python_version(),
         "cpu": {"processor": platform.processor(), "logical_cores": os.cpu_count()},
         "memory": {"total_bytes": _ram_bytes()},

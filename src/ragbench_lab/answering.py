@@ -32,7 +32,8 @@ def answer(config: ExperimentConfig, data: Path, index: Path | None, tokenizer_p
            generator_config: Path, native_tokenizer: Path, output: Path,
            question_id: str | None = None, recipe: str | None = None,
            models_root: Path = Path("models"), baseline: str = "rag",
-           reranker_config: Path | None = None, reranker_dir: Path | None = None) -> dict:
+           reranker_config: Path | None = None, reranker_dir: Path | None = None,
+           warmup: bool = False) -> dict:
     if output.exists():
         raise DataError("answer output exists; choose a new diagnostic artifact")
     result = {"schema_version": 1, "purpose": "development answer diagnostic",
@@ -60,6 +61,13 @@ def answer(config: ExperimentConfig, data: Path, index: Path | None, tokenizer_p
                                   prepared=(source, bundle)) if baseline == "rag" else None)
         reranker = (LocalReranker(reranker_dir, RerankerSettings(**json.loads(
             reranker_config.read_text(encoding="utf-8")))) if reranker_config else None)
+        if warmup:
+            warmed = perf_counter()
+            if session is not None:
+                warm_candidates, _, _ = search_query(session, "Warmup retrieval query.")
+                if reranker is not None:
+                    reranker.rerank("Warmup retrieval query.", warm_candidates[:1])
+            result["retrieval_reranker_warmup_seconds"] = perf_counter() - warmed
         result.update(question_id=qid, dataset=source["dataset"], baseline=baseline,
                       source_manifest_sha256=source["manifest_sha256"],
                       settings_sha256=digest(asdict(settings)),
