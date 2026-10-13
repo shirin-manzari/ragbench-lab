@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "status": "planning implementation; execution runner pending",
+  "study": "manifests/stage-b-study-v1.json",
+  "scientific_scope": "12 pipelines x 2 datasets x 2 generators x 100 held-out questions x 3 repetitions = 14,400 main requests",
+  "planning_command": "python -m ragbench_lab stage-b-plan configs/stage-a-study.toml --study manifests/stage-b-study-v1.json",
+  "local_validation": "DYLD_LIBRARY_PATH=TORCH_LIBRARY_DIRECTORY PYTHONPATH=src python -m unittest discover -s tests -p test_stage_b_plan.py -v",
+  "planning_invariants": [
+    "validate both outer study hash and nested development selection hash",
+    "exact unique twelve-profile factorial, 48 dataset/model conditions and 144 repetition blocks",
+    "only frozen held-out IDs; unique 50/100 split IDs with no development/evaluation intersection",
+    "14,400 unique request keys; 7,200 two-model pair keys",
+    "initial retrieval condition identity is shared across models and reranking states",
+    "seeded sequential model groups and randomized condition/question order",
+    "first repetition is the quality observation; repetitions are not independent questions",
+    "baselines remain outside the main matrix",
+    "planning does not read answers, load model weights, run queries or launch servers",
+    "plan output is append-safe via exclusive new-file creation; never overwrite a frozen manifest"
+  ],
+  "execution_gate": "a plan is not an execution run manifest; runner source/environment/assets/index identities and cache controls must be verified and pinned before generation",
+  "pending": [
+    "block-scoped retrieval/generator setup and warmup",
+    "resumable append-only request execution with preserved failures",
+    "exact paired-context and reranker candidate checks across model/repetition blocks",
+    "bounded model-backed validation in a separate development diagnostic run set",
+    "diagnostic baseline execution, completeness review and raw archive"
+  ]
+}
