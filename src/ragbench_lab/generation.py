@@ -70,6 +70,7 @@ class GeneratorSettings:
     seed: int = 20261011
     base_url: str = "http://127.0.0.1:11434"
     template_date: str = "12 Oct 2026"
+    threads: int = 4
 
     def __post_init__(self):
         url = urlparse(self.base_url)
@@ -85,7 +86,7 @@ class GeneratorSettings:
                 or any(Path(name).name != name or not re.fullmatch(r"[0-9a-f]{64}", value)
                        for name, value in self.tokenizer_files.items())):
             raise DataError("pin all native tokenizer inputs by filename and SHA-256")
-        for name in ("context_window", "maximum_output_tokens"):
+        for name in ("context_window", "maximum_output_tokens", "threads"):
             if type(getattr(self, name)) is not int or getattr(self, name) <= 0:
                 raise DataError(f"{name} must be a positive integer")
         if self.maximum_output_tokens >= self.context_window:
@@ -233,6 +234,7 @@ class LocalGenerator:
                        "stream": True, "keep_alive": "10m",
                        "options": {"temperature": 0, "seed": self.settings.seed,
                                    "num_predict": self.settings.maximum_output_tokens,
+                                   "num_thread": self.settings.threads,
                                    "num_ctx": self.settings.context_window}}
             final, first_output = None, None
             with self._request("/api/generate", payload, deadline=deadline) as response:

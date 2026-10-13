@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "questions_per_dataset": 10,
+  "models": ["qwen", "llama"],
+  "seed": 20261011,
+  "profiles": [
+    {"family": "bm25", "size": 128, "reranking": false},
+    {"family": "bm25", "size": 256, "reranking": true},
+    {"family": "dense", "size": 128, "reranking": true},
+    {"family": "dense", "size": 256, "reranking": false},
+    {"family": "hybrid", "size": 128, "reranking": false},
+    {"family": "hybrid", "size": 256, "reranking": true}
+  ],
+  "cache_policy": "unload_then_empty_prompt_preload_per_request",
+  "planning_headroom": 1.5,
+  "wall_budget_hours": 48,
+  "memory_limit_bytes": 12884901888,
+  "limitations": [
+    "20 independent development questions; 40 paired model requests, not 40 questions",
+    "six representative pipeline profiles, not all twelve interactions",
+    "weights preloaded and retrieval/reranker warmed; fresh decoder may have cold kernel state",
+    "sampled summed RSS and runtime-reported device allocation may overlap on unified memory",
+    "pilot estimates guide feasibility; they are not held-out quality or latency findings"
+  ]
+}
