@@ -43,6 +43,10 @@ def _parser() -> argparse.ArgumentParser:
     download.add_argument("--models-dir", type=Path, default=Path("models"))
     plan = subparsers.add_parser("stage-a-plan", help="enumerate the Stage A matrix")
     plan.add_argument("config")
+    stage_b = subparsers.add_parser("stage-b-plan", help="validate/enumerate frozen Stage B")
+    stage_b.add_argument("config")
+    stage_b.add_argument("--study", type=Path, required=True)
+    stage_b.add_argument("--output", type=Path, help="save plan to a new local JSON file")
     run = subparsers.add_parser("stage-a-run", help="run or resume sequential Stage A blocks")
     run.add_argument("config")
     run.add_argument("--squad-dir", required=True, type=Path)
@@ -151,6 +155,19 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(json.dumps(summarize_run(args.run_dir, args.output), indent=2))
             return 0
         config = load_config(args.config)
+        if args.command == "stage-b-plan":
+            from ragbench_lab.pipeline import write_new_json
+            from ragbench_lab.stage_b import plan_study
+
+            result = plan_study(config, args.study)
+            if args.output is not None:
+                write_new_json(args.output, result)
+                print(json.dumps({key: result[key] for key in (
+                    "pipeline_count", "condition_count", "block_count", "main_requests",
+                    "runner_status", "manifest_sha256")}, indent=2))
+            else:
+                print(json.dumps(result, indent=2))
+            return 0
         if args.command == "stage-a-plan":
             from ragbench_lab.conditions import stage_a_conditions
 
