@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "decision_date": "2026-10-14",
+  "study": "manifests/stage-b-study-v3-reduced.json",
+  "source_config": "configs/stage-a-study.toml",
+  "scope": "Stage B only; Stage A and its frozen 50/100 data pool remain unchanged",
+  "main_requests": 3600,
+  "independent_questions_per_dataset": 25,
+  "unchanged": ["12 pipelines", "two datasets", "two generators", "three repetitions", "corrected v2 native assets", "context budgets", "cache controls"],
+  "sampling_rule": "sort frozen evaluation IDs by digest(['stage-b-reduced-25-v1', seed, dataset, question_id]); take 25; store sorted selected IDs",
+  "reuse_policy": "fresh measurements; no import or aggregate pooling from earlier runs",
+  "limitations": "budget amendment after partial execution, wider quality uncertainty, unstable tail latency; repetitions are not independent questions",
+  "baselines": {"types": ["no_rag", "gold"], "same_questions": true, "repetitions": 3, "requests": 600, "execution_status": "pending separate bounded implementation"},
+  "total_planned_measurements": 4200,
+  "excluded_from_total": ["144 development diagnostic requests", "setup and warmups", "explicitly authorized retries"],
+  "next_gate": "commit stable implementation then fresh 144-request development validation; no automatic compute launch",
+  "normal_check": "python -m ragbench_lab stage-b-plan configs/stage-a-study.toml --study manifests/stage-b-study-v3-reduced.json",
+  "local_checks": "python -m unittest discover -s tests -p 'test_stage_b*.py' -v",
+  "invariants": ["3600 unique main request keys", "48 conditions", "144 blocks", "75 requests per condition", "paired models use the same 25 IDs", "manual outcome-based sample changes rejected", "old manifests/records preserved", "resume/validation must match new identity"]
+}

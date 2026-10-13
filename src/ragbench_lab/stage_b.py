@@ -41,6 +41,20 @@ def _ids(source: dict) -> dict[str, list[str]]:
     return splits
 
 
+def reduced_question_ids(selection: dict, seed: int) -> dict[str, list[str]]:
+    """Rank only frozen IDs, never answers, saved outcomes, or execution order."""
+    return {dataset: sorted(sorted(source["split"]["evaluation_ids"],
+        key=lambda qid: digest(["stage-b-reduced-25-v1", seed, dataset, qid]))[:25])
+        for dataset, source in sorted(selection["sources"].items())}
+
+
+def evaluation_question_ids(study: dict) -> dict[str, list[str]]:
+    if "reduced_sample" in study:
+        return study["reduced_sample"]["selected_ids"]
+    return {dataset: sorted(source["split"]["evaluation_ids"])
+            for dataset, source in study["selection"]["sources"].items()}
+
+
 def validate_study(config: ExperimentConfig, study: dict) -> None:
     """Check scientific consistency, not the presence of local model/data assets."""
     _validate(config)
@@ -50,8 +64,10 @@ def validate_study(config: ExperimentConfig, study: dict) -> None:
                 or digest(study["config"]) != config.sha256()
                 or config.embedding is None):
             raise DataError("Stage B study/config mismatch")
+        reduced = "reduced_sample" in study
+        count = 25 if reduced else 100
         for key, expected in (("pipeline_count", 12), ("dataset_model_conditions", 48),
-                              ("main_requests", 14400), ("question_count_per_dataset", 100),
+                              ("main_requests", 144 * count), ("question_count_per_dataset", count),
                               ("repetitions", 3)):
             if type(study[key]) is not int or study[key] != expected:
                 raise DataError(f"unsupported Stage B count: {key}")
@@ -69,6 +85,14 @@ def validate_study(config: ExperimentConfig, study: dict) -> None:
             splits = _ids(source)
             if splits["seed"] != config.dataset.sampling_seed:
                 raise DataError(f"frozen sampling seed mismatch: {dataset}")
+        if reduced:
+            sample = study["reduced_sample"]
+            if (set(sample) != {"version", "seed", "selected_ids"}
+                    or sample["version"] != "sha256_dataset_question_rank_v1"
+                    or type(sample["seed"]) is not int
+                    or sample["seed"] != config.dataset.sampling_seed
+                    or sample["selected_ids"] != reduced_question_ids(selection, sample["seed"])):
+                raise DataError("reduced sample must match the frozen outcome-blind 25-ID rule")
         expected_profiles = [
             {"family": family, "size": size, "reranking": on}
             for family, size, on in product(("bm25", "dense", "hybrid"),
@@ -164,8 +188,7 @@ def stage_b_conditions(config: ExperimentConfig, study: dict) -> list[StageBCond
 def execution_plan(config: ExperimentConfig, study: dict) -> dict:
     conditions = stage_b_conditions(config, study)
     seed = config.dataset.sampling_seed
-    questions = {dataset: sorted(source["split"]["evaluation_ids"])
-                 for dataset, source in study["selection"]["sources"].items()}
+    questions = evaluation_question_ids(study)
     blocks = []
     orders = {}
     for repetition in (1, 2, 3):
@@ -189,9 +212,9 @@ def execution_plan(config: ExperimentConfig, study: dict) -> dict:
             "runner_status": "pending; enumeration is not an execution manifest",
             "scientific_selection": study["selection"]["selected"],
             "pipeline_count": 12, "condition_count": len(conditions),
-            "block_count": len(blocks), "main_requests": 14400,
+            "block_count": len(blocks), "main_requests": study["main_requests"],
             "quality_repetition": 1, "repetitions": 3,
-            "independent_questions_per_dataset": 100,
+            "independent_questions_per_dataset": study["question_count_per_dataset"],
             "conditions": [c.record() for c in conditions], "blocks": blocks,
             "question_orders": orders,
             "pairing": "same pipeline/dataset/question/repetition across both generators",

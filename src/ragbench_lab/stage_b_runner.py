@@ -19,7 +19,7 @@ from ragbench_lab.resources import MemorySampler
 from ragbench_lab.run_store import RunStore, read_records, request_key, verified_manifest
 from ragbench_lab.serving import isolate_request, resident_model, verify_uncached
 from ragbench_lab.stage_a import implementation_identity, timestamp
-from ragbench_lab.stage_b import execution_plan
+from ragbench_lab.stage_b import evaluation_question_ids, execution_plan
 from ragbench_lab.tokenization import ReferenceTokenizer
 
 
@@ -60,8 +60,9 @@ def runner_identity(config, study: dict, prepared: dict, assets: Path,
         if source["dataset"] != dataset or any(source[k] != frozen[k] for k in frozen):
             raise DataError("prepared data differs from frozen study")
         sources[dataset] = frozen
-        split = "development_ids" if mode == "diagnostic" else "evaluation_ids"
-        questions[dataset] = sorted(source["split"][split])[:question_limit]
+        questions[dataset] = (sorted(source["split"]["development_ids"])[:question_limit]
+                              if mode == "diagnostic"
+                              else evaluation_question_ids(study)[dataset])
         if not set(questions[dataset]) <= {q.question_id for q in bundle.questions}:
             raise DataError("prepared question records are incomplete")
     settings = study["generator_settings"]
