@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from collections.abc import Sequence
 from pathlib import Path
@@ -47,6 +48,24 @@ def _parser() -> argparse.ArgumentParser:
     stage_b.add_argument("config")
     stage_b.add_argument("--study", type=Path, required=True)
     stage_b.add_argument("--output", type=Path, help="save plan to a new local JSON file")
+    execute_b = subparsers.add_parser("stage-b-run", help="bounded Stage B diagnostic/evaluation")
+    execute_b.add_argument("config")
+    execute_b.add_argument("--study", type=Path, required=True)
+    execute_b.add_argument("--squad-dir", type=Path, required=True)
+    execute_b.add_argument("--hotpot-dir", type=Path, required=True)
+    execute_b.add_argument("--assets", type=Path, required=True)
+    execute_b.add_argument("--index-root", type=Path, required=True)
+    execute_b.add_argument("--output", type=Path, required=True)
+    execute_b.add_argument("--server-pid", type=int, required=True)
+    execute_b.add_argument("--max-requests", type=int, required=True)
+    execute_b.add_argument("--mode", choices=("diagnostic", "evaluation"), default="diagnostic")
+    execute_b.add_argument("--question-limit", type=int, help="development diagnostic IDs/dataset")
+    execute_b.add_argument("--validation-run", type=Path)
+    execute_b.add_argument("--resume", action="store_true")
+    execute_b.add_argument("--retry-failures", action="store_true")
+    execute_b.add_argument("--models-dir", type=Path, default=Path("models"))
+    execute_b.add_argument("--tokenizer-json", type=Path,
+                          default=Path("models/bge-small-en-v1.5/tokenizer.json"))
     run = subparsers.add_parser("stage-a-run", help="run or resume sequential Stage A blocks")
     run.add_argument("config")
     run.add_argument("--squad-dir", required=True, type=Path)
@@ -173,12 +192,25 @@ def main(argv: Sequence[str] | None = None) -> int:
 
             print(json.dumps([c.record() for c in stage_a_conditions(config)], indent=2))
             return 0
-        if (args.command in {"answer", "pilot"} or (
+        if (args.command in {"answer", "pilot", "stage-b-run"} or (
                 args.command in {"index", "retrieve", "stage-a-run"}
                 and config.embedding is not None)):
             from ragbench_lab.native import configure_cli_native_environment
 
             configure_cli_native_environment(list(argv) if argv is not None else sys.argv[1:])
+        if args.command == "stage-b-run":
+            from ragbench_lab.stage_b_runner import run_stage_b
+
+            os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
+            result = run_stage_b(config, args.study,
+                {"squad": args.squad_dir, "hotpot_qa": args.hotpot_dir}, args.assets,
+                args.index_root, args.output, args.tokenizer_json, args.server_pid,
+                args.max_requests, args.models_dir, args.mode,
+                (args.question_limit if args.question_limit is not None else
+                 (1 if args.mode == "diagnostic" else None)),
+                args.resume, args.retry_failures, args.validation_run)
+            print(json.dumps(result, indent=2))
+            return 1 if result["failed_attempts"] or result["setup_failures"] else 0
         if args.command == "pilot":
             from ragbench_lab.pilot import run_pilot
 
