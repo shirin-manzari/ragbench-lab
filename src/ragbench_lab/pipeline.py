@@ -57,9 +57,10 @@ def _documents(bundle, limit: int | None) -> tuple[Document, ...]:
 
 
 def write_new_json(path: Path, value: dict) -> None:
+    payload = canonical(value) + b"\n"
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("xb") as stream:
-        stream.write(canonical(value) + b"\n")
+        stream.write(payload)
 
 
 def chunk_profiles(config: ExperimentConfig, data: Path, tokenizer_path: Path,
@@ -256,27 +257,19 @@ def load_retriever(config: ExperimentConfig, data: Path, directory: Path, tokeni
                             perf_counter() - initialization)
 
 
-def retrieve_query(session: RetrievalSession, question_id: str,
-                   allowed_ids: list[str] | None = None) -> dict:
-    config, source, manifest = session.config, session.source, session.manifest
-    permitted = source["split"]["development_ids"] if allowed_ids is None else allowed_ids
-    if question_id not in permitted:
-        raise DataError("question is not authorized for this retrieval split")
-    question = next(q for q in session.bundle.questions if q.question_id == question_id)
-    tokenizer, bm25 = session.tokenizer, session.bm25
-    dense, encoder = session.dense, session.encoder
-    recipe, identity = manifest["recipe"], manifest["manifest_sha256"]
-    offline_load_seconds = session.offline_load_seconds
-    online = perf_counter()
+def search_query(session: RetrievalSession, question: str):
+    """Run fresh search/fusion without packing, for optional reranking before context."""
+    config, bm25, dense = session.config, session.bm25, session.dense
+    encoder, recipe = session.encoder, session.manifest["recipe"]
     timings = {"query_embedding": 0.0, "bm25_search": 0.0, "dense_search": 0.0, "fusion": 0.0}
     constituents = {}
     if encoder is not None:
         started = perf_counter()
-        query_vector = encoder.encode([question.text], "query")
+        query_vector = encoder.encode([question], "query")
         timings["query_embedding"] = perf_counter() - started
     if bm25 is not None:
         started = perf_counter()
-        constituents["bm25"] = bm25.search(question.text, config.retrieval.candidate_depth)
+        constituents["bm25"] = bm25.search(question, config.retrieval.candidate_depth)
         timings["bm25_search"] = perf_counter() - started
     if dense is not None:
         started = perf_counter()
@@ -289,6 +282,21 @@ def retrieve_query(session: RetrievalSession, question_id: str,
         timings["fusion"] = perf_counter() - started
     else:
         ranked = next(iter(constituents.values()))
+    return ranked, constituents, timings
+
+
+def retrieve_query(session: RetrievalSession, question_id: str,
+                   allowed_ids: list[str] | None = None) -> dict:
+    config, source, manifest = session.config, session.source, session.manifest
+    permitted = source["split"]["development_ids"] if allowed_ids is None else allowed_ids
+    if question_id not in permitted:
+        raise DataError("question is not authorized for this retrieval split")
+    question = next(q for q in session.bundle.questions if q.question_id == question_id)
+    tokenizer, encoder = session.tokenizer, session.encoder
+    recipe, identity = manifest["recipe"], manifest["manifest_sha256"]
+    offline_load_seconds = session.offline_load_seconds
+    online = perf_counter()
+    ranked, constituents, timings = search_query(session, question.text)
     searched = perf_counter()
     context = pack_context(ranked, tokenizer, config.retrieval.context_budget_tokens)
     packed = perf_counter()

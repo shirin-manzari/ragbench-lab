@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "kind": "phase_5_diagnostic_protocol_not_a_frozen_generation_study",
+  "status": "integrated; 16 real-model diagnostics passed; feasibility/cache-isolation pilot pending",
+  "preferred_models": ["Qwen2.5-3B-Instruct", "Llama-3.2-3B-Instruct"],
+  "backend": "one local Ollama server; actual server version and artifact digest required",
+  "native_tokenization": "local pinned tokenizer files; render native template with pinned date; normalize leading BOS if backend adds it; count complete prompt including backend BOS before generation",
+  "backend_bos_policy": "pinned model metadata; planned Llama defaults to backend-added BOS when the field is absent; Qwen explicitly disables it; persist policy and enforce exact backend/native token-count agreement",
+  "validation_evidence": "runs/phase5-validation-v5/summary.json; 16 successes in a fresh corrected source/run set; prior failures preserved separately",
+  "prompt_count_guard": "backend prompt_eval_count must equal native rendered-prompt count; discrepancies are failed diagnostics",
+  "generation_options": {"temperature": 0, "output_tokens": 64, "context_window": 4096, "seed": 20261011},
+  "context": "shared BGE reference tokenizer; 1024 tokens including identifiers; exact source offsets",
+  "paired_models": "identical question, evidence text and instruction; native chat templates may differ",
+  "reranker": "cross-encoder/ms-marco-MiniLM-L6-v2",
+  "reranker_input": "query/passage pairs including special tokens; reject >512; CPU float32; no silent truncation",
+  "reranker_order": "same initial candidates; descending logits then chunk ID; one context packing pass after reranking",
+  "baselines": {
+    "no_rag": "empty evidence context under the same grounding instruction; interpret abstentions accordingly",
+    "gold": "SQuAD supporting paragraphs or HotpotQA supporting sentences; source-preserving context budget; separate oracle diagnostic"
+  },
+  "quality": "SQuAD v1.1 and HotpotQA answer normalization; max over reference answers; yes/no/noanswer special rule for HotpotQA",
+  "timing": "setup offline; fresh online search/fusion then optional reranking, one packing pass and generation; evaluation/serialization after answer receipt",
+  "cache_policy": "unverified diagnostic only; cached prompt tokens recorded when available; Phase 6 must verify isolation before formal generation measurements",
+  "failure_policy": "preserve partial output, prompt/context and errors; no automatic retries; use fresh output paths",
+  "phase_gate": "real questions must succeed on both models, reranker on/off and diagnostic baselines before Phase 5 is marked done",
+  "validation_commands": [
+    "PYTHONPATH=src python -m unittest discover -s tests -v",
+    "PYTHONPATH=src python -m ragbench_lab answer CONFIG --data-dir DATA --index INDEX --generator-settings PINNED_JSON --native-tokenizer-dir TOKENIZER --output NEW_JSON",
+    "PYTHONPATH=src python -m ragbench_lab answer CONFIG --data-dir DATA --generator-settings PINNED_JSON --native-tokenizer-dir TOKENIZER --baseline no_rag --output NEW_JSON"
+  ],
+  "sources": [
+    "https://docs.ollama.com/api/generate",
+    "https://raw.githubusercontent.com/allenai/bi-att-flow/master/squad/evaluate-v1.1.py",
+    "https://raw.githubusercontent.com/hotpotqa/hotpot/master/hotpot_evaluate_v1.py",
+    "https://huggingface.co/cross-encoder/ms-marco-MiniLM-L6-v2"
+  ]
+}

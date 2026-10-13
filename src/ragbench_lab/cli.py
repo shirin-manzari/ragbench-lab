@@ -66,6 +66,22 @@ def _parser() -> argparse.ArgumentParser:
     report = subparsers.add_parser("stage-a-report", help="summarize saved retrieval records")
     report.add_argument("--run-dir", required=True, type=Path)
     report.add_argument("--output", required=True, type=Path)
+    answer = subparsers.add_parser("answer", help="development retrieval-to-answer diagnostic")
+    answer.add_argument("config")
+    answer.add_argument("--data-dir", type=Path, required=True)
+    answer.add_argument("--index", type=Path)
+    answer.add_argument("--generator-settings", type=Path, required=True)
+    answer.add_argument("--native-tokenizer-dir", type=Path, required=True)
+    answer.add_argument("--output", type=Path, required=True)
+    answer.add_argument("--question-id")
+    answer.add_argument("--baseline", choices=("rag", "no_rag", "gold"), default="rag")
+    answer.add_argument("--reranker-settings", type=Path)
+    answer.add_argument("--reranker-dir", type=Path)
+    answer.add_argument("--recipe", choices=("bm25", "dense_bge", "dense_e5",
+                                             "hybrid_bge", "hybrid_e5"))
+    answer.add_argument("--models-dir", type=Path, default=Path("models"))
+    answer.add_argument("--tokenizer-json", type=Path,
+                        default=Path("models/bge-small-en-v1.5/tokenizer.json"))
     for name, help_text in (
         ("chunks", "inspect all six chunk profiles"),
         ("index", "build a BM25, Dense, or Hybrid index artifact"),
@@ -127,10 +143,22 @@ def main(argv: Sequence[str] | None = None) -> int:
 
             print(json.dumps([c.record() for c in stage_a_conditions(config)], indent=2))
             return 0
-        if args.command in {"index", "retrieve", "stage-a-run"} and config.embedding is not None:
+        if (args.command == "answer" or (
+                args.command in {"index", "retrieve", "stage-a-run"}
+                and config.embedding is not None)):
             from ragbench_lab.native import configure_cli_native_environment
 
             configure_cli_native_environment(list(argv) if argv is not None else sys.argv[1:])
+        if args.command == "answer":
+            from ragbench_lab.answering import answer
+
+            result = answer(config, args.data_dir, args.index, args.tokenizer_json,
+                            args.generator_settings, args.native_tokenizer_dir,
+                            args.output, args.question_id, args.recipe, args.models_dir,
+                            args.baseline, args.reranker_settings, args.reranker_dir)
+            print(json.dumps({"status": result["status"], "stage": result["stage"],
+                              "output": str(args.output)}, indent=2))
+            return 0 if result["status"] == "success" else 1
         if args.command == "stage-a-run":
             from ragbench_lab.stage_a import run_stage_a
 
