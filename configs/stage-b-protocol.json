@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "planning implementation; execution runner pending",
+  "status": "planner and bounded runner implemented; model-backed runner validation and held-out execution pending",
   "study": "manifests/stage-b-study-v1.json",
   "scientific_scope": "12 pipelines x 2 datasets x 2 generators x 100 held-out questions x 3 repetitions = 14,400 main requests",
   "planning_command": "python -m ragbench_lab stage-b-plan configs/stage-a-study.toml --study manifests/stage-b-study-v1.json",
@@ -17,11 +17,25 @@
     "planning does not read answers, load model weights, run queries or launch servers",
     "plan output is append-safe via exclusive new-file creation; never overwrite a frozen manifest"
   ],
-  "execution_gate": "a plan is not an execution run manifest; runner source/environment/assets/index identities and cache controls must be verified and pinned before generation",
+  "execution_gate": "stage-b-run creates an immutable execution manifest; evaluation requires a stopped, complete, failure-free development diagnostic across the same 48 conditions and 144 blocks with matching source/environment/assets/protocol identities",
+  "execution_command": "python -m ragbench_lab stage-b-run --help",
+  "runner_invariants": [
+    "max-requests is explicitly required and bounds new attempts, not setup time",
+    "development diagnostics default to one question per dataset: 144 requests across all conditions and repetitions",
+    "evaluation cannot reduce the frozen 100-question sample or matrix",
+    "RunStore locks, append-only chains and exact identity checks protect resume",
+    "failed requests stop the session and require explicit resume/retry flags; historical failures remain",
+    "caught keyboard interrupts preserve failed attempts and release the writer lock; abrupt process kills may leave a stale lock for explicit reviewed recovery",
+    "model/index/reranker setup and synthetic warmup are offline once per condition block",
+    "per-request unload/empty-prompt preload is outside online timing and recorded separately; weights preloaded does not imply warm decoder kernels",
+    "fresh query search/fusion, reranking, one context pack and complete generation are measured; scoring, memory validation and serialization are excluded",
+    "paired contexts and initial candidate hashes are checked across models and repetitions, including resume history",
+    "initial candidate membership cannot change under reranking",
+    "integer zero cached counts, exact native/backend prompt counts, resident model/context and valid process-memory samples are required for success",
+    "actual index content is validated when each block loads; manifest existence alone is not content validation",
+    "no backend launch, download or default model-store mutation is performed by the runner"
+  ],
   "pending": [
-    "block-scoped retrieval/generator setup and warmup",
-    "resumable append-only request execution with preserved failures",
-    "exact paired-context and reranker candidate checks across model/repetition blocks",
     "bounded model-backed validation in a separate development diagnostic run set",
     "diagnostic baseline execution, completeness review and raw archive"
   ]
