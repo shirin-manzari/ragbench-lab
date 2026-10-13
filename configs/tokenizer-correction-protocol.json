@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "scope": "Llama tokenizer accounting correction, not a generator/model selection change",
+  "original_study": "manifests/stage-b-study-v1.json",
+  "corrected_study": "manifests/stage-b-study-v2.json",
+  "semantic_change": "Llama model.ignore_merges false to true; no other native tokenizer field changes",
+  "unchanged": ["model digests", "quantization", "QA instructions", "chat templates", "reference tokenizer", "datasets and split IDs", "selected embedder/chunker", "pipeline matrix", "context/output budgets", "seeds", "cache policy"],
+  "preservation": "v1 assets, manifests, 1,405 successes and one failed attempt remain unchanged",
+  "reuse_decision": "do not import or pool v1/v2 timings or quality aggregates; retain old records as separate historical evidence",
+  "reuse_reason": "identical prompt/token IDs do not establish identical cost of changed native token-counting work",
+  "new_matrix": "14,400 new requests, only after corrected development validation; no automatic held-out launch",
+  "validation": [
+    "whole-vocabulary synthetic token regression for ignore_merges",
+    "vocabulary IDs and template preservation across serialization",
+    "fresh corrected asset paths and pinned old file hashes; no overwrite",
+    "actual corrected-file probes on both models with exact native/backend counts and integer zero cache",
+    "full corrected 48-condition/144-request development runner diagnostic with safe pause/resume",
+    "immutable execution identity and pinned source/environment across validation and evaluation"
+  ],
+  "normal_checks": [
+    "python -m ragbench_lab stage-b-plan configs/stage-a-study.toml --study manifests/stage-b-study-v2.json",
+    "python -m ragbench_lab stage-b-run --help"
+  ],
+  "local_regressions": "DYLD_LIBRARY_PATH=TORCH_LIBRARY_DIRECTORY PYTHONPATH=src python -m unittest discover -s tests -p test_generator_assets.py -v",
+  "tests_policy": "local ignored tests are validation aids, not normal-operation dependencies"
+}
