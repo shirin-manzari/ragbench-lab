@@ -1,0 +1,37 @@
+{
+  "version": "analysis_delivery_v1",
+  "raw_archive": "artifacts/archives/ragbench-core-v1.zip",
+  "raw_proof": "artifacts/archive-verification-v1.json",
+  "artifacts": [
+    {"role": "analysis", "directory": "reports/stage-b-analysis-v1", "proof": "artifacts/stage-b-analysis-verification-v1.json", "kind": "independent_analysis_checks", "identity_key": "report_sha256", "manifest": "report.json"},
+    {"role": "figures", "directory": "reports/stage-b-figures-v1", "proof": "artifacts/stage-b-figures-verification-v1.json", "kind": "independent_figure_checks", "identity_key": "figure_manifest_sha256", "manifest": "manifest.json"},
+    {"role": "review", "directory": "reports/stage-b-failure-review-v1", "proof": "artifacts/stage-b-failure-review-verification-v1.json", "kind": "independent_failure_review_checks", "identity_key": "case_manifest_sha256", "manifest": "manifest.json"},
+    {"role": "synthesis", "directory": "reports/study-synthesis-v1", "proof": "artifacts/study-synthesis-verification-v1.json", "kind": "independent_synthesis_checks", "identity_key": "synthesis_manifest_sha256", "manifest": "manifest.json"}
+  ],
+  "files": [
+    "pyproject.toml", "requirements.lock", "README.md", "PROJECT_DEEP_DIVE.md", "report.md",
+    "AGENTS.md", "PRD.md", "PLAN.md", "PROGRESS.md",
+    "artifacts/check-analysis-v1.py", "artifacts/check-figures-v1.py",
+    "artifacts/check-failure-review-v1.py", "artifacts/check-synthesis-v1.py",
+    "artifacts/replay-delivery-v1.py",
+    "tests/test_analysis.py", "tests/test_figures.py", "tests/test_failure_review.py",
+    "tests/test_synthesis.py", "tests/test_archiving.py", "tests/test_delivery.py",
+    "tests/test_answering.py", "tests/test_baselines_reranking.py", "tests/test_generation.py",
+    "tests/test_stage_b_runner.py"
+  ],
+  "trees": [
+    {"path": "src/ragbench_lab", "suffixes": [".py"]},
+    {"path": "configs", "suffixes": [".json", ".toml"]},
+    {"path": "manifests", "suffixes": [".json"]},
+    {"path": "reports/final-delivery-v1", "suffixes": [".md", ".json"]}
+  ],
+  "exclusions": [
+    "raw archive is an unchanged required companion, not duplicated inside the analysis ZIP",
+    "model weights, Ollama blob store, index arrays, virtual environment and original raw downloads",
+    "Git internals, user .gitignore edit, bytecode caches, operational first passes and unrelated artifacts",
+    "external sharing clearance and an exact cross-hardware/model rerun are not provided"
+  ],
+  "validation": "python -m unittest discover -s tests -p test_delivery.py -v; verify both ZIP inventories, all member hashes and exact raw archive companion identity; fresh extraction and numerical replay before final handoff",
+  "command": "python -m ragbench_lab delivery-bundle --specification configs/delivery-protocol.json --output NEW_ANALYSIS_ZIP.zip",
+  "verify_command": "python -m ragbench_lab delivery-verify ANALYSIS_ZIP.zip --raw-archive artifacts/archives/ragbench-core-v1.zip"
+}

@@ -1,0 +1,11 @@
+{
+  "version": "descriptive_synthesis_v1",
+  "scope": "P8.4; offline interpretation of existing verified outputs, not a new study or inferential analysis",
+  "summaries": "all twelve main profiles per dataset/model; min/max of existing cell estimates and paired deltas; these ranges are NOT confidence intervals",
+  "contrasts": ["qwen_minus_llama", "reranking_on_minus_off", "size_256_minus_128", "dense_minus_bm25", "hybrid_minus_bm25", "hybrid_minus_dense"],
+  "uncertainty": "retain original per-cell/per-pair source-cluster and question-sensitivity intervals; no newly pooled interval, significance counting, winner selection or tuning",
+  "timing": "stage generation share is generation mean divided by total online mean per cell, not a mean request ratio; exclude baselines from the main range",
+  "controls": "separate gold/no-RAG tables; no pooling baseline/main timing implementations or historical runs",
+  "validation": "python -m unittest discover -s tests -p test_synthesis.py -v; independently recompute every summary range/count and check all source proof hashes",
+  "command": "python -m ragbench_lab study-synthesis --analysis-dir reports/stage-b-analysis-v1 --analysis-proof artifacts/stage-b-analysis-verification-v1.json --figure-dir reports/stage-b-figures-v1 --figure-proof artifacts/stage-b-figures-verification-v1.json --review-dir reports/stage-b-failure-review-v1 --review-proof artifacts/stage-b-failure-review-verification-v1.json --protocol configs/synthesis-protocol.json --output NEW_DIRECTORY"
+}

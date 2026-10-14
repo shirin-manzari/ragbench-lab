@@ -95,6 +95,24 @@ def _parser() -> argparse.ArgumentParser:
     for field in ("study", "baseline-plan", "main-run", "baseline-run", "squad-dir", "hotpot-dir",
                   "protocol", "archive", "output"):
         paired_report.add_argument(f"--{field}", type=Path, required=True)
+    figures = subparsers.add_parser("stage-b-figures", help="offline verified SVG/PDF charts")
+    for field in ("report-dir", "proof", "main-run", "baseline-run", "protocol", "output"):
+        figures.add_argument(f"--{field}", type=Path, required=True)
+    review = subparsers.add_parser("failure-review",
+                                  help="offline deterministic paired case sample")
+    for field in ("report-dir", "proof", "main-run", "baseline-run", "squad-dir", "hotpot-dir",
+                  "protocol", "output"):
+        review.add_argument(f"--{field}", type=Path, required=True)
+    synthesis = subparsers.add_parser("study-synthesis", help="offline descriptive study synthesis")
+    for field in ("analysis-dir", "analysis-proof", "figure-dir", "figure-proof", "review-dir",
+                  "review-proof", "protocol", "output"):
+        synthesis.add_argument(f"--{field}", type=Path, required=True)
+    delivery = subparsers.add_parser("delivery-bundle", help="package verified offline analysis")
+    delivery.add_argument("--specification", type=Path, required=True)
+    delivery.add_argument("--output", type=Path, required=True)
+    delivery_verify = subparsers.add_parser("delivery-verify", help="verify both delivery archives")
+    delivery_verify.add_argument("archive", type=Path)
+    delivery_verify.add_argument("--raw-archive", type=Path, required=True)
     run = subparsers.add_parser("stage-a-run", help="run or resume sequential Stage A blocks")
     run.add_argument("config")
     run.add_argument("--squad-dir", required=True, type=Path)
@@ -206,6 +224,36 @@ def main(argv: Sequence[str] | None = None) -> int:
             from ragbench_lab.reporting import summarize_run
 
             print(json.dumps(summarize_run(args.run_dir, args.output), indent=2))
+            return 0
+        if args.command == "stage-b-figures":
+            from ragbench_lab.figures import export_figures
+
+            print(json.dumps(export_figures(args.report_dir, args.proof, args.main_run,
+                args.baseline_run, args.protocol, args.output), indent=2))
+            return 0
+        if args.command == "failure-review":
+            from ragbench_lab.failure_review import review_failures
+
+            print(json.dumps(review_failures(args.report_dir, args.proof, args.main_run,
+                args.baseline_run, {"squad": args.squad_dir, "hotpot_qa": args.hotpot_dir},
+                args.protocol, args.output), indent=2))
+            return 0
+        if args.command == "study-synthesis":
+            from ragbench_lab.synthesis import synthesize
+
+            print(json.dumps(synthesize(args.analysis_dir, args.analysis_proof, args.figure_dir,
+                args.figure_proof, args.review_dir, args.review_proof, args.protocol,
+                args.output), indent=2))
+            return 0
+        if args.command == "delivery-bundle":
+            from ragbench_lab.delivery import bundle_delivery
+
+            print(json.dumps(bundle_delivery(args.specification, args.output), indent=2))
+            return 0
+        if args.command == "delivery-verify":
+            from ragbench_lab.delivery import verify_delivery
+
+            print(json.dumps(verify_delivery(args.archive, args.raw_archive), indent=2))
             return 0
         config = load_config(args.config)
         if args.command == "stage-b-report":

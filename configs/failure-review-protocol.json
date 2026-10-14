@@ -1,0 +1,17 @@
+{
+  "version": "paired_failure_review_v1",
+  "declaration": "exploratory post-collection protocol, declared before inspecting selected case text; not preregistered and not a basis for tuning",
+  "seed": 20261011,
+  "salt": "failure-review-v1",
+  "datasets": ["squad", "hotpot_qa"],
+  "strata": ["candidate_evidence_incomplete", "packing_evidence_loss", "answer_error_with_full_evidence"],
+  "per_stratum_dataset": 1,
+  "unit": "dataset/question/pipeline with both generators at repetition 1",
+  "eligibility": "at least one paired generator has exact_match < 1; candidate stratum has top-50 evidence coverage < 1; packing stratum has top-50 = 1 and packed < 1; answer stratum has packed = 1",
+  "selection": "in declared dataset/stratum order, sort eligible pairs by digest([salt,seed,dataset,stratum,question_id,pipeline_id]); take one with a question ID not previously selected in that dataset; report empty strata without replacement",
+  "pairing": "require identical candidate IDs, final candidate order and context across generators; keep both answers even if only one fails",
+  "baselines": "include gold and no-RAG repetition-one responses for the same selected question and both generators, separately labeled",
+  "interpretation": "annotation evidence coverage is not semantic sufficiency; non-exact answers may be scoring/format differences; sampled cases cannot estimate failure prevalence or establish causal attribution",
+  "validation": "python -m unittest discover -s tests -p test_failure_review.py -v; recheck analysis proof, raw hashes/chains, ID-only deterministic sample and prepared source identities; verify scores and packed source offsets",
+  "command": "python -m ragbench_lab failure-review --report-dir reports/stage-b-analysis-v1 --proof artifacts/stage-b-analysis-verification-v1.json --main-run runs/stage-b-evaluation-v3 --baseline-run runs/baseline-evaluation-v1 --squad-dir data/prepared/squad-study-v1 --hotpot-dir data/prepared/hotpot-study-v1 --protocol configs/failure-review-protocol.json --output NEW_DIRECTORY"
+}
