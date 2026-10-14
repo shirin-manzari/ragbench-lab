@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "study": "manifests/stage-b-study-v3-reduced.json",
+  "plan": "manifests/stage-b-baselines-v1.json",
+  "status": "implemented and locally validated; model-backed gate and held-out execution pending",
+  "matrix": "two baselines x two datasets x two generators x 25 questions x three repetitions = 600",
+  "development_gate": "24 requests on one development question per dataset across all eight conditions and three repetitions; compatible stopped failure-free identity required",
+  "planning_command": "python -m ragbench_lab baseline-plan configs/stage-a-study.toml --study manifests/stage-b-study-v3-reduced.json --main-run runs/stage-b-evaluation-v3 --output NEW_PLAN.json",
+  "execution_help": "python -m ragbench_lab baseline-run --help",
+  "local_validation": "PYTHONPATH=src python -m unittest discover -s tests -p test_baseline_runner.py -v",
+  "invariants": [
+    "completed parent main records verified and pinned by manifest and records SHA-256",
+    "600 held-out slots, 300 per baseline; 24 diagnostic slots are additional",
+    "same reduced IDs, native settings, instruction, cache isolation and reference budget as main",
+    "No-RAG receives exactly empty evidence and retains grounding/abstention instruction; not an unrestricted parametric-knowledge baseline",
+    "gold uses SQuAD diagnostic paragraphs and Hotpot supporting sentences, not bare answer strings; not a guaranteed numerical upper bound",
+    "no retrieval, indexes, embedder or reranker is loaded or timed in baseline execution",
+    "every online request constructs fresh baseline candidates, packs once and generates; scoring afterward",
+    "preflight expected inputs are validation references only and never bypass measured context construction",
+    "gold text is sourced from prepared evidence annotations only in the explicit gold baseline",
+    "packed/truncated context and source offsets verified against frozen expected inputs across models and repetitions",
+    "integer zero cache, exact native/backend counts, residency and resources required",
+    "safe append-only resume, explicit retry history, stop on first failure, released locks and unload cleanup",
+    "new baseline execution provenance; do not append to or pool with main records",
+    "baseline vs main latency includes different online paths and separate implementation fingerprints; disclose this in comparisons",
+    "no server launch/download by CLI; bounded sessions only after stable commit and development gate"
+  ]
+}

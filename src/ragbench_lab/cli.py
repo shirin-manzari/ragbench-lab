@@ -66,6 +66,23 @@ def _parser() -> argparse.ArgumentParser:
     execute_b.add_argument("--models-dir", type=Path, default=Path("models"))
     execute_b.add_argument("--tokenizer-json", type=Path,
                           default=Path("models/bge-small-en-v1.5/tokenizer.json"))
+    baseline_plan = subparsers.add_parser("baseline-plan", help="freeze separate baseline plan")
+    baseline_plan.add_argument("config")
+    baseline_plan.add_argument("--study", type=Path, required=True)
+    baseline_plan.add_argument("--main-run", type=Path, required=True)
+    baseline_plan.add_argument("--output", type=Path, required=True)
+    baseline_run = subparsers.add_parser("baseline-run", help="bounded No-RAG/gold baselines")
+    baseline_run.add_argument("config")
+    for field in ("study", "plan", "main-run", "squad-dir", "hotpot-dir", "assets", "output"):
+        baseline_run.add_argument(f"--{field}", type=Path, required=True)
+    baseline_run.add_argument("--server-pid", type=int, required=True)
+    baseline_run.add_argument("--max-requests", type=int, required=True)
+    baseline_run.add_argument("--mode", choices=("diagnostic", "evaluation"), default="diagnostic")
+    baseline_run.add_argument("--validation-run", type=Path)
+    baseline_run.add_argument("--resume", action="store_true")
+    baseline_run.add_argument("--retry-failures", action="store_true")
+    baseline_run.add_argument("--tokenizer-json", type=Path,
+                             default=Path("models/bge-small-en-v1.5/tokenizer.json"))
     run = subparsers.add_parser("stage-a-run", help="run or resume sequential Stage A blocks")
     run.add_argument("config")
     run.add_argument("--squad-dir", required=True, type=Path)
@@ -174,6 +191,14 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(json.dumps(summarize_run(args.run_dir, args.output), indent=2))
             return 0
         config = load_config(args.config)
+        if args.command == "baseline-plan":
+            from ragbench_lab.baseline_runner import plan_baselines
+            from ragbench_lab.pipeline import write_new_json
+
+            result = plan_baselines(config, args.study, args.main_run)
+            write_new_json(args.output, result)
+            print(json.dumps(result, indent=2))
+            return 0
         if args.command == "stage-b-plan":
             from ragbench_lab.pipeline import write_new_json
             from ragbench_lab.stage_b import plan_study
@@ -192,12 +217,22 @@ def main(argv: Sequence[str] | None = None) -> int:
 
             print(json.dumps([c.record() for c in stage_a_conditions(config)], indent=2))
             return 0
-        if (args.command in {"answer", "pilot", "stage-b-run"} or (
+        if (args.command in {"answer", "pilot", "stage-b-run", "baseline-run"} or (
                 args.command in {"index", "retrieve", "stage-a-run"}
                 and config.embedding is not None)):
             from ragbench_lab.native import configure_cli_native_environment
 
             configure_cli_native_environment(list(argv) if argv is not None else sys.argv[1:])
+        if args.command == "baseline-run":
+            from ragbench_lab.baseline_runner import run_baselines
+
+            os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
+            result = run_baselines(config, args.study, args.plan, args.main_run,
+                {"squad": args.squad_dir, "hotpot_qa": args.hotpot_dir}, args.assets,
+                args.tokenizer_json, args.output, args.server_pid, args.max_requests,
+                args.mode, args.resume, args.retry_failures, args.validation_run)
+            print(json.dumps(result, indent=2))
+            return 1 if result["failed_attempts"] or result["setup_failures"] else 0
         if args.command == "stage-b-run":
             from ragbench_lab.stage_b_runner import run_stage_b
 
