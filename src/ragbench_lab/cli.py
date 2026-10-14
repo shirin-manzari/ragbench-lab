@@ -83,6 +83,12 @@ def _parser() -> argparse.ArgumentParser:
     baseline_run.add_argument("--retry-failures", action="store_true")
     baseline_run.add_argument("--tokenizer-json", type=Path,
                              default=Path("models/bge-small-en-v1.5/tokenizer.json"))
+    archive = subparsers.add_parser("study-archive", help="verify and archive saved study records")
+    archive.add_argument("config")
+    archive.add_argument("--specification", type=Path, required=True)
+    archive.add_argument("--output", type=Path, required=True)
+    verify_zip = subparsers.add_parser("archive-verify", help="verify all archive member checksums")
+    verify_zip.add_argument("archive", type=Path)
     run = subparsers.add_parser("stage-a-run", help="run or resume sequential Stage A blocks")
     run.add_argument("config")
     run.add_argument("--squad-dir", required=True, type=Path)
@@ -170,6 +176,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(json.dumps(collect_inventory(args.workspace), indent=2, sort_keys=True))
         return 0
     try:
+        if args.command == "archive-verify":
+            from ragbench_lab.archiving import verify_archive
+
+            print(json.dumps(verify_archive(args.archive), indent=2))
+            return 0
         if args.command == "download-embedders":
             from ragbench_lab.embeddings import download_models
 
@@ -191,6 +202,11 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(json.dumps(summarize_run(args.run_dir, args.output), indent=2))
             return 0
         config = load_config(args.config)
+        if args.command == "study-archive":
+            from ragbench_lab.archiving import archive_study
+
+            print(json.dumps(archive_study(config, args.specification, args.output), indent=2))
+            return 0
         if args.command == "baseline-plan":
             from ragbench_lab.baseline_runner import plan_baselines
             from ragbench_lab.pipeline import write_new_json

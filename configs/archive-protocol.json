@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "study": "manifests/stage-b-study-v3-reduced.json",
+  "baseline_plan": "manifests/stage-b-baselines-v1.json",
+  "main_validation": "runs/phase7-validation-v3",
+  "baseline_validation": "runs/baseline-validation-v1",
+  "runs": [
+    {"role": "stage_a_development", "path": "runs/stage-a-development-v1", "family": "A", "slots": 9000, "complete": true},
+    {"role": "stage_a_evaluation", "path": "runs/stage-a-evaluation-v1", "family": "A", "slots": 18000, "complete": true},
+    {"role": "main", "path": "runs/stage-b-evaluation-v3", "family": "B", "slots": 3600, "complete": true},
+    {"role": "baselines", "path": "runs/baseline-evaluation-v1", "family": "baseline", "slots": 600, "complete": true},
+    {"role": "main_validation", "path": "runs/phase7-validation-v3", "family": "B", "slots": 144, "complete": true},
+    {"role": "baseline_validation", "path": "runs/baseline-validation-v1", "family": "baseline", "slots": 24, "complete": true},
+    {"role": "historical_v1", "path": "runs/stage-b-evaluation-v1", "family": "B", "slots": 14400, "complete": false},
+    {"role": "historical_v2", "path": "runs/stage-b-evaluation-v2", "family": "B", "slots": 14400, "complete": false},
+    {"role": "historical_validation_v1", "path": "runs/phase7-validation-v1", "family": "B", "slots": 144, "complete": true},
+    {"role": "historical_validation_v2", "path": "runs/phase7-validation-v2", "family": "B", "slots": 144, "complete": true}
+  ],
+  "prepared": {"squad": "data/prepared/squad-study-v1", "hotpot_qa": "data/prepared/hotpot-study-v1"},
+  "include": [
+    "data/prepared/squad-study-v1", "data/prepared/hotpot-study-v1",
+    "manifests", "configs", "pyproject.toml", "requirements.lock",
+    "README.md", "PROJECT_DEEP_DIVE.md", "AGENTS.md", "PRD.md", "PLAN.md", "PROGRESS.md", "report.md",
+    "reports/stage-a-development-summary-v1.json", "reports/stage-a-evaluation-summary-v1.json", "reports/stage-a-selection-v1.json",
+    "runs/phase6-pilot-v1", "runs/phase5-validation-v5",
+    "artifacts/stage-b-operations-v3", "artifacts/baseline-operations-v1",
+    "artifacts/baseline-validation-operations-v1", "artifacts/stage-b-authorized-1000-v3",
+    "artifacts/llama-count-diagnosis-v1", "artifacts/corrected-assets-smoke-v2",
+    "artifacts/stage-b-reduction-preservation.json", "artifacts/stage-b-v2-compatibility-audit.json",
+    "models/stage-b-corrected-v2/llama-tokenizer", "models/stage-b-corrected-v2/qwen-tokenizer",
+    "models/stage-b-corrected-v2/llama-tokenizer-correction.json",
+    "models/bge-small-en-v1.5/tokenizer.json", "models/bge-small-en-v1.5/tokenizer_config.json",
+    "models/bge-small-en-v1.5/special_tokens_map.json", "models/bge-small-en-v1.5/vocab.txt"
+  ],
+  "exclusions": [
+    "model weight files and Ollama blob store: reacquire using pinned model revisions/digests; access requirements still apply",
+    "index arrays and chunk caches: rebuild from archived prepared corpora, source/config snapshots and pinned assets",
+    "original downloaded native dataset JSON: prepared corpora/questions are included; source hashes/revisions remain pinned",
+    "unrelated pilot/smoke attempts not explicitly listed; original workspace retains them",
+    "current uncommitted archive implementation: measurement source snapshots come from recorded Git revisions; commit the archiver separately"
+  ],
+  "validation_commands": [
+    "python -m ragbench_lab study-archive configs/stage-a-study.toml --specification configs/archive-protocol.json --output NEW_ARCHIVE.zip",
+    "python -m ragbench_lab archive-verify NEW_ARCHIVE.zip",
+    "python -m unittest discover -s tests -p test_archiving.py -v"
+  ],
+  "invariants": [
+    "stream and fully exhaust every recorded hash chain; reject incomplete JSONL tails, duplicates and mixed run identities",
+    "compare exact request-key sets, all three repetitions, source/condition/native/cache/context/resource controls and validation links",
+    "primary runs are complete failure-free first attempts; historical incomplete runs and failures stay separate and visible",
+    "verify prepared hashes/splits and source snapshots against recorded source-tree fingerprints",
+    "project-relative explicit inputs only; reject traversal, symlinks, missing inputs and existing archive output",
+    "stream ZIP copies and verify every member against inventory SHA-256; preserve any failed output for review",
+    "do not mutate records, launch models, tune on held-out quality, or claim this archive includes model weights"
+  ]
+}

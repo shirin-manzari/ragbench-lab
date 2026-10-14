@@ -26,11 +26,12 @@ def verified_manifest(path: Path) -> dict:
     return result
 
 
-def read_records(directory: Path, manifest: dict) -> list[dict]:
+def iter_records(directory: Path, manifest: dict):
+    """Verify the full chain while streaming; exhaust the iterator before claiming validity."""
     path = directory / "records.jsonl"
     if not path.exists():
         raise DataError("run records are missing")
-    rows = []
+    sequence = 0
     previous = manifest["manifest_sha256"]
     attempts: dict[str, int] = {}
     successes = set()
@@ -46,11 +47,12 @@ def read_records(directory: Path, manifest: dict) -> list[dict]:
                 row["record_sha256"] = identity
                 if row["run_manifest_sha256"] != manifest["manifest_sha256"]:
                     raise DataError("mixed run identities")
-                if row["sequence"] != len(rows) + 1:
+                if row["sequence"] != sequence + 1:
                     raise DataError("invalid request sequence/status")
                 if row.get("kind") == "event":
                     previous = identity
-                    rows.append(row)
+                    sequence += 1
+                    yield row
                     continue
                 if row["status"] not in {"success", "failed"}:
                     raise DataError("invalid request status")
@@ -63,10 +65,14 @@ def read_records(directory: Path, manifest: dict) -> list[dict]:
                 if row["status"] == "success":
                     successes.add(key)
                 previous = identity
-                rows.append(row)
+                sequence += 1
+                yield row
             except (ValueError, KeyError, TypeError) as error:
                 raise DataError(f"invalid persisted request record: {error}") from error
-    return rows
+
+
+def read_records(directory: Path, manifest: dict) -> list[dict]:
+    return list(iter_records(directory, manifest))
 
 
 class RunStore:
