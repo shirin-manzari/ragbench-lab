@@ -89,6 +89,12 @@ def _parser() -> argparse.ArgumentParser:
     archive.add_argument("--output", type=Path, required=True)
     verify_zip = subparsers.add_parser("archive-verify", help="verify all archive member checksums")
     verify_zip.add_argument("archive", type=Path)
+    paired_report = subparsers.add_parser("stage-b-report",
+                                         help="offline paired quality/latency analysis")
+    paired_report.add_argument("config")
+    for field in ("study", "baseline-plan", "main-run", "baseline-run", "squad-dir", "hotpot-dir",
+                  "protocol", "archive", "output"):
+        paired_report.add_argument(f"--{field}", type=Path, required=True)
     run = subparsers.add_parser("stage-a-run", help="run or resume sequential Stage A blocks")
     run.add_argument("config")
     run.add_argument("--squad-dir", required=True, type=Path)
@@ -202,6 +208,14 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(json.dumps(summarize_run(args.run_dir, args.output), indent=2))
             return 0
         config = load_config(args.config)
+        if args.command == "stage-b-report":
+            from ragbench_lab.analysis import analyze_study
+
+            result = analyze_study(config, args.study, args.baseline_plan, args.main_run,
+                args.baseline_run, {"squad": args.squad_dir, "hotpot_qa": args.hotpot_dir},
+                args.protocol, args.archive, args.output)
+            print(json.dumps(result, indent=2))
+            return 0
         if args.command == "study-archive":
             from ragbench_lab.archiving import archive_study
 
