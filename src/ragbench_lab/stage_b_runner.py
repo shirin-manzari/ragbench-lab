@@ -222,7 +222,8 @@ def validate_gate(directory: Path, identity: dict) -> str:
 
 
 def run_blocks(identity: dict, output: Path, setup_block, execute, server_pid: int,
-               max_requests: int, resume: bool = False, retry_failures: bool = False) -> dict:
+               max_requests: int, resume: bool = False, retry_failures: bool = False,
+               *, check_request=request_checks) -> dict:
     """Small orchestration seam permits synthetic resume/failure tests without models."""
     if type(max_requests) is not int or max_requests <= 0:
         raise DataError("an explicit positive max-requests bound is required")
@@ -234,7 +235,7 @@ def run_blocks(identity: dict, output: Path, setup_block, execute, server_pid: i
     attempted = 0
     with RunStore(output, identity, resume) as store:
         for row in store.rows:
-            request_checks(row, identity, contexts, candidates)
+            check_request(row, identity, contexts, candidates)
             if row.get("kind") != "event":
                 history.setdefault(row["request_key"], []).append(row)
         conditions = {c["condition_id"]: c for c in identity["plan"]["conditions"]}
@@ -284,7 +285,7 @@ def run_blocks(identity: dict, output: Path, setup_block, execute, server_pid: i
                                    for sample in row["resources"]["samples"]):
                             raise DataError("dedicated server absent from memory samples")
                         row["status"] = "success"
-                        request_checks(row, identity, contexts, candidates)
+                        check_request(row, identity, contexts, candidates)
                     except (Exception, KeyboardInterrupt) as error:
                         interrupted = isinstance(error, KeyboardInterrupt)
                         row.update(status="failed", error_type=type(error).__name__,
