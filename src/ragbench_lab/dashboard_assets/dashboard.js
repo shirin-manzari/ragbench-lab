@@ -1,4 +1,4 @@
-/* Local DOM accessibility/viewport adaptation; no network, storage or benchmark work. */
+/* Local label associations; no network, storage or benchmark work. */
 (() => {
   const fields = ["dataset", "model_family", "family", "recipe", "method", "size", "reranking", "context_budget"];
   const keyOf = value => value == null ? "not_measured" : typeof value === "boolean" ? (value ? "True" : "False") : String(value);
@@ -24,7 +24,43 @@
       });
     }
   };
-  const wide = window.matchMedia("(min-width: 851px)");
+  // Selection still belongs to Dash. This only positions a decorative CSS pill.
+  // Motion reference (independent implementation): codepen.io/flavio_amaral/pen/xxgYGrR
+  const sliders = new WeakSet();
+  function installSlider(track) {
+    if (sliders.has(track)) return;
+    sliders.add(track);
+    let frame = null;
+    function update() {
+      frame = null;
+      const active = track.querySelector(".tab--selected");
+      if (!active) {
+        if (track.classList.contains("tab-slider-ready")) {
+          track.classList.remove("tab-slider-ready");
+        }
+        return;
+      }
+      const rect = active.getBoundingClientRect(), bounds = track.getBoundingClientRect();
+      const values = {
+        "--tab-x": rect.left - bounds.left - track.clientLeft + track.scrollLeft,
+        "--tab-y": rect.top - bounds.top - track.clientTop + track.scrollTop,
+        "--tab-width": rect.width,
+        "--tab-height": rect.height
+      };
+      Object.entries(values).forEach(([key, value]) => track.style.setProperty(key, value + "px"));
+      if (!track.classList.contains("tab-slider-ready")) track.classList.add("tab-slider-ready");
+    }
+    function schedule() {
+      if (frame === null) frame = requestAnimationFrame(update);
+    }
+    new MutationObserver(schedule).observe(track, {
+      subtree: true, childList: true, attributes: true, attributeFilter: ["class"]
+    });
+    const resize = new ResizeObserver(schedule);
+    resize.observe(track);
+    track.querySelectorAll(".tab").forEach(tab => resize.observe(tab));
+    schedule();
+  }
   function adapt() {
     document.querySelectorAll("label[for][id]").forEach(label => {
       const control = document.getElementById(label.htmlFor);
@@ -35,16 +71,8 @@
         control.setAttribute("aria-labelledby", ids);
       }
     });
-    const panel = document.getElementById("filter-panel");
-    if (panel && !panel.dataset.viewportReady) {
-      panel.open = wide.matches;
-      panel.dataset.viewportReady = "true";
-    }
+    document.querySelectorAll(".view-tab-list").forEach(installSlider);
   }
-  wide.addEventListener("change", () => {
-    const panel = document.getElementById("filter-panel");
-    if (panel) panel.open = wide.matches;
-  });
   new MutationObserver(adapt).observe(document.documentElement, {childList: true, subtree: true});
   document.addEventListener("DOMContentLoaded", adapt);
   adapt();
