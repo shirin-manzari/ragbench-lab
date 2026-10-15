@@ -12,6 +12,9 @@ dependencies = [
     "faiss-cpu==1.13.2", "numpy==2.3.5", "certifi==2026.7.22",
 ]
 
+[project.optional-dependencies]
+dashboard = ["dash==4.4.1", "plotly==7.1.0"]
+
 [project.scripts]
 ragbench = "ragbench_lab.cli:main"
 

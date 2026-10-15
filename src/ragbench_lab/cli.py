@@ -116,6 +116,9 @@ def _parser() -> argparse.ArgumentParser:
     dashboard_export = subparsers.add_parser("dashboard-export", help="offline read-only snapshot")
     dashboard_export.add_argument("--protocol", type=Path, required=True)
     dashboard_export.add_argument("--output", type=Path, required=True)
+    dashboard = subparsers.add_parser("dashboard", help="local read-only saved-results viewer")
+    dashboard.add_argument("--snapshot", type=Path, required=True)
+    dashboard.add_argument("--port", type=int, default=8050)
     run = subparsers.add_parser("stage-a-run", help="run or resume sequential Stage A blocks")
     run.add_argument("config")
     run.add_argument("--squad-dir", required=True, type=Path)
@@ -262,6 +265,11 @@ def main(argv: Sequence[str] | None = None) -> int:
             from ragbench_lab.dashboard_export import export_dashboard
 
             print(json.dumps(export_dashboard(args.protocol, args.output), indent=2))
+            return 0
+        if args.command == "dashboard":
+            from ragbench_lab.dashboard import serve_dashboard
+
+            serve_dashboard(args.snapshot, args.port)
             return 0
         config = load_config(args.config)
         if args.command == "stage-b-report":
