@@ -5,12 +5,15 @@
   "snapshot_manifest_sha256": "dafbc9c28f7f87707b6b7c5076e416988b26fd940519edb5e18dcdb9fb45d3d0",
   "expected": {"runs": 4, "cells": 176, "examples": 1520, "request_metadata_rows": 31200, "csv_metric_rows": 808},
   "commands": {
+    "tab_motion": "node artifacts/check-tab-motion-v1.mjs",
     "focused": "PYTHONPATH=src artifacts/dashboard-env/bin/python -m unittest discover -s tests -p 'test_dashboard*.py' -v",
     "numeric_revision": "PYTHONPATH=src .venv/bin/python artifacts/check-dashboard-improvements-v1.py",
     "browser": "node artifacts/check-dashboard-improvements-v1.mjs NEW_VERSION",
     "serve": "PYTHONPATH=src artifacts/dashboard-env/bin/python -m ragbench_lab dashboard --snapshot reports/dashboard-snapshot-v3 --port 8050"
   },
   "invariants": [
+    "tab navigation precedes shared summary and all six view panels; exactly one view panel visible; mobile grid cannot expand to intrinsic panel width",
+    "local smooth sliding tab highlight follows Dash selection without overshoot or jelly keyframes; geometry survives rapid clicks, resizing and mobile scroll; idle observers settle; reduced motion disables transitions",
     "cloud sharing buttons and destination disabled on every result and paired graph",
     "required stage metric keys; explicit nulls unavailable, never zero-filled",
     "nonnegative integer counts; completion, request and cell totals consistent",
@@ -19,13 +22,18 @@
     "scoped request cards and explicit entire-run totals; dataset-qualified names",
     "synchronous configuration-only browser facets; Python/browser normalization parity",
     "question search/retention; compatible contrasts and quality/latency metric selectors",
+    "default study overview derives three descriptive observations from one selected run; no cross-run totals or winner ranking",
+    "metric definitions and bootstrap guidance remain accessible; repeated timings are not independent question samples",
+    "concise default copy; full metric definitions, interval guidance and study limitations preserved in closed native Details controls; counts and units stay visible",
+    "side-by-side selectors require distinct same-run/same-dataset conditions and a shared saved question; labels remain question text only",
+    "comparison uses original cell metrics and exact stored paired intervals/direction only; absent contrasts stay unavailable",
     "original source intervals and pp/second differences; no pooling or inferred winners",
     "filtered CSV generated in memory, formula-neutralized, with units/counts/uncertainty",
     "loopback/debug-off, active-writer guards, local assets, allowlisted hashed downloads",
     "no model, exporter or runner modules imported by isolated viewer",
     "new snapshot run objects equal original verified v2; all 12 core vectors unchanged",
     "Stage A figure geometry unchanged; captions disclose question/timing counts",
-    "phone filters collapsed, label associations and keyboard interaction checked locally"
+    "filters always visible without a collapsible menu on desktop/mobile; label associations and keyboard interaction preserved"
   ],
   "limitations": "wheels tested on Python 3.14/macOS ARM64 only; Node/Chrome are QA-only; source dependence and repeated-measurement limits unchanged; full raw links need core delivery; stop viewer before timed work"
 }

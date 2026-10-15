@@ -9,6 +9,13 @@ from html import escape
 from pathlib import Path
 from urllib.parse import urlencode
 
+from ragbench_lab.dashboard_guidance import (
+    METRIC_HELP,
+    UNCERTAINTY_HELP,
+    comparable_cells,
+    observations,
+    shared_examples,
+)
 from ragbench_lab.dashboard_snapshot import csv_text, load_snapshot, safe_file, table_rows
 from ragbench_lab.data.records import DataError
 
@@ -338,6 +345,15 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
     def raw(title, value):
         return html.Details([html.Summary(title), plain(value)], className="raw-details")
 
+    def notes(title, children):
+        return html.Details([html.Summary(title), *children], className="raw-details")
+
+    def uncertainty(run):
+        return notes("Interval notes", [
+            html.P(UNCERTAINTY_HELP), html.P(run["uncertainty"]),
+            html.P("Repeated timings are not independent questions."),
+        ])
+
     def table(headers, rows):
         return html.Div(
             html.Table(
@@ -403,10 +419,14 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
     def dropdown(identifier, label, options=None, value=None):
         return html.Div(
             [
-                html.Label(label, id=f"{identifier}-label", htmlFor=identifier),
+                html.Label(
+                    label, id=f"{identifier}-label", htmlFor=identifier,
+                    title=METRIC_HELP.get(identifier, label),
+                ),
                 dcc.Dropdown(id=identifier, clearable=False, options=options or [], value=value),
             ],
             className="filter",
+            style={"paddingTop": "32px"} if identifier == "contrast" else {},
         )
 
     app.layout = html.Div(
@@ -421,12 +441,8 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
             ),
             html.Aside(
                 [
-                    html.Div("ragbench", className="brand"),
-                    html.Div("RESULTS LAB", className="eyebrow"),
-                    html.P("A view into the frozen study. No models. No new requests."),
-                    html.Details(
+                    html.Div(
                         [
-                            html.Summary("Filters & display"),
                             html.Div(
                                 [
                                     dropdown(
@@ -441,13 +457,13 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                                         ],
                                         "all",
                                     ),
-                                    dropdown("run", "Compatible run set"),
+                                    dropdown("run", "Run"),
                                     *[
                                         dropdown(k, label)
                                         for k, label in zip(FILTERS, LABELS, strict=True)
                                     ],
-                                    dropdown("metric", "Quality / rate metric"),
-                                    dropdown("latency-metric", "Latency statistic"),
+                                    dropdown("metric", "Metric"),
+                                    dropdown("latency-metric", "Latency"),
                                     html.Button(
                                         "Reset filters",
                                         id="reset-filters",
@@ -461,33 +477,51 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                         id="filter-panel",
                         className="filter-panel",
                     ),
-                    html.Div("LOCAL · READ ONLY", className="readonly"),
                 ]
             ),
             html.Main(
                 [
                     html.Header(
                         [
-                            html.Div("EXPERIMENT EXPLORER", className="eyebrow"),
-                            html.H1("Evidence, answers & time"),
-                            html.P("Explore saved measurements without changing the experiment."),
+                            html.H1("RAGBench"),
                         ]
                     ),
-                    html.Div(id="overview", className="panel"),
+                    html.Div(id="overview", className="panel", style={"display": "none"}),
                     dcc.Tabs(
                         [
                             dcc.Tab(
-                                label="Results", children=[html.Div(id="plots", className="plots")]
+                                label="Overview", value="study-overview",
+                                children=[html.Div(id="study-overview", className="panel")],
                             ),
                             dcc.Tab(
-                                label="Configuration & questions",
+                                label="Results", value="results", children=[
+                                    html.Div(id="metric-guide", className="panel"),
+                                    html.Div(id="plots", className="plots"),
+                                ]
+                            ),
+                            dcc.Tab(
+                                label="Compare", value="side-by-side", children=[
+                                    html.Div([
+                                        html.P("Same run/dataset · sidebar filters excluded."),
+                                        html.Div([
+                                            dropdown("compare-left", "Left"),
+                                            dropdown("compare-right", "Right"),
+                                        ], className="comparison-grid"),
+                                        html.Div(id="comparison-metrics"),
+                                        dropdown("compare-question", "Question"),
+                                        html.Div(id="comparison-examples"),
+                                    ], className="panel"),
+                                ],
+                            ),
+                            dcc.Tab(
+                                label="Questions",
                                 children=[
                                     html.Div(
                                         [
                                             dropdown("condition", "Configuration"),
                                             html.Div(id="details"),
                                             html.Label(
-                                                "Find a saved question", htmlFor="question-search"
+                                                "Search", htmlFor="question-search"
                                             ),
                                             dcc.Input(
                                                 id="question-search",
@@ -496,7 +530,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                                                 debounce=True,
                                                 className="search-input",
                                             ),
-                                            dropdown("question", "Saved question"),
+                                            dropdown("question", "Question"),
                                             html.Div(id="example"),
                                         ],
                                         className="panel",
@@ -504,7 +538,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                                 ],
                             ),
                             dcc.Tab(
-                                label="Paired comparisons",
+                                label="Paired",
                                 children=[
                                     dropdown(
                                         "contrast",
@@ -514,43 +548,24 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                                 ],
                             ),
                             dcc.Tab(
-                                label="Context & extensions",
+                                label="Downloads",
                                 children=[
                                     html.Div(
                                         [
-                                            html.H3("No extra study is implied"),
-                                            html.P(
-                                                "Only the frozen 1,024-token budget is measured "
-                                                "here. SmolLM and 512/2,048 comparisons are "
-                                                "pending, not zero-valued results."
-                                            ),
-                                            plain(snapshot.get("missing_studies", [])),
-                                        ],
-                                        className="panel",
-                                    )
-                                ],
-                            ),
-                            dcc.Tab(
-                                label="Downloads & provenance",
-                                children=[
-                                    html.Div(
-                                        [
-                                            html.H3("Offline exports"),
                                             html.A(
-                                                "All snapshot cells · CSV",
+                                                "All results · CSV",
                                                 href="/exports/tables.csv",
                                             ),
                                             html.P(
                                                 html.A(
-                                                    "Selected run and filters · CSV",
+                                                    "Filtered results · CSV",
                                                     id="filtered-download",
                                                     href="/filtered.csv",
                                                 )
                                             ),
                                             html.P(
-                                                "Downloads preserve run boundaries and original "
-                                                "units/intervals. Core SVG/PDF figures are copied "
-                                                "unchanged; they do not follow filters."
+                                                "Filtered CSV follows your selection. "
+                                                "Publication figures do not."
                                             ),
                                             html.Ul(
                                                 [
@@ -575,17 +590,37 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                                     )
                                 ],
                             ),
-                        ]
-                    ),
-                    html.Footer(
-                        "Stop this viewer before timed experiments. Scores and intervals are "
-                        "descriptive; repeated timings are not independent questions."
+                        ], id="view-tabs", value="study-overview", mobile_breakpoint=0,
+                        parent_className="view-navigation", className="view-tab-list",
                     ),
                 ]
             ),
         ],
         className="shell",
     )
+
+    # Separate navigation from panels so the shared summary stays below the bar.
+    page = app.layout.children[-1]
+    navigation = page.children[-1]
+    summary = page.children[-2]
+    view_keys = ("study-overview", "results", "side-by-side", "questions", "paired", "downloads")
+    panels = []
+    for tab, key in zip(navigation.children, view_keys, strict=True):
+        panels.append(html.Div(
+            tab.children, id=f"{key}-view",
+            className=f"view-panel view-panel-{key}",
+            style={} if key == "study-overview" else {"display": "none"},
+        ))
+        tab.children = None
+        tab.value = key
+    page.children = [page.children[0], navigation, summary, *panels]
+
+    @app.callback(
+        *[Output(f"{key}-view", "style") for key in view_keys],
+        Input("view-tabs", "value"),
+    )
+    def view_visibility(selected):
+        return [{} if key == selected else {"display": "none"} for key in view_keys]
 
     @app.callback(
         Output("run", "options"),
@@ -625,6 +660,161 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
 
     def filter_options(key, current=None, changed=None):
         return linked_filters(runs.get(key, {"cells": []}), current, changed)
+
+    @app.callback(Output("overview", "style"), Input("view-tabs", "value"))
+    def overview_visibility(view):
+        return {"display": "none"} if view in {"study-overview", "side-by-side"} else {}
+
+    @app.callback(Output("study-overview", "children"), Input("run", "value"))
+    def study_overview(key):
+        run = runs.get(key)
+        if run is None:
+            return html.P("Select an available run to read its study overview.")
+        cells = run["cells"]
+        # Count dataset-qualified IDs, not repeated requests or sums across cells.
+        questions = {(c["dataset"], e["question_id"])
+                     for c in cells for e in run["examples"]
+                     if e["condition_id"] == c["condition_id"]}
+        sampled = run["stage"] == "A"
+        return [
+            html.H2("Study summary"),
+            table(["Run", "Purpose", "Status", "Configurations", "Successful requests"], [[
+                run["label"], run["purpose"], run["completion"]["status"], len(cells),
+                run["completion"].get("successful_requests", "Unavailable"),
+            ]]),
+            html.P(
+                f"{len(questions)} distinct saved questions. "
+                + ("Stage A examples are a small illustrative subset, not the full evaluation "
+                   "sample."
+                   if sampled else
+                   "Repeated timings are not independent questions.")
+            ),
+            html.H3("Findings · full run"),
+            html.Ul([html.Li(text) for text in observations(run)]),
+            notes("Study limitations", [html.Ul([
+                html.Li("Findings describe the full selected run, regardless of sidebar "
+                        "filters. Point signs and ranges are not significance claims."),
+                html.Li("The reduced Stage B study uses 25 questions per dataset. Source "
+                        "dependence reduces the effective information; three timing repeats "
+                        "do not triple the number of independent questions."),
+                html.Li("EM/F1 measure reference-text agreement, not factuality. Annotated "
+                        "evidence coverage is not a guarantee of sufficient evidence."),
+                html.Li("Results concern the recorded models, adapted corpora and one machine. "
+                        "The sample-budget amendment happened after partial execution; "
+                        "historical runs are not pooled. Optional extensions remain unrun."),
+            ])]),
+        ]
+
+    def support_table(cells):
+        return table(
+            ["Configuration", "Quality questions", "Timing measurements", "Source clusters"],
+            [[profile(c), c["questions"], c["timing_measurements"],
+              json.dumps(next((m["source_clusters"] for m in c["metrics"].values()
+                               if m.get("source_clusters") is not None), "not adjusted"))]
+             for c in cells],
+        )
+
+    @app.callback(
+        Output("metric-guide", "children"), Input("run", "value"),
+        Input("metric", "value"), Input("latency-metric", "value"),
+        *[Input(k, "value") for k in FILTERS],
+    )
+    def metric_guide(key, metric, latency, *values):
+        run = runs.get(key)
+        if not run:
+            return html.P("No compatible run selected.")
+        cells = selected_cells(run, dict(zip(FILTERS, values, strict=True)))
+        return [
+            notes("Metric definitions", [
+                html.P([html.Strong(METRICS.get(name, "Selected metric") + ": "),
+                      html.Span(METRIC_HELP.get(name, "No metric selected."),
+                                title=METRIC_HELP.get(name, "No metric selected."))])
+                for name in (metric, latency)
+            ]),
+            uncertainty(run),
+            html.Details([html.Summary(f"Sample support · {len(cells)} visible configurations"),
+                          support_table(cells)], open=len(cells) <= 4),
+        ]
+
+    @app.callback(
+        Output("compare-left", "options"), Output("compare-left", "value"),
+        Input("run", "value"), State("compare-left", "value"),
+    )
+    def comparison_left(key, current):
+        cells = runs.get(key, {}).get("cells", [])
+        options = [{"label": profile(c), "value": c["condition_id"]} for c in cells]
+        return options, current if current in {o["value"] for o in options} else (
+            options[0]["value"] if options else None
+        )
+
+    @app.callback(
+        Output("compare-right", "options"), Output("compare-right", "value"),
+        Input("run", "value"), Input("compare-left", "value"),
+        State("compare-right", "value"),
+    )
+    def comparison_right(key, left, current):
+        cells = comparable_cells(runs.get(key, {"cells": []}), left)
+        options = [{"label": profile(c), "value": c["condition_id"]} for c in cells]
+        return options, current if current in {o["value"] for o in options} else (
+            options[0]["value"] if options else None
+        )
+
+    @app.callback(
+        Output("compare-question", "options"), Output("compare-question", "value"),
+        Input("run", "value"), Input("compare-left", "value"),
+        Input("compare-right", "value"), State("compare-question", "value"),
+    )
+    def comparison_questions(key, left, right, current):
+        examples = shared_examples(runs.get(key, {"cells": [], "examples": []}), left, right)
+        options = [{"label": e["question"]["text"], "value": e["question_id"]} for e in examples]
+        return options, current if current in {o["value"] for o in options} else (
+            options[0]["value"] if options else None
+        )
+
+    @app.callback(
+        Output("comparison-metrics", "children"), Output("comparison-examples", "children"),
+        Input("run", "value"), Input("compare-left", "value"),
+        Input("compare-right", "value"), Input("compare-question", "value"),
+    )
+    def comparison(key, left, right, question):
+        run = runs.get(key, {"cells": [], "examples": [], "paired_contrasts": []})
+        if right not in {c["condition_id"] for c in comparable_cells(run, left)}:
+            return html.P("Choose two different configurations from the same run and dataset."), []
+        lookup = {c["condition_id"]: c for c in run["cells"]}
+        original = [p for p in run["paired_contrasts"]
+                    if {p["left_condition_id"], p["right_condition_id"]} == {left, right}]
+        metrics = [
+            uncertainty(run), support_table([lookup[left], lookup[right]]),
+            html.Div([html.Section([
+                html.H3(profile(lookup[cid])), metric_table(lookup[cid]["metrics"]),
+            ]) for side, cid in (("Left", left), ("Right", right))], className="comparison-grid"),
+        ]
+        for pair in original:
+            metrics.extend([
+                html.H3("Original saved paired difference"),
+                html.P(profile(lookup[pair["left_condition_id"]]) + " minus "
+                       + profile(lookup[pair["right_condition_id"]])
+                       + ". Direction follows the stored contrast, not screen position."),
+                table(["Metric", "Difference", "95% source interval"], [
+                    [METRICS.get(name, name),
+                     number(m["estimate"], lookup[left]["metrics"][name]["unit"], delta=True),
+                     " – ".join(number(v, lookup[left]["metrics"][name]["unit"], delta=True)
+                                for v in m["source_ci95"])
+                     if m.get("source_ci95") else "Unavailable"]
+                    for name, m in pair["metrics"].items()
+                ]),
+            ])
+        if not original:
+            metrics.append(html.P("No original paired interval saved for this pair."))
+        available = {e["question_id"] for e in shared_examples(run, left, right)}
+        if question not in available:
+            return metrics, html.P("No shared saved question selected. Stage A retains only "
+                                   "illustrative examples; no new question will be executed.")
+        panels = html.Div([html.Section([
+            html.H3("Saved response · " + profile(lookup[cid])),
+            *question_example(key, question, cid),
+        ]) for side, cid in (("Left", left), ("Right", right))], className="comparison-grid")
+        return metrics, panels
 
     @app.callback(
         Output("contrast", "options"),
@@ -734,25 +924,21 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                 ],
                 className="cards",
             ),
-            html.P(f"{completion['status'].upper()} · {run['purpose']} · {run['uncertainty']}"),
+            notes("Run details", [
+            html.P(f"{completion['status'].capitalize()} · {run['purpose']}"),
             html.P(
                 f"Entire run: {completion.get('successful_requests', 'unavailable')} successes; "
                 f"{completion.get('failed_attempts', 'unavailable')} failed attempts. "
-                "The cards and plots above follow your filters.",
+                "Cards follow filters.",
                 className="muted",
             ),
-            html.P(
-                "Repetition-one quality; repeat timings stay within question. "
-                "Select a configuration for counts, intervals and source details."
-            ),
-            html.P(run["example_scope"], className="muted"),
-            html.P(
+            html.P(run["example_scope"]), html.P(
                 "Plot key: blue BM25, orange Dense, teal Hybrid; circles Llama, "
                 "diamonds Qwen; open = reranking off; larger = size 256."
                 if run["stage"] == "B"
                 else "Unavailable fields are not zero measurements.",
                 className="muted",
-            ),
+            )]),
         ]
         return overview, figures(run, cells, metric, latency_metric), options, chosen
 
@@ -789,11 +975,10 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
         ]
         return (
             [
-                html.H3(profile(cell)),
                 html.P(
-                    f"{cell['questions']} repetition-one questions; "
-                    f"{cell['timing_measurements']} timings. {run['uncertainty']}"
+                    f"{cell['questions']} questions · {cell['timing_measurements']} timings"
                 ),
+                uncertainty(run),
                 metric_table(cell["metrics"]),
                 raw(
                     "Raw configuration & provenance",
@@ -825,7 +1010,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
             (
                 e
                 for e in run["examples"]
-                if e["request_key"] == request
+                if (e["request_key"] == request and (cid is None or e["condition_id"] == cid))
                 or (e["question_id"] == request and e["condition_id"] == cid)
             ),
             None,
@@ -875,10 +1060,10 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
             for i, item in enumerate(record["retrieved_top5"])
         ]
         return [
-            html.H3("Saved question & references"),
+            html.H3("Question"),
             html.P(question.get("text", "Question text unavailable"), className="question-text"),
-            html.P([html.Strong("Reference answers: "), " / ".join(question.get("answers", []))]),
-            html.H3("Generated answer"),
+            html.P([html.Strong("Reference: "), " / ".join(question.get("answers", []))]),
+            html.H3("Answer"),
             html.Div(
                 record["answer"]
                 if record["answer"] is not None
@@ -891,7 +1076,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                 f"Status: {record['status']} · Output truncated: "
                 f"{record.get('output_truncated', 'not measured')}"
             ),
-            html.P(record.get("error") or "No recorded error"),
+            *([html.P(record["error"])] if record.get("error") else []),
             table(
                 ["Answer score", "Value"],
                 [
@@ -899,14 +1084,13 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                     for k, v in (record.get("answer_metrics") or {}).items()
                 ],
             ),
-            html.H3("Per-question annotated retrieval coverage"),
+            html.H3("Annotated coverage"),
             table(["Evidence included", "Coverage"], retrieval_rows)
             if retrieval_rows
             else html.P("Retrieval coverage not measured for this baseline."),
-            html.H3("Exact packed evidence and source offsets"),
+            html.H3("Exact packed evidence"),
             html.P(
-                "Highlighted spans match dataset annotations, not an independent factuality "
-                "judgment. The text and offsets are unchanged."
+                "Highlights: dataset annotations, not factuality judgments."
             ),
             html.Div(highlighted(context.get("text", ""), annotations), className="evidence-text"),
             table(
@@ -1020,12 +1204,12 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                 )
                 plots.append(graph(plot))
         return [
-            html.P(
+            notes("Comparison notes", [html.P(
                 "Original paired estimates; positive latency means slower. "
                 "Positive rate/coverage differences mean higher, not necessarily better. "
                 "95% source intervals are unadjusted; pp means percentage points. "
                 "Cross-run/baseline pairs are not pooled. Only the selected metrics are shown."
-            ),
+            )]),
             html.Div(plots, className="plots"),
             table(
                 [
@@ -1098,6 +1282,13 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
 
     # Exposed only for local unit tests; this object is never sent to the browser.
     app.viewer_functions = {
+        "view_visibility": view_visibility,
+        "study_overview": study_overview,
+        "metric_guide": metric_guide,
+        "comparison_left": comparison_left,
+        "comparison_right": comparison_right,
+        "comparison_questions": comparison_questions,
+        "comparison": comparison,
         "run_options": run_options,
         "filter_options": filter_options,
         "update_results": update_results,
