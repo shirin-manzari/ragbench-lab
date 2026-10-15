@@ -483,7 +483,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                 [
                     html.Header(
                         [
-                            html.H1("RAGBench"),
+                            html.H1("RAGBench Lab"),
                         ]
                     ),
                     html.Div(id="overview", className="panel", style={"display": "none"}),
