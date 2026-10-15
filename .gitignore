@@ -3,6 +3,7 @@
 
 # Local explanatory documents
 [Rr][Ee][Aa][Dd][Mm][Ee]*
+!README.md
 [Pp][Rr][Oo][Jj][Ee][Cc][Tt]_[Dd][Ee][Ee][Pp]_[Dd][Ii][Vv][Ee]*
 [Pp][Rr][Oo][Jj][Ee][Cc][Tt]-[Dd][Ee][Ee][Pp]-[Dd][Ii][Vv][Ee]*
 
@@ -48,5 +49,4 @@ dist/
 PRD.md
 PLAN.md
 PROGRESS.md
-README.md
-
+report.md
