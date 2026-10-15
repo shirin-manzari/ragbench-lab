@@ -113,6 +113,9 @@ def _parser() -> argparse.ArgumentParser:
     delivery_verify = subparsers.add_parser("delivery-verify", help="verify both delivery archives")
     delivery_verify.add_argument("archive", type=Path)
     delivery_verify.add_argument("--raw-archive", type=Path, required=True)
+    dashboard_export = subparsers.add_parser("dashboard-export", help="offline read-only snapshot")
+    dashboard_export.add_argument("--protocol", type=Path, required=True)
+    dashboard_export.add_argument("--output", type=Path, required=True)
     run = subparsers.add_parser("stage-a-run", help="run or resume sequential Stage A blocks")
     run.add_argument("config")
     run.add_argument("--squad-dir", required=True, type=Path)
@@ -254,6 +257,11 @@ def main(argv: Sequence[str] | None = None) -> int:
             from ragbench_lab.delivery import verify_delivery
 
             print(json.dumps(verify_delivery(args.archive, args.raw_archive), indent=2))
+            return 0
+        if args.command == "dashboard-export":
+            from ragbench_lab.dashboard_export import export_dashboard
+
+            print(json.dumps(export_dashboard(args.protocol, args.output), indent=2))
             return 0
         config = load_config(args.config)
         if args.command == "stage-b-report":
