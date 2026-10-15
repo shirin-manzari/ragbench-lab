@@ -63,8 +63,3 @@ these results do not identify a universal winning pipeline.
 Stage B uses 25 questions per dataset, with source dependence. Three timings per
 question are repeated measurements, not independent samples. EM/F1 are text-match
 scores, not factuality judgments.
-
-Data, weights, indexes, tests, generated results and supporting local Markdown stay
-local/ignored; this README is tracked as the public entry point.
-Git alone is not the complete study; viewing results requires the saved artifacts.
-See [PROJECT_DEEP_DIVE.md](PROJECT_DEEP_DIVE.md) for architecture and reproducibility.
