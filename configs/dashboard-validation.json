@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "scope": "read-only dashboard review fixes; no measurement or study changes",
+  "snapshot": "reports/dashboard-snapshot-v3",
+  "snapshot_manifest_sha256": "dafbc9c28f7f87707b6b7c5076e416988b26fd940519edb5e18dcdb9fb45d3d0",
+  "expected": {"runs": 4, "cells": 176, "examples": 1520, "request_metadata_rows": 31200, "csv_metric_rows": 808},
+  "commands": {
+    "focused": "PYTHONPATH=src artifacts/dashboard-env/bin/python -m unittest discover -s tests -p 'test_dashboard*.py' -v",
+    "numeric_revision": "PYTHONPATH=src .venv/bin/python artifacts/check-dashboard-improvements-v1.py",
+    "browser": "node artifacts/check-dashboard-improvements-v1.mjs NEW_VERSION",
+    "serve": "PYTHONPATH=src artifacts/dashboard-env/bin/python -m ragbench_lab dashboard --snapshot reports/dashboard-snapshot-v3 --port 8050"
+  },
+  "invariants": [
+    "cloud sharing buttons and destination disabled on every result and paired graph",
+    "required stage metric keys; explicit nulls unavailable, never zero-filled",
+    "nonnegative integer counts; completion, request and cell totals consistent",
+    "condition, question, request and record lineage stays inside its run/dataset",
+    "safe plain text and annotation-offset highlighting; no executable HTML or Markdown",
+    "scoped request cards and explicit entire-run totals; dataset-qualified names",
+    "synchronous configuration-only browser facets; Python/browser normalization parity",
+    "question search/retention; compatible contrasts and quality/latency metric selectors",
+    "original source intervals and pp/second differences; no pooling or inferred winners",
+    "filtered CSV generated in memory, formula-neutralized, with units/counts/uncertainty",
+    "loopback/debug-off, active-writer guards, local assets, allowlisted hashed downloads",
+    "no model, exporter or runner modules imported by isolated viewer",
+    "new snapshot run objects equal original verified v2; all 12 core vectors unchanged",
+    "Stage A figure geometry unchanged; captions disclose question/timing counts",
+    "phone filters collapsed, label associations and keyboard interaction checked locally"
+  ],
+  "limitations": "wheels tested on Python 3.14/macOS ARM64 only; Node/Chrome are QA-only; source dependence and repeated-measurement limits unchanged; full raw links need core delivery; stop viewer before timed work"
+}
