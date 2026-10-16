@@ -1,7 +1,5 @@
 # RAGBench Lab: study report
 
-Updated: 16 October 2026.
-
 This project measures how retrieval, chunk size and reranking affect RAG answer
 quality and latency on one local machine. The reduced core study and its analysis
 are complete. The main finding is that quality gains depend on the dataset and
@@ -82,8 +80,3 @@ which previously matched 23 output files byte-for-byte using the installed envir
 They exclude weights/index arrays and do not establish a fresh model replication.
 The local `PROGRESS.md` records checks; `PRD.md` contains background references.
 Optional model, context and load studies remain unrun.
-
-## AI use
-
-I used AI tools throughout this project to help with planning, coding, debugging,
-testing, and writing documentation.
