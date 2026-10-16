@@ -90,10 +90,11 @@ def linked_filters(run: dict, current: dict | None = None, changed: str | None =
     """Keep the last edited facet, then retain only mutually compatible selections."""
     current = current or {}
     chosen, matching = {}, run["cells"]
+    field_values = {field: {value_key(c.get(field)) for c in run["cells"]} for field in FILTERS}
     order = ([changed] if changed in FILTERS else []) + [k for k in FILTERS if k != changed]
     for field in order:
         available = {value_key(c.get(field)) for c in matching}
-        global_values = {value_key(c.get(field)) for c in run["cells"]}
+        global_values = field_values[field]
         value = current.get(field, "all")
         if len(global_values) == 1:
             value = next(iter(global_values))
@@ -120,9 +121,7 @@ def linked_filters(run: dict, current: dict | None = None, changed: str | None =
             }
             for v in values
         ]
-        result.extend(
-            (options, chosen[field], len({value_key(c.get(field)) for c in run["cells"]}) <= 1)
-        )
+        result.extend((options, chosen[field], len(field_values[field]) <= 1))
     return result
 
 

@@ -10,17 +10,20 @@
       const changed = (window.dash_clientside.callback_context?.triggered?.[0]?.prop_id || "").split(".")[0];
       const current = Object.fromEntries(fields.map((field, i) => [field, changed === "reset-filters" ? "all" : args[i]]));
       const order = [...(fields.includes(changed) ? [changed] : []), ...fields.filter(k => k !== changed)];
+      const fieldValues = Object.fromEntries(fields.map(field => [
+        field, new Set(cells.map(cell => keyOf(cell[field])))
+      ]));
       const chosen = {};
       for (const field of order) {
         const available = new Set(matching(cells, chosen).map(c => keyOf(c[field])));
-        const global = new Set(cells.map(c => keyOf(c[field])));
-        chosen[field] = global.size === 1 ? [...global][0] : available.has(current[field]) ? current[field] : "all";
+        const values = fieldValues[field];
+        chosen[field] = values.size === 1 ? [...values][0] : available.has(current[field]) ? current[field] : "all";
       }
       return fields.flatMap(field => {
         const others = Object.fromEntries(Object.entries(chosen).filter(([k]) => k !== field && !(field === "family" && k === "recipe")));
         const values = [...new Set(matching(cells, others).map(c => keyOf(c[field])))].sort();
         const options = [{label:"All applicable", value:"all"}, ...values.map(value => ({value, label:value === "not_measured" ? "Not measured" : field === "reranking" ? ({True:"On", False:"Off"}[value] || value) : value}))];
-        return [options, chosen[field], new Set(cells.map(c => keyOf(c[field]))).size <= 1];
+        return [options, chosen[field], fieldValues[field].size <= 1];
       });
     }
   };
