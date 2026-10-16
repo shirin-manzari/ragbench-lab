@@ -45,6 +45,19 @@ dist/
 /artifacts/
 *.log
 
+# Only the reviewed public aggregate export belongs in results/.
+/results/*
+!/results/stage-b-v3/
+/results/stage-b-v3/*
+!/results/stage-b-v3/conditions.csv
+!/results/stage-b-v3/cells.csv
+!/results/stage-b-v3/contrasts.csv
+!/results/stage-b-v3/stage-times.csv
+!/results/stage-b-v3/quality_latency.svg
+!/results/stage-b-v3/quality_latency_baselines.svg
+!/results/stage-b-v3/stage_times_main.svg
+!/results/stage-b-v3/manifest.json
+
 
 PRD.md
 PLAN.md

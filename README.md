@@ -49,10 +49,16 @@ Stop it before timed experiments. Setup from the offline viewer package is in
 ## Results
 
 - [report.md](report.md): methods, completed work, results and limitations.
+- [results/stage-b-v3/](results/stage-b-v3/): public tables, condition lookup and
+  three figures; no question or answer text.
 - `reports/stage-b-analysis-v1/`: per-condition scores and paired intervals.
 - `reports/stage-b-figures-v1/`: publication figures and stage-time tables.
 - `reports/study-synthesis-v1/DISCUSSION.md`: detailed findings and validity.
 - `reports/final-delivery-v1/START_HERE.md`: core archive verification and replay.
+
+Check the public bundle with `python3 scripts/verify_public_results.py`.
+This needs only Python's standard library. With the checked local analysis inputs,
+`python3 scripts/export_public_results.py --check` also checks exact source copies.
 
 Reranking increased mean online latency in every matched comparison, but answer
 scores did not consistently improve. Model and chunk-size effects varied by dataset;
