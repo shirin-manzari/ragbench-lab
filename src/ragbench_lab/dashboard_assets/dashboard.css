@@ -39,24 +39,6 @@ aside {
   scrollbar-width: thin;
   scrollbar-color: #60718b #101e33;
 }
-.brand {
-  font-size: 30px;
-  font-weight: 750;
-  letter-spacing: -1px;
-}
-.eyebrow {
-  color: #6f9fbe;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  margin: 8px 0 18px;
-}
-aside p {
-  color: #a6b6cc;
-  font-size: 13px;
-  line-height: 1.65;
-  margin-bottom: 25px;
-}
 main {
   padding: 34px 42px;
   min-width: 0;
@@ -67,9 +49,7 @@ header h1 {
   font-size: 36px;
   letter-spacing: -1.1px;
 }
-header p,
-.muted,
-.shell footer {
+.muted {
   color: #6e7f94;
   line-height: 1.6;
 }
@@ -165,10 +145,6 @@ a {
 li {
   margin-bottom: 10px;
   font-size: 13px;
-}
-.shell footer {
-  font-size: 12px;
-  padding: 26px 0;
 }
 .filter-panel {
   margin-top: 24px;
@@ -369,11 +345,6 @@ mark {
     transition: none;
     animation: none;
   }
-}
-.uncertainty-note {
-  border-left: 4px solid #b57b16;
-  background: #fff8e8;
-  padding: 14px 18px;
 }
 @media (max-width: 1000px) {
   .comparison-grid {

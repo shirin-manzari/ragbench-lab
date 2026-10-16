@@ -1,7 +1,7 @@
 """Validate the frozen scientific study and enumerate its prospective execution plan.
 
 Planning never loads model weights, reads answers, starts a server, or runs queries.
-Execution provenance and safe resumption belong to the subsequent runner task.
+Execution provenance and safe resumption belong to stage_b_runner.
 """
 
 from __future__ import annotations

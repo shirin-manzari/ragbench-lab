@@ -20,19 +20,21 @@ def answer_scores(prediction: str, answers: tuple[str, ...], dataset: str) -> di
     if dataset not in {"squad", "hotpot_qa"} or not answers:
         raise DataError("answer scoring requires a supported dataset and reference answers")
     normalized = normalize_answer(prediction)
+    predicted_tokens = normalized.split()
+    predicted_counts = Counter(predicted_tokens)
+    special = {"yes", "no", "noanswer"}
     candidates = []
     for answer in answers:
         target = normalize_answer(answer)
         exact = float(normalized == target)
-        predicted_tokens, target_tokens = normalized.split(), target.split()
-        special = {"yes", "no", "noanswer"}
+        target_tokens = target.split()
         if (dataset == "hotpot_qa" and normalized != target
                 and (normalized in special or target in special)):
             f1 = 0.0
         elif not predicted_tokens or not target_tokens:
             f1 = 0.0
         else:
-            shared = sum((Counter(predicted_tokens) & Counter(target_tokens)).values())
+            shared = sum((predicted_counts & Counter(target_tokens)).values())
             precision, recall = shared / len(predicted_tokens), shared / len(target_tokens)
             f1 = 2 * precision * recall / (precision + recall) if shared else 0.0
         candidates.append((exact, f1))

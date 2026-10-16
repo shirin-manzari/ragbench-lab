@@ -57,7 +57,7 @@ def correct_llama_export(source: Path, expected_files: dict[str, str], output: P
     corrected = json.loads(json.dumps(original))
     corrected["model"]["ignore_merges"] = True
     checked = Tokenizer.from_str(json.dumps(corrected))
-    if checked.get_vocab() != Tokenizer.from_str(json.dumps(original)).get_vocab():
+    if checked.get_vocab() != backend.get_vocab():
         raise DataError("correction changed vocabulary IDs")
     output.parent.mkdir(parents=True, exist_ok=True)
     output.mkdir()

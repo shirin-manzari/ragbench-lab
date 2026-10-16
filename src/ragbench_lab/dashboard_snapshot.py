@@ -158,12 +158,10 @@ def _validate_snapshot(snapshot: dict) -> None:
         for name, value in completion.items():
             if name not in {"status", "diagnostic"}:
                 _count(value, name)
-        ids = set()
         cells = {}
         for cell in run["cells"]:
-            if cell["condition_id"] in ids:
+            if cell["condition_id"] in cells:
                 raise DataError("duplicate dashboard cell")
-            ids.add(cell["condition_id"])
             cells[cell["condition_id"]] = cell
             if cell["dataset"] not in {"squad", "hotpot_qa"}:
                 raise DataError("unsupported dashboard dataset")
@@ -194,9 +192,9 @@ def _validate_snapshot(snapshot: dict) -> None:
             "successful_requests"
         ] != sum(c["timing_measurements"] for c in cells.values()):
             raise DataError("dashboard completion/cell totals differ")
-        if any(e["condition_id"] not in ids for e in run["examples"]):
+        if any(e["condition_id"] not in cells for e in run["examples"]):
             raise DataError("example refers to a foreign condition")
-        if any(r["condition_id"] not in ids for r in run.get("requests", [])):
+        if any(r["condition_id"] not in cells for r in run.get("requests", [])):
             raise DataError("request refers to a foreign condition")
         attempts, success, failed, retries, request_links = set(), Counter(), 0, 0, {}
         for request in run.get("requests", []):

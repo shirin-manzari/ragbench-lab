@@ -72,6 +72,12 @@ def selected_cells(run: dict, filters: dict) -> list[dict]:
     ]
 
 
+def _selected_value(options: list[dict], current):
+    if current in {option["value"] for option in options}:
+        return current
+    return options[0]["value"] if options else None
+
+
 def profile(cell: dict) -> str:
     rr = "n/a" if cell.get("reranking") is None else "on" if cell["reranking"] else "off"
     return (
@@ -342,11 +348,11 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
             className="plain",
         )
 
-    def raw(title, value):
-        return html.Details([html.Summary(title), plain(value)], className="raw-details")
-
     def notes(title, children):
         return html.Details([html.Summary(title), *children], className="raw-details")
+
+    def raw(title, value):
+        return notes(title, [plain(value)])
 
     def uncertainty(run):
         return notes("Interval notes", [
@@ -743,9 +749,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
     def comparison_left(key, current):
         cells = runs.get(key, {}).get("cells", [])
         options = [{"label": profile(c), "value": c["condition_id"]} for c in cells]
-        return options, current if current in {o["value"] for o in options} else (
-            options[0]["value"] if options else None
-        )
+        return options, _selected_value(options, current)
 
     @app.callback(
         Output("compare-right", "options"), Output("compare-right", "value"),
@@ -755,9 +759,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
     def comparison_right(key, left, current):
         cells = comparable_cells(runs.get(key, {"cells": []}), left)
         options = [{"label": profile(c), "value": c["condition_id"]} for c in cells]
-        return options, current if current in {o["value"] for o in options} else (
-            options[0]["value"] if options else None
-        )
+        return options, _selected_value(options, current)
 
     @app.callback(
         Output("compare-question", "options"), Output("compare-question", "value"),
@@ -767,9 +769,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
     def comparison_questions(key, left, right, current):
         examples = shared_examples(runs.get(key, {"cells": [], "examples": []}), left, right)
         options = [{"label": e["question"]["text"], "value": e["question_id"]} for e in examples]
-        return options, current if current in {o["value"] for o in options} else (
-            options[0]["value"] if options else None
-        )
+        return options, _selected_value(options, current)
 
     @app.callback(
         Output("comparison-metrics", "children"), Output("comparison-examples", "children"),
@@ -787,7 +787,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
             uncertainty(run), support_table([lookup[left], lookup[right]]),
             html.Div([html.Section([
                 html.H3(profile(lookup[cid])), metric_table(lookup[cid]["metrics"]),
-            ]) for side, cid in (("Left", left), ("Right", right))], className="comparison-grid"),
+            ]) for cid in (left, right)], className="comparison-grid"),
         ]
         for pair in original:
             metrics.extend([
@@ -813,7 +813,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
         panels = html.Div([html.Section([
             html.H3("Saved response · " + profile(lookup[cid])),
             *question_example(key, question, cid),
-        ]) for side, cid in (("Left", left), ("Right", right))], className="comparison-grid")
+        ]) for cid in (left, right)], className="comparison-grid")
         return metrics, panels
 
     @app.callback(
@@ -886,11 +886,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
         cells = selected_cells(run, filters)
         options = [{"label": profile(c), "value": c["condition_id"]} for c in cells]
         current = values[-1]
-        chosen = (
-            current
-            if current in {o["value"] for o in options}
-            else (options[0]["value"] if options else None)
-        )
+        chosen = _selected_value(options, current)
         completion = run["completion"]
         cids = {c["condition_id"] for c in cells}
         requests = [r for r in run.get("requests", []) if r["condition_id"] in cids]
@@ -991,11 +987,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                 ),
             ],
             options,
-            previous
-            if previous in {o["value"] for o in options}
-            else options[0]["value"]
-            if options
-            else None,
+            _selected_value(options, previous),
         )
 
     @app.callback(
