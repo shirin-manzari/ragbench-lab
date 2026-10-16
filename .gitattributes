@@ -1,0 +1,2 @@
+# Preserve reviewed export bytes so inventory hashes survive Git checkouts.
+results/stage-b-v3/* -text

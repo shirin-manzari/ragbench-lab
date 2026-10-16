@@ -1,0 +1,92 @@
+{
+  "files": {
+    "cells.csv": {
+      "bytes": 92849,
+      "sha256": "d2b4ced8deb9fb28bcddd492a37d14412bdbf0b09c1c146868d2e8b688c4ac6c"
+    },
+    "conditions.csv": {
+      "bytes": 5920,
+      "sha256": "02eca8d9771406a8d9d0b098a097d797f31356624601c365d73133bc0b088b34"
+    },
+    "contrasts.csv": {
+      "bytes": 404933,
+      "sha256": "a31f56d7f120c79c124ba7cdae9ebcb095ea5fb2ed5029f96895bebd11c90ebb"
+    },
+    "quality_latency.svg": {
+      "bytes": 36951,
+      "sha256": "180b80df8309669a1f037c786fab945d682c3aaec258139f686785d1950400c7"
+    },
+    "quality_latency_baselines.svg": {
+      "bytes": 15580,
+      "sha256": "25c525faa37ef03567d74f079f563339b9e5d52de499fb9f77b5c53c072775fd"
+    },
+    "stage-times.csv": {
+      "bytes": 12714,
+      "sha256": "f4a37bdd96d1be872dded7d7efce2d7a4144d50e7b0b79cba4156c8efd3235bb"
+    },
+    "stage_times_main.svg": {
+      "bytes": 64121,
+      "sha256": "90b9daab494771eb2b96c46594ff4a8b084436d6eca992b793f5522917abab76"
+    }
+  },
+  "kind": "public_stage_b_aggregates",
+  "manifest_sha256": "3d1c9254067e992f393dc461bbcc1cd163a420e30525de785a25b8d2361b9d04",
+  "notes": [
+    "Stage B only; Stage A, pilots, development gates and historical v1/v2 runs are excluded.",
+    "The 25-ID sample is a budget amendment after partial execution, not preregistration.",
+    "Quality uses repetition one; three timings per question are not independent questions.",
+    "Intervals are original source-cluster percentile intervals, unadjusted for multiplicity.",
+    "Scores and intervals use fractions; latency uses seconds. Contrast direction is left minus right.",
+    "EM/F1 are text-match scores; annotated evidence coverage is not semantic sufficiency.",
+    "Baseline/main execution paths differ; No-RAG keeps grounding instructions; gold can truncate.",
+    "Online time excludes setup, warmup, cache isolation, scoring and record writes.",
+    "Small source-dependent samples and resumed single-host timings limit generalization and tails.",
+    "Aggregate checks do not recompute bootstraps, audit raw runs or establish independent replication.",
+    "Hashes detect changes against this unsigned inventory; they are not signatures or data-access clearance."
+  ],
+  "schema_version": 1,
+  "sources": {
+    "analysis_manifest_sha256": "b3d2746c4707876db83ef25a27f5aecb01f25ebe1a7b14ba5428bc793658e775",
+    "analysis_proof_sha256": "3d80088eea366eb55779e689e88f538eae509d8d130a05e8f93bb66190b5d21b",
+    "figure_manifest_sha256": "4ca403fd90a63f4a5d71625190ee218cb25ce2ecdab0f79fec4b0aac83138575",
+    "source_files": {
+      "cells.csv": "d2b4ced8deb9fb28bcddd492a37d14412bdbf0b09c1c146868d2e8b688c4ac6c",
+      "contrasts.csv": "a31f56d7f120c79c124ba7cdae9ebcb095ea5fb2ed5029f96895bebd11c90ebb",
+      "quality_latency.svg": "180b80df8309669a1f037c786fab945d682c3aaec258139f686785d1950400c7",
+      "quality_latency_baselines.svg": "25c525faa37ef03567d74f079f563339b9e5d52de499fb9f77b5c53c072775fd",
+      "stage-times.csv": "f4a37bdd96d1be872dded7d7efce2d7a4144d50e7b0b79cba4156c8efd3235bb",
+      "stage_times_main.svg": "90b9daab494771eb2b96c46594ff4a8b084436d6eca992b793f5522917abab76"
+    },
+    "study_manifest_sha256": "60c8fcb5bae6c6a6ea71ca040e491bdbfe44a0863a5a5d61019dc9866022f71c"
+  },
+  "study": {
+    "baseline_conditions": 8,
+    "baseline_measurements": 600,
+    "bootstrap_samples": 2000,
+    "bootstrap_seed": 20261011,
+    "chunker": "sentence_aware",
+    "confidence": 0.95,
+    "context_budget_reference_tokens": 1024,
+    "datasets": [
+      "hotpot_qa",
+      "squad"
+    ],
+    "embedder": "e5",
+    "main_conditions": 48,
+    "main_measurements": 3600,
+    "models": [
+      "llama",
+      "qwen"
+    ],
+    "name": "stage-b-v3-reduced",
+    "quality_repetition": 1,
+    "quantization": "Q4_K_M",
+    "question_units": 50,
+    "questions_per_dataset": 25,
+    "repetitions": 3,
+    "source_clusters": {
+      "hotpot_qa": 25,
+      "squad": 12
+    }
+  }
+}

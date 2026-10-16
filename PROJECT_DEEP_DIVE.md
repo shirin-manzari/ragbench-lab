@@ -596,6 +596,24 @@ Git checkout. Each export has a manifest tying its inputs and outputs together.
 Independent verification helpers and proofs are retained with the local delivery
 materials.
 
+The public subset is [results/stage-b-v3/](results/stage-b-v3/): a condition lookup,
+the original cell/contrast/stage CSVs and three unchanged SVG figures. Its manifest
+records source hashes, units, counts and interpretation limits without exporting
+question IDs, question/answer text, source passages or personal provenance.
+Join metric tables to `conditions.csv` by condition ID to read their configurations.
+
+Run `python3 scripts/verify_public_results.py` from a checkout to check the public
+inventory, complete factorial/contrast matrices, units, interval bounds, contrast
+arithmetic and reconstruction of online stage means. The script uses only the
+standard library and does not require ignored inputs. These are aggregate
+consistency checks, not raw-run audits or recomputed confidence intervals.
+
+[export_public_results.py](scripts/export_public_results.py) creates a new bundle
+only from the checked local analysis, figure manifest and analysis proof; it
+refuses to overwrite an existing directory. Its `--check` option instead compares
+the existing bundle byte-for-byte with those inputs without writing. Historical
+checkers and full replay materials stay local; this export does not change them.
+
 [figures.py](src/ragbench_lab/figures.py) preserves the original estimates and
 intervals rather than computing new uncertainty for the plots. Its generation
 share is generation-call mean divided by online-total mean, not the average of
