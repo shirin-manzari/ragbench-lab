@@ -13,7 +13,14 @@ from typing import Any
 from ragbench_lab.config import ExperimentConfig
 from ragbench_lab.data.adapters import hotpot, squad
 from ragbench_lab.data.records import (
-    DataError, DatasetBundle, Document, EvidenceSpan, Exclusion, Question, SourceSpan, Split,
+    DataError,
+    DatasetBundle,
+    Document,
+    EvidenceSpan,
+    Exclusion,
+    Question,
+    SourceSpan,
+    Split,
 )
 
 
@@ -131,7 +138,8 @@ def prepare(config: ExperimentConfig, dataset: str, source: Path, revision: str,
         "allow_source_overlap": allow_overlap, "split": asdict(split),
         "document_count": len(bundle.documents), "eligible_question_count": len(bundle.questions),
         "exclusion_count": len(bundle.exclusions),
-        "same_title_variant_count": len(bundle.documents) - len({d.title for d in bundle.documents}),
+        "same_title_variant_count": len(bundle.documents) - len(
+            {d.title for d in bundle.documents}),
     }
     documents = [asdict(d) for d in sorted(bundle.documents, key=lambda d: d.document_id)]
     questions = [asdict(q) for q in sorted(bundle.questions, key=lambda q: q.question_id)]
@@ -173,7 +181,8 @@ def load_prepared(directory: Path) -> tuple[dict[str, Any], DatasetBundle]:
         SourceSpan(**s) for s in d["source_spans"])}) for d in records["documents"])
     questions = tuple(Question(**{**q, "answers": tuple(q["answers"]),
                                   "evidence": tuple(EvidenceSpan(**e) for e in q["evidence"]),
-                                  "diagnostics": tuple(EvidenceSpan(**e) for e in q["diagnostics"])})
+                                  "diagnostics": tuple(
+                                      EvidenceSpan(**e) for e in q["diagnostics"])})
                       for q in records["questions"])
     bundle = DatasetBundle(documents, questions,
                            tuple(Exclusion(**e) for e in manifest["exclusions"]))

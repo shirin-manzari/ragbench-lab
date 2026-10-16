@@ -7,7 +7,13 @@ import json
 from typing import Any
 
 from ragbench_lab.data.records import (
-    DataError, DatasetBundle, Document, EvidenceSpan, Exclusion, Question, SourceSpan,
+    DataError,
+    DatasetBundle,
+    Document,
+    EvidenceSpan,
+    Exclusion,
+    Question,
+    SourceSpan,
 )
 
 

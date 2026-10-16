@@ -111,5 +111,6 @@ def chunk_document(document: Document, tokenizer: TokenCounter, method: str,
         if not tokens:
             continue  # blank/control-only source regions cannot be searched
         identifier = digest([document.document_id, method, size, start, end])
-        chunks.append(Chunk(identifier, document.document_id, start, end, text, tokens, method, size))
+        chunks.append(Chunk(identifier, document.document_id, start, end, text, tokens,
+                            method, size))
     return ChunkedDocument(tuple(chunks), fallback)

@@ -1,4 +1,4 @@
-"""Configuration loading and Phase 0 validation."""
+"""Configuration loading and validation."""
 
 from __future__ import annotations
 
