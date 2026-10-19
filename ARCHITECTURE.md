@@ -6,8 +6,8 @@ artifacts support analysis and a separate read-only dashboard. There is no appli
 database or distributed job service.
 
 This document describes the implementation and completed v4 artifacts as of 19 October
-2026. It stays local and is ignored by Git. See [PRD.md](PRD.md) for requirements,
-[PLAN.md](PLAN.md) for task gates and [PROGRESS.md](PROGRESS.md) for run evidence.
+2026. The planning documents remain local: see `PRD.md` for requirements,
+`PLAN.md` (local) for task gates and `PROGRESS.md` (local) for run evidence.
 
 ## System overview
 
@@ -135,7 +135,7 @@ original 25. Measurements are fresh and are not imported or pooled with older ru
 is a post-results expansion of an already used evaluation pool, not an untouched
 confirmatory holdout. All v4 requests and both fresh development gates completed without
 request/setup failures. Run identities and verification evidence belong in
-[PROGRESS.md](PROGRESS.md).
+`PROGRESS.md` (local).
 
 ## Request execution and the model boundary
 
