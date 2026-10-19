@@ -9,7 +9,7 @@
   "inputs": ["src/ragbench_lab", "configs/*.toml", "manifests/stage-b-study-*.json", "results/stage-b-v3", "scripts/verify_public_results.py"],
   "checks": {
     "configuration": "compile all Python source/scripts without execution or bytecode writes; load all experiment TOMLs; reject unsupported candidate depth",
-    "factorials": "60 Stage A conditions; 48 Stage B conditions and 144 blocks for each v1/v2/v3 plan; exact unique request slots and two-generator pairing; reject a rehashed reduced sample containing a development ID",
+    "factorials": "60 Stage A conditions; 48 Stage B conditions and 144 blocks for each v1/v2/v3/v4 plan; 14,400/14,400/3,600/7,200 exact unique request slots and two-generator pairing; reject a rehashed reduced sample containing a development ID",
     "datasets": "synthetic SQuAD and HotpotQA ingestion, Unicode character offsets, source/question split isolation and order independence, labels outside corpus, prepare/inspect roundtrip, corrupt saved input and invalid annotation rejection",
     "chunk_boundaries": "synthetic character counter; exact contiguous source slices, bounded lengths and sentence fallback",
     "retrieval": "BM25 relevant candidate before zero-score candidate; exact RRF rank contributions, duplicate suppression and conflicting identity rejection",

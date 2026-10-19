@@ -41,10 +41,13 @@ def _ids(source: dict) -> dict[str, list[str]]:
     return splits
 
 
-def reduced_question_ids(selection: dict, seed: int) -> dict[str, list[str]]:
+def reduced_question_ids(selection: dict, seed: int, count: int = 25) -> dict[str, list[str]]:
     """Rank only frozen IDs, never answers, saved outcomes, or execution order."""
+    if type(count) is not int or count not in (25, 50):
+        raise DataError("Stage B subsets support exactly 25 or 50 questions per dataset")
+    # Keep the original rank salt: the 50-ID expansion contains the frozen 25 IDs.
     return {dataset: sorted(sorted(source["split"]["evaluation_ids"],
-        key=lambda qid: digest(["stage-b-reduced-25-v1", seed, dataset, qid]))[:25])
+        key=lambda qid: digest(["stage-b-reduced-25-v1", seed, dataset, qid]))[:count])
         for dataset, source in sorted(selection["sources"].items())}
 
 
@@ -65,7 +68,9 @@ def validate_study(config: ExperimentConfig, study: dict) -> None:
                 or config.embedding is None):
             raise DataError("Stage B study/config mismatch")
         reduced = "reduced_sample" in study
-        count = 25 if reduced else 100
+        count = study["question_count_per_dataset"] if reduced else 100
+        if type(count) is not int or count not in ((25, 50) if reduced else (100,)):
+            raise DataError("unsupported Stage B question count")
         for key, expected in (("pipeline_count", 12), ("dataset_model_conditions", 48),
                               ("main_requests", 144 * count), ("question_count_per_dataset", count),
                               ("repetitions", 3)):
@@ -88,11 +93,13 @@ def validate_study(config: ExperimentConfig, study: dict) -> None:
         if reduced:
             sample = study["reduced_sample"]
             if (set(sample) != {"version", "seed", "selected_ids"}
-                    or sample["version"] != "sha256_dataset_question_rank_v1"
+                    or sample["version"] != {25: "sha256_dataset_question_rank_v1",
+                                             50: "sha256_dataset_question_rank_50_v1"}[count]
                     or type(sample["seed"]) is not int
                     or sample["seed"] != config.dataset.sampling_seed
-                    or sample["selected_ids"] != reduced_question_ids(selection, sample["seed"])):
-                raise DataError("reduced sample must match the frozen outcome-blind 25-ID rule")
+                    or sample["selected_ids"] != reduced_question_ids(
+                        selection, sample["seed"], count)):
+                raise DataError("reduced sample must match the frozen ID-only ranking rule")
         expected_profiles = [
             {"family": family, "size": size, "reranking": on}
             for family, size, on in product(("bm25", "dense", "hybrid"),
