@@ -1,0 +1,40 @@
+{
+  "version": "paired_failure_review_v1",
+  "declaration": "exploratory v4 post-results analysis; classification rules recorded before this failure breakdown/case-text inspection; not preregistered and not a tuning basis",
+  "seed": 20261011,
+  "salt": "failure-review-v1",
+  "datasets": [
+    "squad",
+    "hotpot_qa"
+  ],
+  "strata": [
+    "candidate_evidence_incomplete",
+    "packing_evidence_loss",
+    "answer_error_with_full_evidence"
+  ],
+  "per_stratum_dataset": 1,
+  "unit": "dataset/question/pipeline with both generators at repetition 1",
+  "eligibility": "at least one paired generator has exact_match < 1; candidate stratum has top-50 evidence coverage < 1; packing stratum has top-50 = 1 and packed < 1; answer stratum has packed = 1",
+  "selection": "in declared dataset/stratum order, sort eligible pairs by digest([salt,seed,dataset,stratum,question_id,pipeline_id]); take one with a question ID not previously selected in that dataset; report empty strata without replacement",
+  "pairing": "require identical candidate IDs, final candidate order and context across generators; keep both answers even if only one fails",
+  "baselines": "include gold and no-RAG repetition-one responses for the same selected question and both generators, separately labeled",
+  "interpretation": "annotation evidence coverage is not semantic sufficiency; non-exact answers may be scoring/format differences; sampled cases cannot estimate failure prevalence or establish causal attribution",
+  "validation": "python -m unittest discover -s tests -p test_failure_review.py -v; recheck analysis proof, raw hashes/chains, ID-only deterministic sample and prepared source identities; verify scores and packed source offsets",
+  "command": "python -m ragbench_lab failure-review --report-dir reports/stage-b-analysis-v4-50 --proof artifacts/stage-b-analysis-verification-v4-50.json --main-run runs/stage-b-evaluation-v4-50 --baseline-run runs/baseline-evaluation-v4-50 --squad-dir data/prepared/squad-study-v1 --hotpot-dir data/prepared/hotpot-study-v1 --protocol configs/failure-review-protocol-v4-50.json --output reports/stage-b-failure-review-v4-50",
+  "exhaustive_diagnostics": {
+    "unit": "one first-attempt main response at repetition one; 2400 responses over 100 question IDs; not 2400 independent questions",
+    "failure_rule": "normalized exact_match < 1; report zero-token-F1 and positive-token-F1 mismatches separately",
+    "precedence": [
+      "exact_match == 1: exact_match",
+      "otherwise top50 evidence_coverage < 1: candidate_evidence_incomplete",
+      "otherwise packed evidence_coverage < 1: packing_evidence_loss",
+      "otherwise: answer_error_with_full_evidence"
+    ],
+    "annotation_limits": "SQuAD needs any complete annotated answer span; Hotpot needs all annotated supporting sentences. Missing annotations are not proof of insufficient semantic evidence; non-exact answers are not automatically factually wrong.",
+    "coexisting_flags": "also record any packed coverage drop from top50 even when candidate evidence was already incomplete",
+    "statistics": "descriptive per-response counts and within-group rates; no pooled timing repetitions or new confidence claims",
+    "baseline_policy": "separately label no-RAG/gold controls; do not classify as main retrieval errors",
+    "normal_local_command": "PYTHONPATH=src .venv/bin/python artifacts/analyze-failures-v4-50.py",
+    "new_model_requests": 0
+  }
+}
