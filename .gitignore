@@ -63,3 +63,9 @@ PRD.md
 PLAN.md
 PROGRESS.md
 report.md
+
+# Historical inventory, pilot summaries and capacity estimates stay local.
+/manifests/hardware.json
+/manifests/hotpot-data-pilot-v1.json
+/manifests/squad-data-pilot-v1.json
+/manifests/stage-a-capacity-v1.json
