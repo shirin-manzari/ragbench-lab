@@ -153,6 +153,10 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
         title="ragbench | results",
         update_title=None,
     )
+    # Suppress Dash's logo and the browser's fallback favicon request.
+    app.index_string = app.index_string.replace(
+        "{%favicon%}", '<link rel="icon" href="data:,">'
+    )
     first = next((k for k, r in runs.items() if r["stage"] == "B"), next(iter(runs)))
 
     def graph(figure):

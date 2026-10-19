@@ -263,6 +263,8 @@ records are preserved unchanged, outside the current presentation narrative.
 
 ## Install and open the dashboard
 
+The browser tab displays no dashboard favicon.
+
 The viewer uses optional Dash/Plotly dependencies from
 [requirements-dashboard.lock](requirements-dashboard.lock). The existing isolated
 viewer environment avoids changing the benchmark environment just to inspect results.
