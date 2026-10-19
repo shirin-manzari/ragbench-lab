@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 920">
+<desc>Report 216853d86240bc842f175d6e9df8cdd6249ca4766cf27db0e1bd48dd78ec8ad2; quality_latency_baselines</desc>
+<rect width="100%" height="100%" fill="white"/>
+<text x="25" y="32" font-family="Helvetica,Arial,sans-serif" font-size="24" fill="#222222">quality latency baselines</text>
+<text x="25" y="58" font-family="Helvetica,Arial,sans-serif" font-size="14" fill="#222222">25 questions/cell; quality/evidence: repetition 1; latency: all 75 measurements.</text>
+<text x="25" y="80" font-family="Helvetica,Arial,sans-serif" font-size="14" fill="#222222">Intervals: descriptive, unadjusted 95% source-cluster bootstrap; no winner selection.</text>
+<text x="100" y="126" font-family="Helvetica,Arial,sans-serif" font-size="18" fill="#222222">squad / llama</text>
+<line x1="100.0" y1="150" x2="100.0" y2="390" stroke="#BBBBBB"/>
+<text x="92.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">0.0</text>
+<line x1="170.0" y1="150" x2="170.0" y2="390" stroke="#BBBBBB"/>
+<text x="162.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">0.4</text>
+<line x1="240.0" y1="150" x2="240.0" y2="390" stroke="#BBBBBB"/>
+<text x="232.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">0.8</text>
+<line x1="310.0" y1="150" x2="310.0" y2="390" stroke="#BBBBBB"/>
+<text x="302.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">1.2</text>
+<line x1="380.0" y1="150" x2="380.0" y2="390" stroke="#BBBBBB"/>
+<text x="372.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">1.6</text>
+<line x1="450.0" y1="150" x2="450.0" y2="390" stroke="#BBBBBB"/>
+<text x="442.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">2.0</text>
+<line x1="100" y1="150" x2="100" y2="390" stroke="#222222"/>
+<line x1="100" y1="390" x2="450" y2="390" stroke="#222222"/>
+<text x="100" y="433" font-family="Helvetica,Arial,sans-serif" font-size="14" fill="#222222">Mean online seconds</text>
+<text x="100" y="145" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">Answer token F1 (%)</text>
+<line x1="100" y1="390.0" x2="450" y2="390.0" stroke="#BBBBBB"/>
+<text x="70" y="394.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">0</text>
+<line x1="100" y1="342.0" x2="450" y2="342.0" stroke="#BBBBBB"/>
+<text x="70" y="346.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">20</text>
+<line x1="100" y1="294.0" x2="450" y2="294.0" stroke="#BBBBBB"/>
+<text x="70" y="298.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">40</text>
+<line x1="100" y1="246.0" x2="450" y2="246.0" stroke="#BBBBBB"/>
+<text x="70" y="250.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">60</text>
+<line x1="100" y1="198.0" x2="450" y2="198.0" stroke="#BBBBBB"/>
+<text x="70" y="202.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">80</text>
+<line x1="100" y1="150.0" x2="450" y2="150.0" stroke="#BBBBBB"/>
+<text x="70" y="154.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">100</text>
+<line x1="330.62401512457006" y1="234.17667745945363" x2="384.55836463679543" y2="234.17667745945363" stroke="#CC79A7"/>
+<line x1="358.2525235181863" y1="259.2898649115699" x2="358.2525235181863" y2="214.12102407187768" stroke="#CC79A7"/>
+<rect x="355.2525235181863" y="231.17667745945363" width="6" height="6" fill="#CC79A7" stroke="#CC79A7"/>
+<line x1="195.81301718390364" y1="379.7142857142857" x2="216.18859483168993" y2="379.7142857142857" stroke="#777777"/>
+<line x1="205.19661821148873" y1="390.0" x2="205.19661821148873" y2="363.16669464495556" stroke="#777777"/>
+<rect x="202.19661821148873" y="376.7142857142857" width="6" height="6" fill="#777777" stroke="#777777"/>
+<line x1="362.2525235181863" y1="234.17667745945363" x2="458" y2="230.17667745945363" stroke="#999999"/>
+<text x="462" y="234.17667745945363" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#222222">gold</text>
+<line x1="209.19661821148873" y1="379.7142857142857" x2="458" y2="375.7142857142857" stroke="#999999"/>
+<text x="462" y="379.7142857142857" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#222222">no-rag</text>
+<text x="695" y="126" font-family="Helvetica,Arial,sans-serif" font-size="18" fill="#222222">squad / qwen</text>
+<line x1="695.0" y1="150" x2="695.0" y2="390" stroke="#BBBBBB"/>
+<text x="687.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">0.0</text>
+<line x1="765.0" y1="150" x2="765.0" y2="390" stroke="#BBBBBB"/>
+<text x="757.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">0.4</text>
+<line x1="835.0" y1="150" x2="835.0" y2="390" stroke="#BBBBBB"/>
+<text x="827.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">0.8</text>
+<line x1="905.0" y1="150" x2="905.0" y2="390" stroke="#BBBBBB"/>
+<text x="897.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">1.2</text>
+<line x1="975.0" y1="150" x2="975.0" y2="390" stroke="#BBBBBB"/>
+<text x="967.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">1.6</text>
+<line x1="1045.0" y1="150" x2="1045.0" y2="390" stroke="#BBBBBB"/>
+<text x="1037.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">2.0</text>
+<line x1="695" y1="150" x2="695" y2="390" stroke="#222222"/>
+<line x1="695" y1="390" x2="1045" y2="390" stroke="#222222"/>
+<text x="695" y="433" font-family="Helvetica,Arial,sans-serif" font-size="14" fill="#222222">Mean online seconds</text>
+<text x="695" y="145" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">Answer token F1 (%)</text>
+<line x1="695" y1="390.0" x2="1045" y2="390.0" stroke="#BBBBBB"/>
+<text x="665" y="394.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">0</text>
+<line x1="695" y1="342.0" x2="1045" y2="342.0" stroke="#BBBBBB"/>
+<text x="665" y="346.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">20</text>
+<line x1="695" y1="294.0" x2="1045" y2="294.0" stroke="#BBBBBB"/>
+<text x="665" y="298.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">40</text>
+<line x1="695" y1="246.0" x2="1045" y2="246.0" stroke="#BBBBBB"/>
+<text x="665" y="250.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">60</text>
+<line x1="695" y1="198.0" x2="1045" y2="198.0" stroke="#BBBBBB"/>
+<text x="665" y="202.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">80</text>
+<line x1="695" y1="150.0" x2="1045" y2="150.0" stroke="#BBBBBB"/>
+<text x="665" y="154.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">100</text>
+<line x1="939.765583695937" y1="265.0155420802732" x2="1009.0203980813562" y2="265.0155420802732" stroke="#CC79A7"/>
+<line x1="975.4516848251384" y1="287.90550019363957" x2="975.4516848251384" y2="237.53994421557385" stroke="#CC79A7"/>
+<rect x="972.4516848251384" y="262.0155420802732" width="6" height="6" fill="#CC79A7" stroke="#CC79A7"/>
+<line x1="776.9895662545232" y1="390.0" x2="779.9038206662316" y2="390.0" stroke="#777777"/>
+<line x1="778.354687032441" y1="390.0" x2="778.354687032441" y2="390.0" stroke="#777777"/>
+<rect x="775.354687032441" y="387.0" width="6" height="6" fill="#777777" stroke="#777777"/>
+<line x1="979.4516848251384" y1="265.0155420802732" x2="1053" y2="261.0155420802732" stroke="#999999"/>
+<text x="1057" y="265.0155420802732" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#222222">gold</text>
+<line x1="782.354687032441" y1="390.0" x2="1053" y2="382" stroke="#999999"/>
+<text x="1057" y="386" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#222222">no-rag</text>
+<text x="100" y="476" font-family="Helvetica,Arial,sans-serif" font-size="18" fill="#222222">hotpot_qa / llama</text>
+<line x1="100.0" y1="500" x2="100.0" y2="740" stroke="#BBBBBB"/>
+<text x="92.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">0.0</text>
+<line x1="170.0" y1="500" x2="170.0" y2="740" stroke="#BBBBBB"/>
+<text x="162.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">0.4</text>
+<line x1="240.0" y1="500" x2="240.0" y2="740" stroke="#BBBBBB"/>
+<text x="232.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">0.8</text>
+<line x1="310.0" y1="500" x2="310.0" y2="740" stroke="#BBBBBB"/>
+<text x="302.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">1.2</text>
+<line x1="380.0" y1="500" x2="380.0" y2="740" stroke="#BBBBBB"/>
+<text x="372.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">1.6</text>
+<line x1="450.0" y1="500" x2="450.0" y2="740" stroke="#BBBBBB"/>
+<text x="442.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">2.0</text>
+<line x1="100" y1="500" x2="100" y2="740" stroke="#222222"/>
+<line x1="100" y1="740" x2="450" y2="740" stroke="#222222"/>
+<text x="100" y="783" font-family="Helvetica,Arial,sans-serif" font-size="14" fill="#222222">Mean online seconds</text>
+<text x="100" y="495" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">Answer token F1 (%)</text>
+<line x1="100" y1="740.0" x2="450" y2="740.0" stroke="#BBBBBB"/>
+<text x="70" y="744.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">0</text>
+<line x1="100" y1="692.0" x2="450" y2="692.0" stroke="#BBBBBB"/>
+<text x="70" y="696.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">20</text>
+<line x1="100" y1="644.0" x2="450" y2="644.0" stroke="#BBBBBB"/>
+<text x="70" y="648.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">40</text>
+<line x1="100" y1="596.0" x2="450" y2="596.0" stroke="#BBBBBB"/>
+<text x="70" y="600.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">60</text>
+<line x1="100" y1="548.0" x2="450" y2="548.0" stroke="#BBBBBB"/>
+<text x="70" y="552.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">80</text>
+<line x1="100" y1="500.0" x2="450" y2="500.0" stroke="#BBBBBB"/>
+<text x="70" y="504.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">100</text>
+<line x1="322.9763699527875" y1="664.3521929492165" x2="371.2834404478415" y2="664.3521929492165" stroke="#CC79A7"/>
+<line x1="345.21254967091534" y1="688.5222452683433" x2="345.21254967091534" y2="637.2096344309049" stroke="#CC79A7"/>
+<rect x="342.21254967091534" y="661.3521929492165" width="6" height="6" fill="#CC79A7" stroke="#CC79A7"/>
+<line x1="196.55087912762653" y1="727.52" x2="205.0953904489005" y2="727.52" stroke="#777777"/>
+<line x1="200.38127717663286" y1="740.0" x2="200.38127717663286" y2="712.16" stroke="#777777"/>
+<rect x="197.38127717663286" y="724.52" width="6" height="6" fill="#777777" stroke="#777777"/>
+<line x1="349.21254967091534" y1="664.3521929492165" x2="458" y2="660.3521929492165" stroke="#999999"/>
+<text x="462" y="664.3521929492165" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#222222">gold</text>
+<line x1="204.38127717663286" y1="727.52" x2="458" y2="723.52" stroke="#999999"/>
+<text x="462" y="727.52" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#222222">no-rag</text>
+<text x="695" y="476" font-family="Helvetica,Arial,sans-serif" font-size="18" fill="#222222">hotpot_qa / qwen</text>
+<line x1="695.0" y1="500" x2="695.0" y2="740" stroke="#BBBBBB"/>
+<text x="687.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">0.0</text>
+<line x1="765.0" y1="500" x2="765.0" y2="740" stroke="#BBBBBB"/>
+<text x="757.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">0.4</text>
+<line x1="835.0" y1="500" x2="835.0" y2="740" stroke="#BBBBBB"/>
+<text x="827.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">0.8</text>
+<line x1="905.0" y1="500" x2="905.0" y2="740" stroke="#BBBBBB"/>
+<text x="897.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">1.2</text>
+<line x1="975.0" y1="500" x2="975.0" y2="740" stroke="#BBBBBB"/>
+<text x="967.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">1.6</text>
+<line x1="1045.0" y1="500" x2="1045.0" y2="740" stroke="#BBBBBB"/>
+<text x="1037.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">2.0</text>
+<line x1="695" y1="500" x2="695" y2="740" stroke="#222222"/>
+<line x1="695" y1="740" x2="1045" y2="740" stroke="#222222"/>
+<text x="695" y="783" font-family="Helvetica,Arial,sans-serif" font-size="14" fill="#222222">Mean online seconds</text>
+<text x="695" y="495" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">Answer token F1 (%)</text>
+<line x1="695" y1="740.0" x2="1045" y2="740.0" stroke="#BBBBBB"/>
+<text x="665" y="744.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">0</text>
+<line x1="695" y1="692.0" x2="1045" y2="692.0" stroke="#BBBBBB"/>
+<text x="665" y="696.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">20</text>
+<line x1="695" y1="644.0" x2="1045" y2="644.0" stroke="#BBBBBB"/>
+<text x="665" y="648.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">40</text>
+<line x1="695" y1="596.0" x2="1045" y2="596.0" stroke="#BBBBBB"/>
+<text x="665" y="600.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">60</text>
+<line x1="695" y1="548.0" x2="1045" y2="548.0" stroke="#BBBBBB"/>
+<text x="665" y="552.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">80</text>
+<line x1="695" y1="500.0" x2="1045" y2="500.0" stroke="#BBBBBB"/>
+<text x="665" y="504.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">100</text>
+<line x1="948.2065893359145" y1="660.615039697145" x2="1019.0740740740741" y2="660.615039697145" stroke="#CC79A7"/>
+<line x1="980.4339288675469" y1="686.5891355661881" x2="980.4339288675469" y2="634.4498382319435" stroke="#CC79A7"/>
+<rect x="977.4339288675469" y="657.615039697145" width="6" height="6" fill="#CC79A7" stroke="#CC79A7"/>
+<line x1="782.1740633218964" y1="740.0" x2="786.3732121954317" y2="740.0" stroke="#777777"/>
+<line x1="784.2368267496286" y1="740.0" x2="784.2368267496286" y2="740.0" stroke="#777777"/>
+<rect x="781.2368267496286" y="737.0" width="6" height="6" fill="#777777" stroke="#777777"/>
+<line x1="984.4339288675469" y1="660.615039697145" x2="1053" y2="656.615039697145" stroke="#999999"/>
+<text x="1057" y="660.615039697145" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#222222">gold</text>
+<line x1="788.2368267496286" y1="740.0" x2="1053" y2="732" stroke="#999999"/>
+<text x="1057" y="736" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#222222">no-rag</text>
+<text x="25" y="830" font-family="Helvetica,Arial,sans-serif" font-size="14" fill="#222222">B=BM25, D=Dense, H=Hybrid; 128/256=chunk size; -=reranking off, +=on (filled).</text>
+<text x="25" y="855" font-family="Helvetica,Arial,sans-serif" font-size="14" fill="#222222">Baseline plots separate: no-RAG keeps grounding instructions; gold is diagnostic evidence.</text>
+<text x="25" y="880" font-family="Helvetica,Arial,sans-serif" font-size="14" fill="#222222">Baseline/main online implementations differ; do not pool their timings.</text>
+</svg>

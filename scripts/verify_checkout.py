@@ -324,7 +324,8 @@ def resume_integrity(work: Path) -> dict:
 def public_results(_work: Path) -> dict:
     from verify_public_results import verify
 
-    return verify(ROOT / "results/stage-b-v3")
+    return {version: verify(ROOT / f"results/stage-b-{version}", profile=version)
+            for version in ("v3", "v4")}
 
 
 CHECKS = (configuration, factorials, datasets, chunk_boundaries, retrieval,

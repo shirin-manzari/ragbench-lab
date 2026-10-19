@@ -1,2 +1,4 @@
 # Preserve reviewed export bytes so inventory hashes survive Git checkouts.
 results/stage-b-v3/* -text
+results/stage-b-v4/* -text
+results/stage-b-v4/*.csv whitespace=cr-at-eol

@@ -36,6 +36,13 @@ dist/
 !.env.example
 .DS_Store
 
+# JSON outputs stay local unless they are project configuration, frozen study
+# metadata, or an explicitly allowlisted public results inventory below.
+*.json
+*.jsonl
+!/configs/*.json
+!/manifests/*.json
+
 # Downloaded assets and generated experiment outputs
 /data/
 /models/
@@ -63,6 +70,21 @@ PRD.md
 PLAN.md
 PROGRESS.md
 report.md
+
+# Reviewed v4 aggregate export, separate from historical v3.
+!/results/stage-b-v4/
+/results/stage-b-v4/*
+!/results/stage-b-v4/conditions.csv
+!/results/stage-b-v4/cells.csv
+!/results/stage-b-v4/contrasts.csv
+!/results/stage-b-v4/stage-times.csv
+!/results/stage-b-v4/quality_latency.svg
+!/results/stage-b-v4/quality_latency_baselines.svg
+!/results/stage-b-v4/stage_times_main.svg
+!/results/stage-b-v4/manifest.json
+
+# Local presentation materials
+/presentations/
 
 # Historical inventory, pilot summaries and capacity estimates stay local.
 /manifests/hardware.json
