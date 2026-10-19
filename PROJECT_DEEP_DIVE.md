@@ -594,13 +594,13 @@ These generated directories are local artifacts, not files supplied by a normal 
 checkout. Each export has a manifest tying its inputs and outputs together. Independent
 verification helpers and proofs are retained with the local delivery materials.
 
-The historical v3 public subset is [results/stage-b-v3/](results/stage-b-v3/): a
+The current v4 public subset is [results/stage-b-v4/](results/stage-b-v4/): a
 condition lookup, the original cell/contrast/stage CSVs and three unchanged SVG figures.
 Its manifest records source hashes, units, counts and interpretation limits without
 exporting question IDs, question/answer text, source passages or personal provenance.
 Join metric tables to `conditions.csv` by condition ID to read their configurations.
 
-Run `python3 scripts/verify_public_results.py` from a checkout to check the public
+Run `python3 scripts/verify_public_results.py results/stage-b-v4` from a checkout to check the public
 inventory, complete factorial/contrast matrices, units, interval bounds, contrast
 arithmetic and reconstruction of online stage means. The script uses only the standard
 library and does not require ignored inputs. These are aggregate consistency checks, not
@@ -610,7 +610,16 @@ raw-run audits or recomputed confidence intervals.
 from the checked local analysis, figure manifest and analysis proof; it refuses to
 overwrite an existing directory. Its `--check` option instead compares the existing
 bundle byte-for-byte with those inputs without writing. Historical checkers and full
-replay materials stay local; this export does not change them.
+replay materials stay local; this export does not change them. Select v4 explicitly with
+`--study v4`; the default remains historical v3, preserved byte-for-byte under
+`results/stage-b-v3/`. Each profile rejects mixed sample counts, notes and cluster counts.
+
+The offline [presentation](presentations/stage-b-v4.html) is built by
+`python3 scripts/build_results_demo.py` using only the verified public v4 bundle.
+It embeds the original quality–latency and stage-time SVGs, calculates descriptive
+ranges/sign counts from exported CSVs, includes speaker notes and prints to PDF.
+`--check` compares the generated presentation byte-for-byte. The ignored local
+`DEMO.md` supplies a five-minute script, exact viewer command and offline fallback.
 
 [figures.py](src/ragbench_lab/figures.py) preserves the original estimates and intervals
 rather than computing new uncertainty for the plots. Its generation share is
@@ -618,8 +627,10 @@ generation-call mean divided by online-total mean, not the average of per-reques
 or a share of full session wall time.
 
 The v3 failure review selected six illustrative units by declared strata and seeded ID
-ranking, saving selection before loading their answer texts. V4 has not received a new
-qualitative case review or extended narrative synthesis. The v3 notes are agent-authored
+ranking, saving selection before loading their answer texts. V4 now has an exhaustive exploratory failure breakdown and six paired case notes in
+`reports/stage-b-failure-diagnostics-v4-50/` and
+`reports/stage-b-failure-review-v4-50/`. These use saved responses without new model
+requests; extended narrative synthesis remains unproduced. The v3 notes are agent-authored
 interpretations, not independent human adjudication or a prevalence estimate. Historical
 `reports/stage-b-failure-review-v1/` and `reports/study-synthesis-v1/` remain unchanged
 and describe v3. The current [report.md](report.md) summarizes measured v4 findings.
