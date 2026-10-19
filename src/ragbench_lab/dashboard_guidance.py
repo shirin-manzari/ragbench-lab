@@ -29,6 +29,11 @@ UNCERTAINTY_HELP = (
 )
 
 
+def _metric_estimates(rows, metric: str) -> list:
+    values = [row["metrics"].get(metric, {}).get("estimate") for row in rows]
+    return [value for value in values if value is not None]
+
+
 def observations(run: dict) -> list[str]:
     """No cross-run pooling, ranking, bootstrap or new quality measurements."""
     cells = run["cells"]
@@ -41,19 +46,15 @@ def observations(run: dict) -> list[str]:
             "These observations apply only to the selected run, not to an unrun extension.",
         ]
     pairs = [p for p in run["paired_contrasts"] if p["contrast"] == "reranking_on_minus_off"]
-    timing = [p["metrics"].get("latency_mean", {}).get("estimate") for p in pairs]
-    timing = [v for v in timing if v is not None]
-    f1 = [p["metrics"].get("token_f1", {}).get("estimate") for p in pairs]
-    f1 = [v for v in f1 if v is not None]
+    timing = _metric_estimates(pairs, "latency_mean")
+    f1 = _metric_estimates(pairs, "token_f1")
     groups = sorted({(c["dataset"], c.get("model_family")) for c in cells})
     ranges = []
     for dataset, model in groups:
-        values = [
-            c["metrics"].get("token_f1", {}).get("estimate")
-            for c in cells
-            if (c["dataset"], c.get("model_family")) == (dataset, model)
-        ]
-        values = [v for v in values if v is not None]
+        values = _metric_estimates(
+            (c for c in cells if (c["dataset"], c.get("model_family")) == (dataset, model)),
+            "token_f1",
+        )
         if values:
             ranges.append(f"{dataset}/{model}: {min(values)*100:.2f}–{max(values)*100:.2f}%")
     return [

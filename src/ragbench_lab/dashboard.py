@@ -382,6 +382,13 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
             else f"{value:.4f} s"
         )
 
+    def interval_text(values, unit, *, delta=False):
+        return (
+            " – ".join(number(v, unit, delta=delta) for v in values)
+            if values
+            else "Unavailable"
+        )
+
     def metric_table(metrics):
         return table(
             ["Metric", "Estimate", "95% interval", "Source clusters"],
@@ -389,9 +396,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                 [
                     METRICS.get(name, name.replace("_", " ")),
                     number(m["estimate"], m["unit"]),
-                    " – ".join(number(v, m["unit"]) for v in m["ci95"])
-                    if m.get("ci95")
-                    else "Unavailable",
+                    interval_text(m.get("ci95"), m["unit"]),
                     json.dumps(m.get("source_clusters", "not adjusted")),
                 ]
                 for name, m in metrics.items()
@@ -797,9 +802,8 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                 table(["Metric", "Difference", "95% source interval"], [
                     [METRICS.get(name, name),
                      number(m["estimate"], lookup[left]["metrics"][name]["unit"], delta=True),
-                     " – ".join(number(v, lookup[left]["metrics"][name]["unit"], delta=True)
-                                for v in m["source_ci95"])
-                     if m.get("source_ci95") else "Unavailable"]
+                     interval_text(m.get("source_ci95"),
+                                   lookup[left]["metrics"][name]["unit"], delta=True)]
                     for name, m in pair["metrics"].items()
                 ]),
             ])
@@ -1151,9 +1155,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                         profile(right),
                         METRICS.get(name, name),
                         number(m["estimate"], unit, delta=True),
-                        " – ".join(number(v, unit, delta=True) for v in ci)
-                        if ci
-                        else "Unavailable",
+                        interval_text(ci, unit, delta=True),
                         json.dumps(m.get("questions", "unavailable")),
                         json.dumps(m.get("source_clusters", "unavailable")),
                     ]
