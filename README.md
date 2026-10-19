@@ -94,7 +94,7 @@ and 50 Hotpot supporting-source components. Repeated timings do not create new
 questions. EM/F1 measure text agreement, not factuality. No universal winning pipeline
 is established.
 
-[PROGRESS.md](PROGRESS.md) records current evidence; the ignored local history files
+`PROGRESS.md` (local) records current evidence; the ignored local history files
 retain earlier decisions, failures and checkpoints. Only explicitly selected Markdown
 is published; tests, raw runs and archives remain local. AI tools helped with
 implementation and writing.
