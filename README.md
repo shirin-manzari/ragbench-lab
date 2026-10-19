@@ -1,71 +1,100 @@
 # ragbench-lab
 
-An academic study of retrieval-augmented generation (RAG) on one local machine.
-It compares retrieval, chunking and reranking choices, then measures their effect
-on answer quality and latency.
+A local RAG benchmark that compares retrieval, chunking and reranking, then measures
+their effect on evidence coverage, answer quality and latency. It includes a CLI,
+offline analysis and a read-only results dashboard.
 
-## Scope
+## Current results
+
+The completed **Stage B v4 study** uses 50 questions per dataset: **7,200 main and 1,200
+separate baseline requests**, with zero request/setup failures. Stage A remains
+unchanged at 9,000 development and 18,000 held-out retrieval requests. Development
+gates, pilots and older studies are counted separately.
 
 - Datasets: SQuAD v1.1 and an adapted shared-corpus HotpotQA.
 - Generators: Qwen2.5-3B-Instruct and Llama-3.2-3B-Instruct, both Q4_K_M.
-- Stage A: five retrieval recipes, two chunkers and three chunk sizes.
-- Stage B: BM25, Dense and Hybrid; sizes 128/256; reranking off/on.
+- Stage A: five retrieval recipes, two chunkers and three sizes.
+- Stage B: BM25/Dense/Hybrid × sizes 128/256 × reranking off/on.
+- Frozen selection: E5 with sentence-aware chunking.
 
-The completed matrix contains 9,000 development retrieval requests, 18,000
-held-out retrieval requests, 3,600 main generation requests and 600 separate
-No-RAG/gold-evidence baseline requests. Pilots and historical attempts are separate.
+Reranking added 0.13–1.23 seconds to mean online latency; F1 changed by −3.13 to +13.11
+percentage points across matched configurations. Effects depend on pipeline, dataset and
+generator. [report.md](report.md) has the measured ranges and limitations;
+[ARCHITECTURE.md](ARCHITECTURE.md) maps the implementation.
 
-## Setup
+## Setup and CLI
 
-The recorded environment is Python 3.14 on macOS ARM64. The package requires
-Python 3.11+, but the supplied locks are not tested across all platforms.
+Check a fresh checkout with Python 3.11+, without downloads or ignored fixtures:
+
+```sh
+python3 scripts/verify_checkout.py
+```
+
+For the recorded Python 3.14/macOS ARM64 benchmark environment:
 
 ```sh
 python3.14 -m venv .venv
 .venv/bin/python -m pip install -r requirements.lock
 .venv/bin/python -m pip install --no-deps -e .
 PYTHONPATH=src .venv/bin/python -m ragbench_lab validate configs/stage-a-study.toml
+PYTHONPATH=src .venv/bin/python -m ragbench_lab --help
 ```
 
-Use `PYTHONPATH=src .venv/bin/python -m ragbench_lab --help` for commands.
-New experiments need pinned data, models, indexes and a separate compute allowance.
+The lockfile is not a claim of a fresh model installation on every platform. Actual
+benchmark execution also needs pinned prepared data, models, indexes, a compatible
+development gate and an explicitly bounded compute allowance.
 
-## Dashboard
+Inspect the current study without running model requests:
 
-With the saved snapshot and isolated dashboard environment available locally:
+```sh
+PYTHONPATH=src .venv/bin/python -m ragbench_lab stage-b-plan \
+  configs/stage-a-study.toml --study manifests/stage-b-study-v4-50.json
+```
+
+## Open the dashboard
+
+With the saved snapshot and existing isolated viewer environment:
 
 ```sh
 PYTHONPATH=src artifacts/dashboard-env/bin/python -m ragbench_lab dashboard \
-  --snapshot reports/dashboard-snapshot-v3 --port 8050
+  --snapshot reports/dashboard-snapshot-v4-50 --port 8050
 ```
 
-Open http://127.0.0.1:8050. Start with the study overview and metric explanations,
-then compare saved configurations, answers and evidence side by side. Original
-intervals, question counts and CSV/SVG/PDF downloads remain available.
-Longer explanations are under expandable notes.
-Stop it before timed experiments. Setup from the offline viewer package is in
-[PROJECT_DEEP_DIVE.md](PROJECT_DEEP_DIVE.md#install-and-open-the-dashboard).
+Open http://127.0.0.1:8050 to compare saved configurations, answers and evidence. The v4
+snapshot contains 176 cells and 2,920 examples across Stage A and Stage B. It reads
+saved results only. Stop the viewer before timed experiments.
+[PROJECT_DEEP_DIVE.md](PROJECT_DEEP_DIVE.md#install-and-open-the-dashboard) explains
+viewer dependencies and installation limits.
 
-## Results
+## Saved outputs
 
-- [report.md](report.md): methods, completed work, results and limitations.
-- [results/stage-b-v3/](results/stage-b-v3/): public tables, condition lookup and
-  three figures; no question or answer text.
-- `reports/stage-b-analysis-v1/`: per-condition scores and paired intervals.
-- `reports/stage-b-figures-v1/`: publication figures and stage-time tables.
-- `reports/study-synthesis-v1/DISCUSSION.md`: detailed findings and validity.
-- `reports/final-delivery-v1/START_HERE.md`: core archive verification and replay.
+| Path | Contents |
+| --- | --- |
+| `reports/stage-b-analysis-v4-50/` | Scores, paired intervals and CSV tables |
+| `reports/stage-b-figures-v4-50/` | Six plots in SVG/PDF and stage-time tables |
+| `reports/dashboard-snapshot-v4-50/` | Verified read-only viewer data |
+| `reports/v4-handoff/START_HERE.md` | Archive verification and replay guidance |
+| `artifacts/archives/ragbench-core-v4-50.zip` | Raw records, prepared data and measurement source |
+| `artifacts/archives/ragbench-analysis-v4-50.zip` | Later analysis source, checks, reports and snapshot |
 
-Check the public bundle with `python3 scripts/verify_public_results.py`.
-This needs only Python's standard library. With the checked local analysis inputs,
-`python3 scripts/export_public_results.py --check` also checks exact source copies.
+Generated assets are local; a normal checkout does not include them. Both v4 ZIPs passed
+checksum/member verification, and numerical analysis replay passed using the installed
+environment. They exclude weights and index arrays.
 
-Reranking increased mean online latency in every matched comparison, but answer
-scores did not consistently improve. Model and chunk-size effects varied by dataset;
-these results do not identify a universal winning pipeline.
+Earlier v1/v2/v3 records and archives remain separate. The existing [public aggregate
+bundle](results/stage-b-v3/) and local ignored `REPORT_V3.md` still describe v3.
+Check that bundle with `python3 scripts/verify_public_results.py`; its exporter remains
+specific to v3.
 
-## Limitations
+## Interpretation
 
-Stage B uses 25 questions per dataset, with source dependence. Three timings per
-question are repeated measurements, not independent samples. EM/F1 are text-match
-scores, not factuality judgments.
+V4 is a post-results expansion of the existing evaluation pool, with fresh measurements
+and no historical aggregate pooling. Its 100 question IDs span 14 SQuAD article clusters
+and 50 Hotpot supporting-source components. Repeated timings do not create new
+questions. EM/F1 measure text agreement, not factuality. No universal winning pipeline
+is established.
+
+[PROGRESS.md](PROGRESS.md) records current evidence; the ignored local history files
+retain earlier decisions, failures and checkpoints. Only explicitly selected Markdown
+is published; tests, raw runs and archives remain local. AI tools helped with
+implementation and writing.
