@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "version": "readonly_results_v1",
+  "stage_a": [
+    {
+      "run": "runs/stage-a-development-v1",
+      "summary": "reports/stage-a-development-summary-v1.json"
+    },
+    {
+      "run": "runs/stage-a-evaluation-v1",
+      "summary": "reports/stage-a-evaluation-summary-v1.json"
+    }
+  ],
+  "analysis": "reports/stage-b-analysis-v4-50",
+  "analysis_proof": "artifacts/stage-b-analysis-verification-v4-50.json",
+  "figures": "reports/stage-b-figures-v4-50",
+  "figure_proof": "artifacts/stage-b-figures-verification-v4-50.json",
+  "main": "runs/stage-b-evaluation-v4-50",
+  "baselines": "runs/baseline-evaluation-v4-50",
+  "archive": "artifacts/archives/ragbench-core-v4-50.zip",
+  "archive_proof": "artifacts/archive-verification-v4-50.json",
+  "prepared": {
+    "squad": "data/prepared/squad-study-v1",
+    "hotpot_qa": "data/prepared/hotpot-study-v1"
+  },
+  "sampling": "Stage A: one ID-hash-selected repetition-one question per dataset/run, retained for every condition; Stage B: all repetition-one questions and both models; explicit text/raw record links; not an additional quality sample",
+  "uncertainty": "Stage A existing 500 question-cluster timing bootstrap resamples recomputed offline; Stage B original 2000 source-cluster paired intervals retained; missing intervals are null, never fabricated",
+  "boundaries": "one compatible run set at a time; development/evaluation and main/baselines stay separate; no cross-study pooling; v4 is a post-results 50-ID expansion; no v3 aggregate pooling",
+  "missing_studies": [
+    "SmolLM3 replication pending",
+    "512/2048 context comparisons pending; only frozen 1024 available"
+  ],
+  "exports": "offline CSV neutralizes executable formula prefixes; existing verified SVG/PDF publication figures are copied unchanged, without requiring Matplotlib",
+  "safety": "viewer reads only validated snapshot and allowlisted packaged downloads; plain text explorer, no HTML/Markdown rendering, model loading, benchmark execution or record writes; loopback/debug-off; stop viewer before timed work",
+  "validation": "python -m unittest discover -s tests -p 'test_dashboard*.py' -v",
+  "commands": [
+    "python -m ragbench_lab dashboard-export --protocol configs/dashboard-protocol-v4-50.json --output NEW_SNAPSHOT_DIRECTORY",
+    "python -m ragbench_lab dashboard --snapshot SNAPSHOT_DIRECTORY --port 8050"
+  ]
+}

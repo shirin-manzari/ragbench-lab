@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "kind": "local_offline_analysis_package",
+  "raw_archive": "artifacts/archives/ragbench-core-v4-50.zip",
+  "raw_proof": "artifacts/archive-verification-v4-50.json",
+  "trees": [
+    "src/ragbench_lab",
+    "configs",
+    "manifests",
+    "tests",
+    "reports/stage-b-analysis-v4-50",
+    "reports/stage-b-figures-v4-50",
+    "reports/dashboard-snapshot-v4-50",
+    "reports/v4-handoff",
+    "artifacts/measurement-source-v4-50"
+  ],
+  "source_tree_suffixes": [
+    ".py",
+    ".json",
+    ".toml",
+    ".md"
+  ],
+  "files": [
+    "pyproject.toml",
+    "requirements.lock",
+    "README.md",
+    "PROJECT_DEEP_DIVE.md",
+    "PRD.md",
+    "PLAN.md",
+    "PROGRESS.md",
+    "scripts/prepare_stage_b_50.py",
+    "scripts/verify_checkout.py",
+    "artifacts/check-analysis-v4-50.py",
+    "artifacts/check-figures-v4-50.py",
+    "artifacts/check-dashboard-snapshot-v4-50.py",
+    "artifacts/archive-verification-v4-50.json",
+    "artifacts/stage-b-analysis-verification-v4-50.json",
+    "artifacts/stage-b-figures-verification-v4-50.json",
+    "artifacts/dashboard-snapshot-verification-v4-50.json",
+    "artifacts/checkout-verification-v4-analysis.json"
+  ],
+  "exclusions": [
+    "weights, indexes, backend and virtual environments",
+    "historical raw results and aggregates; definitions remain for lineage",
+    "no hosted publication, backup or new model run"
+  ],
+  "validation": "verify_archive checks every member; independent report/figure/snapshot proofs and fresh-workspace numerical analysis replay; tests remain local/ignored",
+  "measurement_source": "explicit saved local snapshot must match recorded fingerprint; later src/ is archive and analysis implementation"
+}
