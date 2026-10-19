@@ -85,15 +85,20 @@ prospectively preregistered.
 [PROJECT_DEEP_DIVE.md](PROJECT_DEEP_DIVE.md) explains the implementation. The v4 tables
 and original intervals are in `reports/stage-b-analysis-v4-50/`, figures in
 `reports/stage-b-figures-v4-50/`, and the saved viewer in
-`reports/dashboard-snapshot-v4-50/`. The published `results/stage-b-v3/` remains v3.
+`reports/dashboard-snapshot-v4-50/`. The current [public v4 aggregates](results/stage-b-v4/)
+provide original tables/intervals and three SVG figures; [the offline presentation](presentations/stage-b-v4.html)
+walks through the design, descriptive findings and limits. `results/stage-b-v3/` remains
+historical. The v4 export is prepared locally; no remote publication is implied.
 
 The separate v4 raw and analysis ZIPs passed member/checksum verification.
 Fresh-workspace offline replay reproduced four numerical files byte-for-byte and all
 report fields except recorded provenance/hash; 43 focused tests passed there. Replay
 used existing installed dependencies. It does not establish a fresh installation, model
-rerun, cross-platform replication or remote backup. V4 qualitative case review and
-extended narrative synthesis remain unproduced; optional model, context and load
-experiments remain unrun.
+rerun, cross-platform replication or remote backup. A separate exploratory v4 failure
+breakdown and six paired case notes now use the existing saved responses:
+`reports/stage-b-failure-diagnostics-v4-50/REPORT.md`. Notes are agent-authored, not
+independently adjudicated. Extended synthesis and optional model, context and load
+experiments remain unrun. The new review is separate from the immutable earlier ZIPs.
 
 AI tools helped with planning, implementation, debugging and documentation. Numerical
 claims above come from the saved verified v4 measurements.

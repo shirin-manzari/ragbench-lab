@@ -81,10 +81,36 @@ Generated assets are local; a normal checkout does not include them. Both v4 ZIP
 checksum/member verification, and numerical analysis replay passed using the installed
 environment. They exclude weights and index arrays.
 
-Earlier v1/v2/v3 records and archives remain separate. The existing [public aggregate
-bundle](results/stage-b-v3/) and local ignored `REPORT_V3.md` still describe v3.
-Check that bundle with `python3 scripts/verify_public_results.py`; its exporter remains
-specific to v3.
+The current [v4 public aggregate bundle](results/stage-b-v4/) includes condition lookup,
+original metric/contrast/stage CSVs, three SVG figures and a checksum manifest. It excludes
+question IDs, saved answers, passages and machine-specific provenance. Check it without
+installing packages or downloading models:
+
+```sh
+python3 scripts/verify_public_results.py results/stage-b-v4
+```
+
+Open [the offline presentation](presentations/stage-b-v4.html) in a browser for a short
+study walkthrough with speaker notes, original plots and printable sections. It works
+without the dashboard environment or local experiment data. The ignored local `DEMO.md`
+provides a five-minute presentation script and dashboard fallback steps.
+
+Regenerate/check the materials from the verified local inputs:
+
+```sh
+python3 scripts/export_public_results.py --study v4 --check
+python3 scripts/build_results_demo.py --check
+```
+
+Omit `--check` only when creating a new output path; both builders refuse to overwrite
+existing outputs. The exporter needs the ignored original analysis, figures and proof;
+the presentation builder needs only the public bundle. Aggregate checks do not re-audit
+raw records or recompute confidence intervals.
+
+Earlier v1/v2/v3 records and archives remain separate. The [historical public
+bundle](results/stage-b-v3/) and local ignored `REPORT_V3.md` describe v3. For compatibility,
+`python3 scripts/verify_public_results.py` with no path still checks v3; the exporter
+also retains its historical v3 default. Use the explicit v4 commands above.
 
 ## Interpretation
 
