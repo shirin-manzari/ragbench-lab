@@ -115,6 +115,28 @@ def source_snapshot(root: Path, revision: str) -> tuple[list[tuple[str, bytes]],
     return files, digest(fingerprint)
 
 
+def local_source_snapshot(root: Path, directory: str, revision: str,
+                          expected: str) -> tuple[list[tuple[str, bytes]], str]:
+    """Archive only fingerprinted measurement inputs from an explicit saved tree."""
+    if (not re.fullmatch(r"[0-9a-f]{40}", revision)
+            or not re.fullmatch(r"[0-9a-f]{64}", expected)):
+        raise DataError("local source snapshot requires full revision and fingerprint")
+    saved = scoped_path(root, directory)
+    paths = sorted([*saved.joinpath("src/ragbench_lab").rglob("*.py"),
+                    *saved.joinpath("configs").glob("*.toml"),
+                    saved / "pyproject.toml", saved / "requirements.lock"])
+    files, fingerprint = [], {}
+    for path in paths:
+        scoped_path(root, str(path.relative_to(root)))
+        name = str(path.relative_to(saved))
+        data = path.read_bytes()
+        fingerprint[name] = hashlib.sha256(data).hexdigest()
+        files.append((f"source/{revision}/local-{expected}/{name}", data))
+    if digest(fingerprint) != expected:
+        raise DataError("saved local source does not match recorded measurement fingerprint")
+    return files, expected
+
+
 def verify_archive(path: Path) -> dict:
     with zipfile.ZipFile(path) as archive:
         names = archive.namelist()
@@ -182,9 +204,9 @@ def archive_study(config, specification: Path, output: Path, root: Path = Path("
     gate = baseline_gate(scoped_path(root, spec["baseline_validation"]), baseline["identity"])
     if gate != baseline["identity"]["validation_manifest_sha256"]:
         raise DataError("baseline validation linkage changed")
-    if (baseline["identity"]["plan"]["main_requests"] != 600
-            or audits["baselines"]["planned_slots"] != 600):
-        raise DataError("baseline workload must contain 600 slots")
+    if (baseline["identity"]["plan"]["main_requests"] != plan["requests"]
+            or audits["baselines"]["planned_slots"] != plan["requests"]):
+        raise DataError("baseline workload differs from its frozen plan")
     for orders in baseline["identity"]["plan"]["question_orders"].values():
         if {d: sorted(ids) for d, ids in orders.items()} != evaluation_question_ids(study):
             raise DataError("baseline/main question pairing differs")
@@ -214,12 +236,22 @@ def archive_study(config, specification: Path, output: Path, root: Path = Path("
     source_files = []
     for report in audits.values():
         revision = report["provenance"]["git_revision"]
-        if revision not in snapshots:
-            snapshot, fingerprint = source_snapshot(root, revision)
-            snapshots[revision] = fingerprint
+        expected = report["provenance"]["source_tree_sha256"]
+        overlays = [s for s in spec.get("local_source_snapshots", [])
+                    if s["git_revision"] == revision and s["source_tree_sha256"] == expected]
+        if len(overlays) > 1:
+            raise DataError("duplicate local source snapshot declaration")
+        key = f"{revision}/local-{expected}" if overlays else revision
+        if key not in snapshots:
+            if overlays:
+                snapshot, fingerprint = local_source_snapshot(
+                    root, overlays[0]["directory"], revision, expected)
+            else:
+                snapshot, fingerprint = source_snapshot(root, revision)
+            snapshots[key] = fingerprint
             source_files.extend(snapshot)
-        if snapshots[revision] != report["provenance"]["source_tree_sha256"]:
-            raise DataError("Git source snapshot does not reproduce recorded source fingerprint")
+        if snapshots[key] != expected:
+            raise DataError("source snapshot does not reproduce recorded source fingerprint")
     inventory = []
     output.parent.mkdir(parents=True, exist_ok=True)
     # Exclusive output creation. Any interrupted/failed export is kept for explicit review.

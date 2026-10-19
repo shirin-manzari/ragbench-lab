@@ -1,0 +1,26 @@
+{
+  "version": "offline_vectors_v1",
+  "figures": [
+    "quality_latency",
+    "evidence_quality",
+    "quality_latency_baselines",
+    "stage_times_main",
+    "stage_times_baselines",
+    "retrieval_evidence"
+  ],
+  "quality": "repetition 1; 50 questions per dataset; source-cluster intervals from independently verified paired report",
+  "timing": "all three repetitions; means of disjoint online stages; nonnegative measured remainder shown as unattributed online; reject overlapping or invalid timers",
+  "excluded_from_online": [
+    "offline setup",
+    "model isolation/preload",
+    "post-request scoring"
+  ],
+  "evidence": "repetition 1; post-reranking coverage at 5/10/50 and actual packed offsets; descriptive means without intervals",
+  "separation": "historical v1/v2/v3 excluded; baseline/main plots separate; different online paths must not be pooled",
+  "formats": [
+    "svg",
+    "pdf"
+  ],
+  "validation": "python -m unittest discover -s tests -p 'test_figures.py' -v; verify raw hash chains, proof file hashes, every observation record identity, and stage reconstruction before export",
+  "command": "python -m ragbench_lab stage-b-figures --report-dir reports/stage-b-analysis-v4-50 --proof artifacts/stage-b-analysis-verification-v4-50.json --main-run runs/stage-b-evaluation-v4-50 --baseline-run runs/baseline-evaluation-v4-50 --protocol configs/figure-protocol-v4-50.json --output NEW_DIRECTORY"
+}
