@@ -47,10 +47,10 @@ def baseline_plan(config, study: dict, main_manifest: dict, records_sha256: str)
     validate_study(config, study)
     identity = main_manifest["identity"]
     expected = execution_plan(config, study)
-    if (study["question_count_per_dataset"] != 25 or "reduced_sample" not in study
+    if (study["question_count_per_dataset"] not in (25, 50)
             or identity["mode"] != "evaluation"
             or identity["study_sha256"] != study["manifest_sha256"]
-            or identity["plan"]["main_requests"] != 3600
+            or identity["plan"]["main_requests"] != expected["main_requests"]
             or any(identity["plan"][k] != expected[k]
                    for k in ("conditions", "blocks", "question_orders"))
             or identity["config_sha256"] != config.sha256()
@@ -58,7 +58,7 @@ def baseline_plan(config, study: dict, main_manifest: dict, records_sha256: str)
             or identity["cache_policy"] != study["cache_policy"]
             or identity["reference_tokenizer"] != study["selection"]["tokenizer"]
             or identity["sources"] != study["selection"]["sources"]):
-        raise DataError("baseline plan requires the completed reduced parent study")
+        raise DataError("baseline plan requires the matching completed parent study")
     if not re.fullmatch(r"[0-9a-f]{64}", records_sha256):
         raise DataError("pin parent main records by SHA-256")
     plan = {"kind": "frozen_stage_b_baseline_plan", "schema_version": 1,
@@ -66,13 +66,16 @@ def baseline_plan(config, study: dict, main_manifest: dict, records_sha256: str)
         "main_run_id": main_manifest["run_id"],
         "main_manifest_sha256": main_manifest["manifest_sha256"],
         "main_records_sha256": records_sha256,
-        "question_ids": evaluation_question_ids(study), "question_count_per_dataset": 25,
-        "conditions": 8, "blocks": 24, "requests": 600, "rules": BASELINE_RULES}
+        "question_ids": evaluation_question_ids(study),
+        "question_count_per_dataset": study["question_count_per_dataset"],
+        "conditions": 8, "blocks": 24,
+        "requests": 24 * study["question_count_per_dataset"], "rules": BASELINE_RULES}
     plan["manifest_sha256"] = digest(plan)
     return plan
 
 
 def verify_main(config, study: dict, output: Path) -> tuple[dict, str]:
+    validate_study(config, study)
     if (output / ".writer.lock").exists():
         raise DataError("main run must be stopped before baselines")
     manifest = verified_manifest(output / "manifest.json")
@@ -82,8 +85,9 @@ def verify_main(config, study: dict, output: Path) -> tuple[dict, str]:
         request_checks(row, manifest["identity"], contexts, candidates)
     summary = completion(rows, manifest["identity"])
     if (summary["status"] != "complete" or summary["failed_attempts"]
-            or summary["setup_failures"] or summary["successful_requests"] != 3600):
-        raise DataError("complete failure-free reduced main matrix required")
+            or summary["setup_failures"]
+            or summary["successful_requests"] != study["main_requests"]):
+        raise DataError("complete failure-free main matrix required")
     sha = file_sha256(output / "records.jsonl")
     baseline_plan(config, study, manifest, sha)
     return manifest, sha
@@ -105,7 +109,7 @@ def baseline_inputs(kind, question, reference, budget) -> dict:
 def baseline_identity(config, study: dict, plan: dict, prepared: dict,
                       assets: Path, tokenizer_path: Path, mode: str) -> dict:
     validate_study(config, study)
-    if (study["question_count_per_dataset"] != 25 or "reduced_sample" not in study
+    if (study["question_count_per_dataset"] not in (25, 50)
             or plan.get("kind") != "frozen_stage_b_baseline_plan"
             or type(plan.get("schema_version")) is not int or plan["schema_version"] != 1
             or digest({k: v for k, v in plan.items() if k != "manifest_sha256"})
@@ -113,7 +117,10 @@ def baseline_identity(config, study: dict, plan: dict, prepared: dict,
             or plan.get("study_sha256") != study["manifest_sha256"]
             or plan.get("config_sha256") != config.sha256()
             or plan.get("question_ids") != evaluation_question_ids(study)
-            or (plan.get("conditions"), plan.get("blocks"), plan.get("requests")) != (8, 24, 600)):
+            or type(plan.get("question_count_per_dataset")) is not int
+            or plan["question_count_per_dataset"] != study["question_count_per_dataset"]
+            or (plan.get("conditions"), plan.get("blocks"), plan.get("requests"))
+                != (8, 24, 24 * study["question_count_per_dataset"])):
         raise DataError("baseline plan hash, scope or controls mismatch")
     if mode not in {"diagnostic", "evaluation"}:
         raise DataError("unsupported baseline mode")
@@ -170,9 +177,9 @@ def baseline_identity(config, study: dict, plan: dict, prepared: dict,
         "provenance": implementation_identity(),
         "execution_environment": study["execution_environment"],
         "plan": {"conditions": conditions, "blocks": blocks, "question_orders": orders,
-            "main_requests": 24 if mode == "diagnostic" else 600,
+            "main_requests": 24 if mode == "diagnostic" else plan["requests"],
             "quality_repetition": 1, "independent_questions_per_dataset": 1
-                if mode == "diagnostic" else 25}}
+                if mode == "diagnostic" else study["question_count_per_dataset"]}}
 
 
 def baseline_checks(row: dict, identity: dict, contexts: dict, candidates: dict) -> None:

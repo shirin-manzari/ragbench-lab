@@ -90,7 +90,8 @@ def factorials(_work: Path) -> dict:
     require(len({c.condition_id for c in conditions}) == 60, "duplicate Stage A conditions")
     totals = {}
     for name, expected in (("stage-b-study-v1.json", 14400), ("stage-b-study-v2.json", 14400),
-                           ("stage-b-study-v3-reduced.json", 3600)):
+                           ("stage-b-study-v3-reduced.json", 3600),
+                           ("stage-b-study-v4-50.json", 7200)):
         path = ROOT / "manifests" / name
         plan = plan_study(config, path)
         require(plan == plan_study(config, path), "non-deterministic Stage B plan")

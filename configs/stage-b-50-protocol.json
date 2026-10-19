@@ -1,0 +1,223 @@
+{
+  "schema_version": 1,
+  "version": "stage_b_50_expansion_v1",
+  "decision_date": "2026-10-17",
+  "status": "done: v4 main and separate baselines complete; raw archive, paired analysis, figures and dashboard snapshot independently verified",
+  "study": "manifests/stage-b-study-v4-50.json",
+  "parent_study": "manifests/stage-b-study-v3-reduced.json",
+  "source_config": "configs/stage-a-study.toml",
+  "scope": "Stage B sample expansion only; Stage A selection, data pools, twelve pipelines, both generators, three repetitions and all prompt/token/cache controls remain fixed",
+  "sampling": {
+    "questions_per_dataset": 50,
+    "pool": "existing frozen 100 evaluation IDs per dataset",
+    "rule": "sort IDs by digest(['stage-b-reduced-25-v1', seed, dataset, question_id]); take 50 and store sorted selected IDs",
+    "nesting": "includes all 25 v3 IDs plus the next 25 hash-ranked IDs per dataset",
+    "selection_inputs": "IDs, frozen seed and dataset only; never scores, latency, failures or source diversity",
+    "interpretation": "post-results expansion of an already used evaluation pool; not independent untouched confirmatory data; assess source dependence without reselecting IDs"
+  },
+  "main": {
+    "conditions": 48,
+    "blocks": 144,
+    "requests": 7200,
+    "requests_per_condition": 150
+  },
+  "baselines": {
+    "conditions": 8,
+    "blocks": 24,
+    "requests": 1200,
+    "kinds": [
+      "no_rag",
+      "gold"
+    ],
+    "same_question_ids": true,
+    "plan_status": "frozen against verified complete 7200-request v4 main parent",
+    "plan": "manifests/stage-b-baselines-v4-50.json",
+    "manifest_sha256": "68782afb9fa238f73cec78183f3f31c75c53be4cac7a6415cc99b4bd00ee8525"
+  },
+  "held_out_total": 8400,
+  "additional_development_requests": {
+    "main": 144,
+    "baselines": 24
+  },
+  "reuse_policy": "all measurements fresh; no import or aggregate pooling from v1/v2/v3; reuse only verified immutable corpus/model/index assets",
+  "compute_gate": "a new matching failure-free 144-request development diagnostic precedes main evaluation; each launch has an explicit max-requests bound; no inherited historical time allowance",
+  "baseline_gate": "separate compatible failure-free 24-request development diagnostic after completed v4 main parent; no inherited main or v3 validation",
+  "operational_controls": [
+    "stop the local dashboard before timed requests",
+    "dedicated pinned loopback backend with one resident model",
+    "stop at first failure; preserve failed attempts",
+    "no automatic retries or follow-on sessions",
+    "new paths and source/environment identity; never resume v3 as v4"
+  ],
+  "commands": {
+    "prepare": "python3 scripts/prepare_stage_b_50.py",
+    "plan": "PYTHONPATH=src .venv/bin/python -m ragbench_lab stage-b-plan configs/stage-a-study.toml --study manifests/stage-b-study-v4-50.json --output artifacts/stage-b-plan-v4-50.json",
+    "checkout": "python3 -I -S -B scripts/verify_checkout.py --json",
+    "focused": "PYTHONPATH=src .venv/bin/python -m unittest discover -s tests -p 'test_stage_b*.py' -v",
+    "baselines": "PYTHONPATH=src .venv/bin/python -m unittest discover -s tests -p test_baseline_runner.py -v",
+    "development_gate": "TOKENIZERS_PARALLELISM=false PYTHONPATH=src .venv/bin/python -m ragbench_lab stage-b-run configs/stage-a-study.toml --study manifests/stage-b-study-v4-50.json --squad-dir data/prepared/squad-study-v1 --hotpot-dir data/prepared/hotpot-study-v1 --assets models/stage-b-corrected-v2 --index-root indexes/stage-a-study-v1 --output runs/phase7-validation-v4-50 --server-pid DEDICATED_SERVER_PID --mode diagnostic --question-limit 1 --max-requests 144",
+    "dedicated_backend": "OLLAMA_HOST=127.0.0.1:11436 OLLAMA_MODELS=models/phase5-validation-v5/ollama OLLAMA_NUM_PARALLEL=1 OLLAMA_MAX_LOADED_MODELS=1 /opt/homebrew/bin/ollama serve"
+  },
+  "critical_invariants": [
+    "7,200 unique main slots; 3,600 paired generator keys",
+    "1,200 separate baseline slots; 600 paired generator keys",
+    "100 distinct question IDs across datasets, with source dependence assessed separately",
+    "same 50 IDs in every model/pipeline/repetition and baseline",
+    "changed seed/manual IDs/count/version rejected even after rehashing",
+    "legacy 25/100 plans preserved; source/index/prompt settings unchanged",
+    "old run and development gate identities cannot authorize v4 resume/evaluation",
+    "historical archives/public export/dashboard snapshot remain immutable; new archive/analysis protocol and report paths required before delivery"
+  ],
+  "historical_projection": {
+    "artifact": "artifacts/stage-b-50-preflight-v1.json",
+    "main_hours": 12.624601819085402,
+    "baseline_hours": 0.6790740728127853,
+    "development_gate_hours": 0.6150841286466943,
+    "status": "historical estimate only; fresh development gate must confirm runtime before main sessions",
+    "source_clusters": {
+      "squad": 14,
+      "hotpot_qa": 50
+    }
+  },
+  "next_proposed_session": {
+    "mode": "diagnostic",
+    "max_requests": 144,
+    "question_limit_per_dataset": 1,
+    "output": "runs/phase7-validation-v4-50",
+    "approval_status": "user approved on 2026-10-17; diagnostic only",
+    "automatic_held_out_follow_on": false,
+    "automatic_retries": false,
+    "wall_timeout_seconds": 5400
+  },
+  "development_gate_result": {
+    "run": "runs/phase7-validation-v4-50",
+    "summary": "artifacts/stage-b-validation-v4-50/verified-summary.json",
+    "successful_requests": 144,
+    "failed_attempts": 0,
+    "setup_failures": 0,
+    "manifest_sha256": "ab81373e9f592ef7022c6b1f73ab6d0651ade28fba63e9455e1563a4e18a6131",
+    "elapsed_seconds": 2302.58,
+    "main_execution_status": "complete: 7200 successful main requests, zero request/setup failures"
+  },
+  "current_main_session": {
+    "session": 27,
+    "max_requests": 700,
+    "starting_successes": 6500,
+    "target_successes": 7200,
+    "output": "runs/stage-b-evaluation-v4-50",
+    "operations": "artifacts/stage-b-main-v4-50-session-027",
+    "authorization": "user requested final 700 main requests on 2026-10-19",
+    "automatic_next_session": false,
+    "automatic_retry": false,
+    "baseline_follow_on": false,
+    "supervisor_pid": 18001,
+    "backend_pid": 18009,
+    "worker_pid": 18012,
+    "status": "complete",
+    "successful_requests": 7200,
+    "session_attempts": 700,
+    "failed_attempts": 0,
+    "setup_failures": 0,
+    "remaining_requests": 0,
+    "checkpoint": "artifacts/stage-b-main-v4-50-session-027/verified-checkpoint-7200.json",
+    "backend_stopped": true
+  },
+  "baseline_development_session": {
+    "output": "runs/baseline-validation-v4-50",
+    "operations": "artifacts/baseline-validation-v4-50-operations",
+    "max_requests": 24,
+    "mode": "diagnostic",
+    "authorization": "user approved next step on 2026-10-19",
+    "held_out_follow_on": false,
+    "automatic_retry": false,
+    "status": "complete",
+    "supervisor_pid": 31387,
+    "backend_pid": 31408,
+    "worker_pid": 31411,
+    "backend_stopped": true
+  },
+  "baseline_development_result": {
+    "automatic_next_session": false,
+    "baseline_plan_sha256": "68782afb9fa238f73cec78183f3f31c75c53be4cac7a6415cc99b4bd00ee8525",
+    "diagnostic": true,
+    "failed_attempts": 0,
+    "held_out_follow_on": false,
+    "manifest_sha256": "207380fba62aed35fed4ba136d197cf4e848d26dd4222c8fc75ea83d81a97267",
+    "planned_requests": 24,
+    "remaining_requests": 0,
+    "run_id": "16117b1b-dc7e-4119-9a12-48316b4f3f8c",
+    "session_attempts": 24,
+    "setup_failures": 0,
+    "status": "complete",
+    "successful_requests": 24,
+    "output": "runs/baseline-validation-v4-50",
+    "summary": "artifacts/baseline-validation-v4-50-operations/verified-summary.json",
+    "mean_request_wall_seconds": 1.795841,
+    "block_setup_seconds": 45.95412875292823,
+    "projected_1200_request_minutes": 36.68272214588214,
+    "projection_status": "development estimate only; held-out contexts may differ"
+  },
+  "baseline_evaluation_session": {
+    "status": "complete",
+    "output": "runs/baseline-evaluation-v4-50",
+    "operations": "artifacts/baseline-evaluation-v4-50-operations",
+    "max_requests": 1200,
+    "mode": "evaluation",
+    "validation_run": "runs/baseline-validation-v4-50",
+    "validation_manifest_sha256": "207380fba62aed35fed4ba136d197cf4e848d26dd4222c8fc75ea83d81a97267",
+    "authorization": "user requested go next on 2026-10-19 after proposal of 1200 baselines",
+    "wall_timeout_seconds": 5400,
+    "supervisor_pid": 32114,
+    "backend_pid": 32126,
+    "worker_pid": 32129,
+    "automatic_next_session": false,
+    "automatic_retry": false,
+    "backend_stopped": true
+  },
+  "baseline_evaluation_result": {
+    "automatic_next_session": false,
+    "baseline_plan_sha256": "68782afb9fa238f73cec78183f3f31c75c53be4cac7a6415cc99b4bd00ee8525",
+    "diagnostic": false,
+    "failed_attempts": 0,
+    "held_out_follow_on": false,
+    "manifest_sha256": "d8e80942498d31c3858b194f786d15eec231a0c5733497269c06552e9538fc51",
+    "planned_requests": 1200,
+    "remaining_requests": 0,
+    "run_id": "9f935b7e-70b8-4a2f-a106-d77e4d2f9614",
+    "session_attempts": 1200,
+    "setup_failures": 0,
+    "status": "complete",
+    "successful_requests": 1200,
+    "validation_manifest_sha256": "207380fba62aed35fed4ba136d197cf4e848d26dd4222c8fc75ea83d81a97267",
+    "summary": "artifacts/baseline-evaluation-v4-50-operations/verified-summary.json",
+    "elapsed_seconds": 2346.686443
+  },
+  "offline_delivery": {
+    "raw_archive": "artifacts/archives/ragbench-core-v4-50.zip",
+    "raw_proof": "artifacts/archive-verification-v4-50.json",
+    "analysis": "reports/stage-b-analysis-v4-50",
+    "analysis_proof": "artifacts/stage-b-analysis-verification-v4-50.json",
+    "figures": "reports/stage-b-figures-v4-50",
+    "figure_proof": "artifacts/stage-b-figures-verification-v4-50.json",
+    "snapshot": "reports/dashboard-snapshot-v4-50",
+    "snapshot_proof": "artifacts/dashboard-snapshot-verification-v4-50.json",
+    "analysis_package": "artifacts/archives/ragbench-analysis-v4-50.zip",
+    "package_proof": "artifacts/analysis-package-independent-verification-v4-50.json",
+    "replay_proof": "artifacts/analysis-replay-verification-v4-50.json",
+    "historical_aggregate_pooling": false,
+    "additional_model_requests": 0,
+    "limitations": [
+      "post-results nested sample expansion",
+      "14 SQuAD source clusters and 50 Hotpot components",
+      "existing installed environment used for replay; no fresh install or model replication",
+      "v4 qualitative failure review and narrative synthesis not produced"
+    ]
+  },
+  "dashboard_viewer": {
+    "pid": 42814,
+    "url": "http://127.0.0.1:8050",
+    "snapshot": "reports/dashboard-snapshot-v4-50",
+    "http_checks": "page, Dash layout and dependencies returned 200",
+    "timed_writers_active": false
+  }
+}
