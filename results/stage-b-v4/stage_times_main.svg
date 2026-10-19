@@ -1,0 +1,618 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 920">
+<desc>Report 216853d86240bc842f175d6e9df8cdd6249ca4766cf27db0e1bd48dd78ec8ad2; stage_times_main</desc>
+<rect width="100%" height="100%" fill="white"/>
+<text x="25" y="32" font-family="Helvetica,Arial,sans-serif" font-size="24" fill="#222222">stage times main</text>
+<text x="25" y="58" font-family="Helvetica,Arial,sans-serif" font-size="14" fill="#222222">25 questions/cell; quality/evidence: repetition 1; latency: all 75 measurements.</text>
+<text x="25" y="80" font-family="Helvetica,Arial,sans-serif" font-size="14" fill="#222222">Intervals: descriptive, unadjusted 95% source-cluster bootstrap; no winner selection.</text>
+<text x="100" y="126" font-family="Helvetica,Arial,sans-serif" font-size="18" fill="#222222">squad / llama</text>
+<line x1="100.0" y1="150" x2="100.0" y2="390" stroke="#BBBBBB"/>
+<text x="92.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">0.0</text>
+<line x1="189.0" y1="150" x2="189.0" y2="390" stroke="#BBBBBB"/>
+<text x="181.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">1.4</text>
+<line x1="278.0" y1="150" x2="278.0" y2="390" stroke="#BBBBBB"/>
+<text x="270.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">2.9</text>
+<line x1="367.0" y1="150" x2="367.0" y2="390" stroke="#BBBBBB"/>
+<text x="359.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">4.3</text>
+<line x1="456.0" y1="150" x2="456.0" y2="390" stroke="#BBBBBB"/>
+<text x="448.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">5.7</text>
+<line x1="545.0" y1="150" x2="545.0" y2="390" stroke="#BBBBBB"/>
+<text x="537.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">7.1</text>
+<line x1="100" y1="150" x2="100" y2="390" stroke="#222222"/>
+<line x1="100" y1="390" x2="545" y2="390" stroke="#222222"/>
+<text x="100" y="433" font-family="Helvetica,Arial,sans-serif" font-size="14" fill="#222222">Mean online seconds</text>
+<text x="35" y="165.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">B128+</text>
+<rect x="100" y="154.0" width="0.0" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="100.0" y="154.0" width="0.2681665113049442" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="100.26816651130494" y="154.0" width="0.0" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="100.26816651130494" y="154.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="100.26816651130494" y="154.0" width="26.399475069466266" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="126.6676415807712" y="154.0" width="12.017536313388137" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="138.68517789415935" y="154.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="138.68517789415935" y="154.0" width="278.0644456303475" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="416.7496235245069" y="154.0" width="0.1138023083163326" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="407.5232488105183" y1="160.6" x2="425.35310637755947" y2="160.6" stroke="#000000"/>
+<text x="35" y="185.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">B128-</text>
+<rect x="100" y="174.0" width="0.0" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="100.0" y="174.0" width="0.2733298283293663" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="100.27332982832937" y="174.0" width="0.0" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="100.27332982832937" y="174.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="100.27332982832937" y="174.0" width="0.0008679434168538837" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="100.27419777174622" y="174.0" width="13.07959309204774" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="113.35379086379396" y="174.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="113.35379086379396" y="174.0" width="278.72395739587097" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="392.07774825966493" y="174.0" width="0.13374503838656293" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="384.03761023473993" y1="180.6" x2="399.93839810726627" y2="180.6" stroke="#000000"/>
+<text x="35" y="205.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">B256+</text>
+<rect x="100" y="194.0" width="0.0" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="100.0" y="194.0" width="0.18370602159709312" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="100.18370602159709" y="194.0" width="0.0" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="100.18370602159709" y="194.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="100.18370602159709" y="194.0" width="62.55785810545118" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="162.74156412704826" y="194.0" width="13.548488283504383" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="176.29005241055265" y="194.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="176.29005241055265" y="194.0" width="288.7316475933218" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="465.02170000387446" y="194.0" width="0.14228330940847736" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="458.30813385689976" y1="200.6" x2="471.32357055859813" y2="200.6" stroke="#000000"/>
+<text x="35" y="225.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">B256-</text>
+<rect x="100" y="214.0" width="0.0" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="100.0" y="214.0" width="0.15997804669398655" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="100.159978046694" y="214.0" width="0.0" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="100.159978046694" y="214.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="100.159978046694" y="214.0" width="0.0012778185218558177" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="100.16125586521585" y="214.0" width="13.58053010778924" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="113.7417859730051" y="214.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="113.7417859730051" y="214.0" width="274.6742854358503" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="388.41607140885543" y="214.0" width="0.13487713694625716" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="381.79884293834624" y1="220.6" x2="395.2777285018993" y2="220.6" stroke="#000000"/>
+<text x="35" y="245.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">D128+</text>
+<rect x="100" y="234.0" width="1.4849248536798896" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="101.48492485367989" y="234.0" width="0.0" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="101.48492485367989" y="234.0" width="0.04980017156254722" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="101.53472502524244" y="234.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="101.53472502524244" y="234.0" width="26.626072972732636" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="128.16079799797507" y="234.0" width="12.222945112229525" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="140.3837431102046" y="234.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="140.3837431102046" y="234.0" width="285.6272883228403" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="426.0110314330449" y="234.0" width="0.08449899078562571" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="417.317317945215" y1="240.6" x2="434.655687550017" y2="240.6" stroke="#000000"/>
+<text x="35" y="265.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">D128-</text>
+<rect x="100" y="254.0" width="4.715748645670923" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="104.71574864567093" y="254.0" width="0.0" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="104.71574864567093" y="254.0" width="0.2975837929418555" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="105.01333243861278" y="254.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="105.01333243861278" y="254.0" width="0.001412230733819548" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="105.0147446693466" y="254.0" width="11.84773610904573" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="116.86248077839232" y="254.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="116.86248077839232" y="254.0" width="301.0503526900597" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="417.91283346845205" y="254.0" width="0.20438343207357362" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="396.66731575524784" y1="260.6" x2="437.3328326983407" y2="260.6" stroke="#000000"/>
+<text x="35" y="285.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">D256+</text>
+<rect x="100" y="274.0" width="1.5600030009359878" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="101.56000300093599" y="274.0" width="0.0" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="101.56000300093599" y="274.0" width="0.03868769322210722" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="101.5986906941581" y="274.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="101.5986906941581" y="274.0" width="61.05595596844256" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="162.65464666260067" y="274.0" width="14.422628741991783" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="177.07727540459246" y="274.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="177.07727540459246" y="274.0" width="289.5931782288745" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="466.67045363346693" y="274.0" width="0.08234796329991702" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="458.66031818472146" y1="280.6" x2="475.13908874852956" y2="280.6" stroke="#000000"/>
+<text x="35" y="305.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">D256-</text>
+<rect x="100" y="294.0" width="1.2903918108189536" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="101.29039181081896" y="294.0" width="0.0" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="101.29039181081896" y="294.0" width="0.0355958539386477" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="101.3259876647576" y="294.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="101.3259876647576" y="294.0" width="0.0006514148442743821" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="101.32663907960188" y="294.0" width="14.64162541037715" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="115.96826448997902" y="294.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="115.96826448997902" y="294.0" width="287.2464163462051" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="403.21468083618413" y="294.0" width="0.08342690869446276" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="396.82410052368283" y1="300.6" x2="410.62057792786305" y2="300.6" stroke="#000000"/>
+<text x="35" y="325.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">H128+</text>
+<rect x="100" y="314.0" width="1.3101202812836577" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="101.31012028128366" y="314.0" width="0.1866960978098936" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="101.49681637909356" y="314.0" width="0.04906158226433072" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="101.54587796135789" y="314.0" width="0.011715649869451021" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="101.55759361122733" y="314.0" width="25.394563986996886" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="126.95215759822422" y="314.0" width="12.136920247346136" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="139.08907784557036" y="314.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="139.08907784557036" y="314.0" width="267.005229814078" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="406.0943076596484" y="314.0" width="0.08794808059218207" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="396.925931191368" y1="320.6" x2="413.30276315403364" y2="320.6" stroke="#000000"/>
+<text x="35" y="345.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">H128-</text>
+<rect x="100" y="334.0" width="1.2480062302225523" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="101.24800623022256" y="334.0" width="0.20146766044078304" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="101.44947389066334" y="334.0" width="0.04308329430743159" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="101.49255718497078" y="334.0" width="0.007016965359029198" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="101.4995741503298" y="334.0" width="0.0004976953038882083" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="101.5000718456337" y="334.0" width="11.95752722062165" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="113.45759906625534" y="334.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="113.45759906625534" y="334.0" width="268.3745222791029" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="381.83212134535825" y="334.0" width="0.10816564940311743" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="373.5567362272677" y1="340.6" x2="391.7600899702538" y2="340.6" stroke="#000000"/>
+<text x="35" y="365.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">H256+</text>
+<rect x="100" y="354.0" width="1.175402540943156" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="101.17540254094315" y="354.0" width="0.11253801833987137" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="101.28794055928303" y="354.0" width="0.03022025763192568" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="101.31816081691495" y="354.0" width="0.006125522597147645" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="101.3242863395121" y="354.0" width="61.72640686701921" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="163.05069320653132" y="354.0" width="13.81557589080869" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="176.86626909734002" y="354.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="176.86626909734002" y="354.0" width="282.1626543102898" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="459.0289234076298" y="354.0" width="0.09851847575646261" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="450.80872242045183" y1="360.6" x2="467.9131163085405" y2="360.6" stroke="#000000"/>
+<text x="35" y="385.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">H256-</text>
+<rect x="100" y="374.0" width="1.4639204480434627" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="101.46392044804347" y="374.0" width="0.11660927008630202" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="101.58052971812977" y="374.0" width="0.029649681214278" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="101.61017939934405" y="374.0" width="0.007609200811551777" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="101.6177886001556" y="374.0" width="0.00048379726341085856" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="101.61827239741902" y="374.0" width="14.138640876704567" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="115.75691327412359" y="374.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="115.75691327412359" y="374.0" width="291.9305102346052" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="407.6874235087288" y="374.0" width="0.11356520261488115" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="399.7004740912242" y1="380.6" x2="416.9925518680253" y2="380.6" stroke="#000000"/>
+<text x="695" y="126" font-family="Helvetica,Arial,sans-serif" font-size="18" fill="#222222">squad / qwen</text>
+<line x1="695.0" y1="150" x2="695.0" y2="390" stroke="#BBBBBB"/>
+<text x="687.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">0.0</text>
+<line x1="784.0" y1="150" x2="784.0" y2="390" stroke="#BBBBBB"/>
+<text x="776.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">1.4</text>
+<line x1="873.0" y1="150" x2="873.0" y2="390" stroke="#BBBBBB"/>
+<text x="865.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">2.9</text>
+<line x1="962.0" y1="150" x2="962.0" y2="390" stroke="#BBBBBB"/>
+<text x="954.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">4.3</text>
+<line x1="1051.0" y1="150" x2="1051.0" y2="390" stroke="#BBBBBB"/>
+<text x="1043.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">5.7</text>
+<line x1="1140.0" y1="150" x2="1140.0" y2="390" stroke="#BBBBBB"/>
+<text x="1132.0" y="410" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">7.1</text>
+<line x1="695" y1="150" x2="695" y2="390" stroke="#222222"/>
+<line x1="695" y1="390" x2="1140" y2="390" stroke="#222222"/>
+<text x="695" y="433" font-family="Helvetica,Arial,sans-serif" font-size="14" fill="#222222">Mean online seconds</text>
+<text x="630" y="165.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">B128+</text>
+<rect x="695" y="154.0" width="0.0" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="695.0" y="154.0" width="0.3430959053211792" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="695.3430959053212" y="154.0" width="0.0" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="695.3430959053212" y="154.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="695.3430959053212" y="154.0" width="27.641367386847936" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="722.9844632921692" y="154.0" width="11.357983390460067" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="734.3424466826292" y="154.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="734.3424466826292" y="154.0" width="316.8865058015613" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1051.2289524841906" y="154.0" width="0.11570723735908856" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1040.4772801822594" y1="160.6" x2="1060.861082538037" y2="160.6" stroke="#000000"/>
+<text x="630" y="185.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">B128-</text>
+<rect x="695" y="174.0" width="0.0" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="695.0" y="174.0" width="0.3657030578004958" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="695.3657030578005" y="174.0" width="0.0" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="695.3657030578005" y="174.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="695.3657030578005" y="174.0" width="0.0012960834016249563" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="695.3669991412021" y="174.0" width="13.870149614079901" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="709.237148755282" y="174.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="709.237148755282" y="174.0" width="302.2602088240082" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1011.4973575792901" y="174.0" width="0.4044138262616395" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1000.4515802693703" y1="180.6" x2="1024.2828487188056" y2="180.6" stroke="#000000"/>
+<text x="630" y="205.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">B256+</text>
+<rect x="695" y="194.0" width="0.0" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="695.0" y="194.0" width="0.23696145419250825" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="695.2369614541925" y="194.0" width="0.0" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="695.2369614541925" y="194.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="695.2369614541925" y="194.0" width="63.74301519288165" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="758.9799766470742" y="194.0" width="12.51498806196851" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="771.4949647090427" y="194.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="771.4949647090427" y="194.0" width="296.232387064755" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1067.7273517737976" y="194.0" width="0.15657352263246532" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1056.374887847342" y1="200.6" x2="1077.8439139522254" y2="200.6" stroke="#000000"/>
+<text x="630" y="225.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">B256-</text>
+<rect x="695" y="214.0" width="0.0" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="695.0" y="214.0" width="0.2120513225216024" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="695.2120513225216" y="214.0" width="0.0" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="695.2120513225216" y="214.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="695.2120513225216" y="214.0" width="0.0010415691659263588" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="695.2130928916876" y="214.0" width="14.729533053044037" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="709.9426259447316" y="214.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="709.9426259447316" y="214.0" width="321.0449222809987" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1030.9875482257303" y="214.0" width="0.41566574721460386" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1015.5968425996159" y1="220.6" x2="1045.9875218970788" y2="220.6" stroke="#000000"/>
+<text x="630" y="245.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">D128+</text>
+<rect x="695" y="234.0" width="1.3915429936510015" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="696.391542993651" y="234.0" width="0.0" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="696.391542993651" y="234.0" width="0.05099036533253578" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="696.4425333589835" y="234.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="696.4425333589835" y="234.0" width="27.471929254329442" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="723.9144626133129" y="234.0" width="11.350692935123897" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="735.2651555484368" y="234.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="735.2651555484368" y="234.0" width="307.62109623513345" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1042.8862517835703" y="234.0" width="0.09264093306425751" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1032.392275481561" y1="240.6" x2="1052.073625539234" y2="240.6" stroke="#000000"/>
+<text x="630" y="265.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">D128-</text>
+<rect x="695" y="254.0" width="1.4010338993934506" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="696.4010338993935" y="254.0" width="0.0" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="696.4010338993935" y="254.0" width="0.04798939337204717" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="696.4490232927656" y="254.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="696.4490232927656" y="254.0" width="0.0008741138685425807" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="696.4498974066341" y="254.0" width="12.685035743437236" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="709.1349331500713" y="254.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="709.1349331500713" y="254.0" width="311.6472806965784" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1020.7822138466497" y="254.0" width="0.09133858736972635" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1009.5610909729396" y1="260.6" x2="1031.7477660818774" y2="260.6" stroke="#000000"/>
+<text x="630" y="285.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">D256+</text>
+<rect x="695" y="274.0" width="1.3859976333320094" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="696.385997633332" y="274.0" width="0.0" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="696.385997633332" y="274.0" width="0.04369599534314076" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="696.4296936286751" y="274.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="696.4296936286751" y="274.0" width="62.22857689370998" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="758.658270522385" y="274.0" width="13.334662642787352" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="771.9929331651724" y="274.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="771.9929331651724" y="274.0" width="299.2136038099095" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1071.206536975082" y="274.0" width="0.1047935337204472" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1057.9524043295833" y1="280.6" x2="1083.6957547388063" y2="280.6" stroke="#000000"/>
+<text x="630" y="305.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">D256-</text>
+<rect x="695" y="294.0" width="1.4139370361134629" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="696.4139370361135" y="294.0" width="0.0" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="696.4139370361135" y="294.0" width="0.03975314526818253" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="696.4536901813816" y="294.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="696.4536901813816" y="294.0" width="0.0008514961895201752" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="696.4545416775711" y="294.0" width="15.639115534335598" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="712.0936572119067" y="294.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="712.0936572119067" y="294.0" width="301.2050148971263" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1013.2986721090331" y="294.0" width="0.1059510015162306" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1001.6672177584524" y1="300.6" x2="1024.6628103197274" y2="300.6" stroke="#000000"/>
+<text x="630" y="325.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">H128+</text>
+<rect x="695" y="314.0" width="1.3345665490116374" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="696.3345665490116" y="314.0" width="0.24168015258418765" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="696.5762467015958" y="314.0" width="0.0409604415964063" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="696.6172071431922" y="314.0" width="0.008028381218360844" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="696.6252355244105" y="314.0" width="27.449557288568794" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="724.0747928129794" y="314.0" width="11.720101422123243" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="735.7948942351026" y="314.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="735.7948942351026" y="314.0" width="314.107962641464" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1049.9028568765666" y="314.0" width="0.10555310876107057" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1038.9211050194863" y1="320.6" x2="1059.677852903984" y2="320.6" stroke="#000000"/>
+<text x="630" y="345.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">H128-</text>
+<rect x="695" y="334.0" width="1.3660721094742296" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="696.3660721094742" y="334.0" width="0.24095097456586217" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="696.6070230840401" y="334.0" width="0.04125144531125679" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="696.6482745293513" y="334.0" width="0.008287729100425129" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="696.6565622584517" y="334.0" width="0.0007622590602634627" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="696.6573245175119" y="334.0" width="12.696624030210753" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="709.3539485477227" y="334.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="709.3539485477227" y="334.0" width="309.4227408019317" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1018.7766893496544" y="334.0" width="0.1089568026205898" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1005.7596110972702" y1="340.6" x2="1031.9985287971776" y2="340.6" stroke="#000000"/>
+<text x="630" y="365.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">H256+</text>
+<rect x="695" y="354.0" width="1.422067824840251" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="696.4220678248403" y="354.0" width="0.15792422270380596" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="696.5799920475441" y="354.0" width="0.034455951489817546" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="696.6144479990339" y="354.0" width="0.008398506892507821" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="696.6228465059264" y="354.0" width="62.25175470946152" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="758.8746012153879" y="354.0" width="13.491211970850815" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="772.3658131862387" y="354.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="772.3658131862387" y="354.0" width="299.9365012306044" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1072.302314416843" y="354.0" width="0.12474835052094378" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1057.6257696556381" y1="360.6" x2="1085.7251420966072" y2="360.6" stroke="#000000"/>
+<text x="630" y="385.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">H256-</text>
+<rect x="695" y="374.0" width="1.4393977187498306" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="696.4393977187498" y="374.0" width="0.15382259339747564" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="696.5932203121472" y="374.0" width="0.03565347401467288" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="696.6288737861619" y="374.0" width="0.008448692768135533" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="696.6373224789301" y="374.0" width="0.0007262726986299176" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="696.6380487516287" y="374.0" width="15.31521320015495" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="711.9532619517837" y="374.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="711.9532619517837" y="374.0" width="297.72131545163813" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1009.6745774034218" y="374.0" width="0.12738806817507436" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1000.7302154047029" y1="380.6" x2="1017.0063143729367" y2="380.6" stroke="#000000"/>
+<text x="100" y="476" font-family="Helvetica,Arial,sans-serif" font-size="18" fill="#222222">hotpot_qa / llama</text>
+<line x1="100.0" y1="500" x2="100.0" y2="740" stroke="#BBBBBB"/>
+<text x="92.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">0.0</text>
+<line x1="189.0" y1="500" x2="189.0" y2="740" stroke="#BBBBBB"/>
+<text x="181.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">1.4</text>
+<line x1="278.0" y1="500" x2="278.0" y2="740" stroke="#BBBBBB"/>
+<text x="270.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">2.9</text>
+<line x1="367.0" y1="500" x2="367.0" y2="740" stroke="#BBBBBB"/>
+<text x="359.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">4.3</text>
+<line x1="456.0" y1="500" x2="456.0" y2="740" stroke="#BBBBBB"/>
+<text x="448.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">5.7</text>
+<line x1="545.0" y1="500" x2="545.0" y2="740" stroke="#BBBBBB"/>
+<text x="537.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">7.1</text>
+<line x1="100" y1="500" x2="100" y2="740" stroke="#222222"/>
+<line x1="100" y1="740" x2="545" y2="740" stroke="#222222"/>
+<text x="100" y="783" font-family="Helvetica,Arial,sans-serif" font-size="14" fill="#222222">Mean online seconds</text>
+<text x="35" y="515.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">B128+</text>
+<rect x="100" y="504.0" width="0.0" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="100.0" y="504.0" width="5.458225807991228" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="105.45822580799123" y="504.0" width="0.0" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="105.45822580799123" y="504.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="105.45822580799123" y="504.0" width="26.53782942708233" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="131.99605523507356" y="504.0" width="8.589598506097701" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="140.58565374117126" y="504.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="140.58565374117126" y="504.0" width="266.50791375772536" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="407.0935674988966" y="504.0" width="0.06851940992646283" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="400.72660379650677" y1="510.6" x2="414.2823927208216" y2="510.6" stroke="#000000"/>
+<text x="35" y="535.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">B128-</text>
+<rect x="100" y="524.0" width="0.0" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="100.0" y="524.0" width="5.627553370897521" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="105.62755337089752" y="524.0" width="0.0" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="105.62755337089752" y="524.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="105.62755337089752" y="524.0" width="0.0005327496974474398" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="105.62808612059496" y="524.0" width="7.833182406071836" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="113.4612685266668" y="524.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="113.4612685266668" y="524.0" width="281.5517578261593" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="395.0130263528261" y="524.0" width="0.06510630623947035" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="387.57776810460035" y1="530.6" x2="402.8678161910987" y2="530.6" stroke="#000000"/>
+<text x="35" y="555.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">B256+</text>
+<rect x="100" y="544.0" width="0.0" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="100.0" y="544.0" width="5.0285284880588295" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="105.02852848805883" y="544.0" width="0.0" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="105.02852848805883" y="544.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="105.02852848805883" y="544.0" width="49.3378448291135" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="154.36637331717233" y="544.0" width="11.727750892331212" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="166.09412420950355" y="544.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="166.09412420950355" y="544.0" width="271.02590479374777" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="437.1200290032513" y="544.0" width="0.07532017917134193" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="428.8875635533289" y1="550.6" x2="446.3829247058119" y2="550.6" stroke="#000000"/>
+<text x="35" y="575.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">B256-</text>
+<rect x="100" y="564.0" width="0.0" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="100.0" y="564.0" width="4.864954791904993" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="104.86495479190499" y="564.0" width="0.0" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="104.86495479190499" y="564.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="104.86495479190499" y="564.0" width="0.00046489317457755556" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="104.86541968507957" y="564.0" width="8.573689661905863" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="113.43910934698543" y="564.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="113.43910934698543" y="564.0" width="281.24599995701846" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="394.6851093040039" y="564.0" width="0.06731908084632084" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="385.81878454119396" y1="570.6" x2="404.84477446161145" y2="570.6" stroke="#000000"/>
+<text x="35" y="595.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">D128+</text>
+<rect x="100" y="584.0" width="1.2837053822922089" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="101.28370538229221" y="584.0" width="0.0" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="101.28370538229221" y="584.0" width="0.33220505465324024" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="101.61591043694546" y="584.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="101.61591043694546" y="584.0" width="28.58173552034975" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="130.1976459572952" y="584.0" width="8.307821036937982" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="138.5054669942332" y="584.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="138.5054669942332" y="584.0" width="278.53892491471635" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="417.04439190894954" y="584.0" width="0.07623875454973712" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="408.5504291965359" y1="590.6" x2="425.78654118958474" y2="590.6" stroke="#000000"/>
+<text x="35" y="615.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">D128-</text>
+<rect x="100" y="604.0" width="1.4183995557986702" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="101.41839955579867" y="604.0" width="0.0" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="101.41839955579867" y="604.0" width="0.34272149637017657" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="101.76112105216885" y="604.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="101.76112105216885" y="604.0" width="0.0010614973545350363" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="101.76218254952339" y="604.0" width="8.892722708405241" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="110.65490525792863" y="604.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="110.65490525792863" y="604.0" width="289.72636019606705" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="400.3812654539957" y="604.0" width="0.08959979090748361" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="391.1663909169156" y1="610.6" x2="410.99056315383075" y2="610.6" stroke="#000000"/>
+<text x="35" y="635.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">D256+</text>
+<rect x="100" y="624.0" width="1.4672340029675266" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="101.46723400296753" y="624.0" width="0.0" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="101.46723400296753" y="624.0" width="0.3089331388356453" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="101.77616714180317" y="624.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="101.77616714180317" y="624.0" width="54.724854608201255" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="156.50102175000444" y="624.0" width="12.45616734033294" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="168.95718909033738" y="624.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="168.95718909033738" y="624.0" width="278.9698283504518" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="447.9270174407892" y="624.0" width="0.10299703783175466" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="439.0520940942597" y1="630.6" x2="457.7839464999249" y2="630.6" stroke="#000000"/>
+<text x="35" y="655.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">D256-</text>
+<rect x="100" y="644.0" width="1.3038376455719851" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="101.30383764557199" y="644.0" width="0.0" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="101.30383764557199" y="644.0" width="0.2564043948144839" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="101.56024204038647" y="644.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="101.56024204038647" y="644.0" width="0.0005696237768269908" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="101.5608116641633" y="644.0" width="11.007070069200465" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="112.56788173336376" y="644.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="112.56788173336376" y="644.0" width="271.0240263488654" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="383.59190808222917" y="644.0" width="0.08419830423717362" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="376.9246154978403" y1="650.6" x2="390.9141771824943" y2="650.6" stroke="#000000"/>
+<text x="35" y="675.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">H128+</text>
+<rect x="100" y="664.0" width="1.2935311430018246" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="101.29353114300183" y="664.0" width="5.087667024315224" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="106.38119816731705" y="664.0" width="0.23486111226255688" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="106.6160592795796" y="664.0" width="0.0061130997289936375" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="106.6221723793086" y="664.0" width="26.78565700709604" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="133.40782938640464" y="664.0" width="8.400742227471605" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="141.80857161387624" y="664.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="141.80857161387624" y="664.0" width="267.4295452749266" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="409.2381168888029" y="664.0" width="0.0826730782082216" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="402.745924814553" y1="670.6" x2="416.51106107344725" y2="670.6" stroke="#000000"/>
+<text x="35" y="695.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">H128-</text>
+<rect x="100" y="684.0" width="3.8637598214092956" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="103.86375982140929" y="684.0" width="6.23731634960807" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="110.10107617101735" y="684.0" width="2.5606146728025796" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="112.66169084381994" y="684.0" width="0.009625715093847225" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="112.67131655891379" y="684.0" width="0.0004186274229469982" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="112.67173518633673" y="684.0" width="8.408942076097807" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="121.08067726243453" y="684.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="121.08067726243453" y="684.0" width="275.8912398490093" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="396.9719171114439" y="684.0" width="0.7617896766488403" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="388.47120922498885" y1="690.6" x2="407.7820858911682" y2="690.6" stroke="#000000"/>
+<text x="35" y="715.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">H256+</text>
+<rect x="100" y="704.0" width="1.3924909237966967" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="101.3924909237967" y="704.0" width="4.197143162379026" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="105.58963408617572" y="704.0" width="0.18183442539710395" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="105.77146851157282" y="704.0" width="0.005947825236903754" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="105.77741633680972" y="704.0" width="51.75174493253244" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="157.52916126934215" y="704.0" width="11.904863502932225" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="169.43402477227437" y="704.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="169.43402477227437" y="704.0" width="277.4650950095133" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="446.89911978178765" y="704.0" width="0.09177624703316861" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="438.50367942578384" y1="710.6" x2="455.9314169682152" y2="710.6" stroke="#000000"/>
+<text x="35" y="735.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">H256-</text>
+<rect x="100" y="724.0" width="1.405740983381125" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="101.40574098338112" y="724.0" width="4.173170781922715" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="105.57891176530384" y="724.0" width="0.18038549434148507" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="105.75929725964532" y="724.0" width="0.006082775424412511" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="105.76538003506974" y="724.0" width="0.0004414669345780533" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="105.76582150200431" y="724.0" width="10.307537893349076" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="116.07335939535339" y="724.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="116.07335939535339" y="724.0" width="277.82035741498356" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="393.89371681033697" y="724.0" width="0.08893264846047066" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="386.5280842842354" y1="730.6" x2="401.918528573601" y2="730.6" stroke="#000000"/>
+<text x="695" y="476" font-family="Helvetica,Arial,sans-serif" font-size="18" fill="#222222">hotpot_qa / qwen</text>
+<line x1="695.0" y1="500" x2="695.0" y2="740" stroke="#BBBBBB"/>
+<text x="687.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">0.0</text>
+<line x1="784.0" y1="500" x2="784.0" y2="740" stroke="#BBBBBB"/>
+<text x="776.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">1.4</text>
+<line x1="873.0" y1="500" x2="873.0" y2="740" stroke="#BBBBBB"/>
+<text x="865.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">2.9</text>
+<line x1="962.0" y1="500" x2="962.0" y2="740" stroke="#BBBBBB"/>
+<text x="954.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">4.3</text>
+<line x1="1051.0" y1="500" x2="1051.0" y2="740" stroke="#BBBBBB"/>
+<text x="1043.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">5.7</text>
+<line x1="1140.0" y1="500" x2="1140.0" y2="740" stroke="#BBBBBB"/>
+<text x="1132.0" y="760" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">7.1</text>
+<line x1="695" y1="500" x2="695" y2="740" stroke="#222222"/>
+<line x1="695" y1="740" x2="1140" y2="740" stroke="#222222"/>
+<text x="695" y="783" font-family="Helvetica,Arial,sans-serif" font-size="14" fill="#222222">Mean online seconds</text>
+<text x="630" y="515.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">B128+</text>
+<rect x="695" y="504.0" width="0.0" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="695.0" y="504.0" width="6.34141534276302" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="701.3414153427631" y="504.0" width="0.0" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="701.3414153427631" y="504.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="701.3414153427631" y="504.0" width="29.155173023583348" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="730.4965883663464" y="504.0" width="8.17821222178646" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="738.6748005881328" y="504.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="738.6748005881328" y="504.0" width="335.6772675482042" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1074.352068136337" y="504.0" width="0.060990308696613996" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1059.8371056700762" y1="510.6" x2="1088.2175123923362" y2="510.6" stroke="#000000"/>
+<text x="630" y="535.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">B128-</text>
+<rect x="695" y="524.0" width="0.0" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="695.0" y="524.0" width="6.314167032700913" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="701.3141670327009" y="524.0" width="0.0" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="701.3141670327009" y="524.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="701.3141670327009" y="524.0" width="0.0005929789935971414" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="701.3147600116945" y="524.0" width="8.089464273663792" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="709.4042242853583" y="524.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="709.4042242853583" y="524.0" width="333.7509721130029" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1043.155196398361" y="524.0" width="0.18299135579830944" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1030.8473124917518" y1="530.6" x2="1055.4480294564542" y2="530.6" stroke="#000000"/>
+<text x="630" y="555.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">B256+</text>
+<rect x="695" y="544.0" width="0.0" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="695.0" y="544.0" width="5.512553187118813" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="700.5125531871188" y="544.0" width="0.0" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="700.5125531871188" y="544.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="700.5125531871188" y="544.0" width="52.068335604431276" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="752.58088879155" y="544.0" width="11.901551841476806" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="764.4824406330268" y="544.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="764.4824406330268" y="544.0" width="316.4142799577059" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1080.8967205907327" y="544.0" width="0.0691500071698951" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1068.3847002515777" y1="550.6" x2="1093.7696274787415" y2="550.6" stroke="#000000"/>
+<text x="630" y="575.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">B256-</text>
+<rect x="695" y="564.0" width="0.0" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="695.0" y="564.0" width="5.434440768803967" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="700.4344407688039" y="564.0" width="0.0" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="700.4344407688039" y="564.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="700.4344407688039" y="564.0" width="0.0005599562420259876" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="700.4350007250459" y="564.0" width="8.952370719218948" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="709.3873714442649" y="564.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="709.3873714442649" y="564.0" width="323.06789785544595" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1032.4552692997108" y="564.0" width="0.06365130494898945" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1018.4557885385493" y1="570.6" x2="1047.2599562872324" y2="570.6" stroke="#000000"/>
+<text x="630" y="595.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">D128+</text>
+<rect x="695" y="584.0" width="1.4217620435975447" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="696.4217620435976" y="584.0" width="0.0" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="696.4217620435976" y="584.0" width="0.4527408987788089" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="696.8745029423764" y="584.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="696.8745029423764" y="584.0" width="29.486577279609477" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="726.3610802219858" y="584.0" width="7.998394603479075" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="734.3594748254649" y="584.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="734.3594748254649" y="584.0" width="335.3792319305073" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1069.738706755972" y="584.0" width="0.09762846168953551" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1056.4013702575885" y1="590.6" x2="1083.0991693096776" y2="590.6" stroke="#000000"/>
+<text x="630" y="615.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">D128-</text>
+<rect x="695" y="604.0" width="1.4608694246528187" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="696.4608694246529" y="604.0" width="0.0" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="696.4608694246529" y="604.0" width="0.42289018135142387" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="696.8837596060043" y="604.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="696.8837596060043" y="604.0" width="0.0008944735220592207" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="696.8846540795264" y="604.0" width="9.668135841447977" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="706.5527899209744" y="604.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="706.5527899209744" y="604.0" width="338.93064228788285" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1045.4834322088573" y="604.0" width="0.09387850634824284" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1029.7797195863218" y1="610.6" x2="1062.00246095475" y2="610.6" stroke="#000000"/>
+<text x="630" y="635.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">D256+</text>
+<rect x="695" y="624.0" width="1.3835091910896278" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="696.3835091910896" y="624.0" width="0.0" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="696.3835091910896" y="624.0" width="0.3330085359928136" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="696.7165177270824" y="624.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="696.7165177270824" y="624.0" width="56.846142589951555" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="753.562660317034" y="624.0" width="12.228146009886165" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="765.7908063269201" y="624.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="765.7908063269201" y="624.0" width="320.5851868348809" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1086.375993161801" y="624.0" width="0.10357768415234184" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1073.4912469709277" y1="630.6" x2="1100.164216964291" y2="630.6" stroke="#000000"/>
+<text x="630" y="655.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">D256-</text>
+<rect x="695" y="644.0" width="1.436001008599128" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="696.4360010085991" y="644.0" width="0.0" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="696.4360010085991" y="644.0" width="0.3109972733943912" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="696.7469982819935" y="644.0" width="0.0" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="696.7469982819935" y="644.0" width="0.001000692658875557" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="696.7479989746523" y="644.0" width="11.822958324732847" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="708.5709572993852" y="644.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="708.5709572993852" y="644.0" width="320.1282058378841" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1028.6991631372694" y="644.0" width="0.09900354954985868" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1016.6084899768114" y1="650.6" x2="1041.305011432023" y2="650.6" stroke="#000000"/>
+<text x="630" y="675.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">H128+</text>
+<rect x="695" y="664.0" width="1.4180173141038317" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="696.4180173141038" y="664.0" width="5.640721748491078" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="702.0587390625949" y="664.0" width="0.2376988677585333" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="702.2964379303535" y="664.0" width="0.005942569856829217" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="702.3023805002103" y="664.0" width="28.013153014313662" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="730.315533514524" y="664.0" width="8.126238196782474" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="738.4417717113064" y="664.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="738.4417717113064" y="664.0" width="327.30429059547055" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1065.7460623067768" y="664.0" width="0.08516888498336114" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1051.436682830224" y1="670.6" x2="1078.6683393299015" y2="670.6" stroke="#000000"/>
+<text x="630" y="695.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">H128-</text>
+<rect x="695" y="684.0" width="1.3898992797186054" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="696.3898992797186" y="684.0" width="5.641311716380551" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="702.0312109960992" y="684.0" width="0.24576469695495176" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="702.2769756930542" y="684.0" width="0.0061479154418979925" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="702.2831236084961" y="684.0" width="0.000371548559430306" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="702.2834951570555" y="684.0" width="8.843249166090187" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="711.1267443231458" y="684.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="711.1267443231458" y="684.0" width="337.8240560146961" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1048.9508003378419" y="684.0" width="0.2152871721746708" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1035.599712764499" y1="690.6" x2="1063.492222309352" y2="690.6" stroke="#000000"/>
+<text x="630" y="715.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">H256+</text>
+<rect x="695" y="704.0" width="1.3817334004814694" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="696.3817334004815" y="704.0" width="4.647688432439684" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="701.0294218329212" y="704.0" width="0.19508705183947148" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="701.2245088847607" y="704.0" width="0.006021886198038342" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="701.2305307709587" y="704.0" width="55.71212955176134" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="756.94266032272" y="704.0" width="11.651298803608144" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="768.5939591263282" y="704.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="768.5939591263282" y="704.0" width="325.2278746815563" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1093.8218338078846" y="704.0" width="0.09270387194260021" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1080.903499108659" y1="710.6" x2="1107.037037037037" y2="710.6" stroke="#000000"/>
+<text x="630" y="735.0" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">H256-</text>
+<rect x="695" y="724.0" width="1.4526075257374715" height="13.0" fill="#0072B2" stroke="#0072B2"/>
+<rect x="696.4526075257374" y="724.0" width="4.6688704788888895" height="13.0" fill="#56B4E9" stroke="#56B4E9"/>
+<rect x="701.1214780046263" y="724.0" width="0.1767994244483332" height="13.0" fill="#009E73" stroke="#009E73"/>
+<rect x="701.2982774290746" y="724.0" width="0.006125643293065009" height="13.0" fill="#E69F00" stroke="#E69F00"/>
+<rect x="701.3044030723677" y="724.0" width="0.0003813411958159339" height="13.0" fill="#D55E00" stroke="#D55E00"/>
+<rect x="701.3047844135635" y="724.0" width="10.625441558617181" height="13.0" fill="#CC79A7" stroke="#CC79A7"/>
+<rect x="711.9302259721807" y="724.0" width="0.0" height="13.0" fill="#999999" stroke="#999999"/>
+<rect x="711.9302259721807" y="724.0" width="326.3952336067258" height="13.0" fill="#332288" stroke="#332288"/>
+<rect x="1038.3254595789065" y="724.0" width="0.0891316026811067" height="13.0" fill="#BBBBBB" stroke="#BBBBBB"/>
+<line x1="1026.1978482810712" y1="730.6" x2="1051.3903460767135" y2="730.6" stroke="#000000"/>
+<rect x="25" y="812" width="12" height="12" fill="#0072B2" stroke="#0072B2"/>
+<text x="43" y="822" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">query embedding</text>
+<rect x="320" y="812" width="12" height="12" fill="#56B4E9" stroke="#56B4E9"/>
+<text x="338" y="822" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">bm25 search</text>
+<rect x="615" y="812" width="12" height="12" fill="#009E73" stroke="#009E73"/>
+<text x="633" y="822" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">dense search</text>
+<rect x="910" y="812" width="12" height="12" fill="#E69F00" stroke="#E69F00"/>
+<text x="928" y="822" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">fusion</text>
+<rect x="25" y="838" width="12" height="12" fill="#D55E00" stroke="#D55E00"/>
+<text x="43" y="848" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">reranking</text>
+<rect x="320" y="838" width="12" height="12" fill="#CC79A7" stroke="#CC79A7"/>
+<text x="338" y="848" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">packing</text>
+<rect x="615" y="838" width="12" height="12" fill="#999999" stroke="#999999"/>
+<text x="633" y="848" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">baseline preparation</text>
+<rect x="910" y="838" width="12" height="12" fill="#332288" stroke="#332288"/>
+<text x="928" y="848" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">generation</text>
+<rect x="25" y="864" width="12" height="12" fill="#BBBBBB" stroke="#BBBBBB"/>
+<text x="43" y="874" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">unattributed online</text>
+<text x="25" y="910" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#222222">Disjoint online timers; remainder is unattributed. Setup/isolation/scoring excluded.</text>
+</svg>

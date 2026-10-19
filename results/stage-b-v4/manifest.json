@@ -1,0 +1,92 @@
+{
+  "files": {
+    "cells.csv": {
+      "bytes": 93787,
+      "sha256": "bb7b6db517a503152539d71a5c9711615e6d1e73871307d814ff69f3bb4c6987"
+    },
+    "conditions.csv": {
+      "bytes": 5976,
+      "sha256": "a7022588009a0081c09feb9431e0818f71152691efea673148332fbeb186a0a5"
+    },
+    "contrasts.csv": {
+      "bytes": 410464,
+      "sha256": "2644a8c725cf92a10d8d29dc5f00b5ea06af12db4e732465f8dd5b5386a41542"
+    },
+    "quality_latency.svg": {
+      "bytes": 37056,
+      "sha256": "45c326a11c14b2f0f9d6053369b4f30d757a647c69cb11307cfa82c45261a736"
+    },
+    "quality_latency_baselines.svg": {
+      "bytes": 15577,
+      "sha256": "1450dd8df86364c9a65211c9f846bc6e9a726191856d2457f4d53566914f0c54"
+    },
+    "stage-times.csv": {
+      "bytes": 12788,
+      "sha256": "747a10707375a98657f85117ff9d7dd4da566eb67090ad6b3412e9ee1e6ea1c3"
+    },
+    "stage_times_main.svg": {
+      "bytes": 64083,
+      "sha256": "6b5791ec0aa18e6c7ebf122b69a13d29d5d490fd3b08a3a1059c7432118e3557"
+    }
+  },
+  "kind": "public_stage_b_aggregates",
+  "manifest_sha256": "7a01b9fd56f09c978fc2573d9da508a06accb22295d608adafd0dcfb2edf8e64",
+  "notes": [
+    "Stage B v4 only; Stage A, pilots, development gates and all earlier runs are excluded.",
+    "The 50-ID sample is a post-results nested expansion after v3 inspection; measurements are fresh, with no historical pooling or untouched confirmatory holdout.",
+    "Quality uses repetition one; three timings per question are not independent questions.",
+    "Intervals are original source-cluster percentile intervals, unadjusted for multiplicity.",
+    "Scores and intervals use fractions; latency uses seconds. Contrast direction is left minus right.",
+    "EM/F1 are text-match scores; annotated evidence coverage is not semantic sufficiency.",
+    "Baseline/main execution paths differ; No-RAG keeps grounding instructions; gold can truncate.",
+    "Online time excludes setup, warmup, cache isolation, scoring and record writes.",
+    "Small source-dependent samples and resumed single-host timings limit generalization and tails.",
+    "Aggregate checks do not recompute bootstraps, audit raw runs or establish independent replication.",
+    "Hashes detect changes against this unsigned inventory; they are not signatures or data-access clearance."
+  ],
+  "schema_version": 1,
+  "sources": {
+    "analysis_manifest_sha256": "216853d86240bc842f175d6e9df8cdd6249ca4766cf27db0e1bd48dd78ec8ad2",
+    "analysis_proof_sha256": "9d41fac21fc250b0864792d31c8192b0e1382a2dcffb33e09ac9562d47c3762c",
+    "figure_manifest_sha256": "ba632f74554b09f02e72d67cf2e733727eeb8bc8482799ff95064c54ac2f90e3",
+    "source_files": {
+      "cells.csv": "bb7b6db517a503152539d71a5c9711615e6d1e73871307d814ff69f3bb4c6987",
+      "contrasts.csv": "2644a8c725cf92a10d8d29dc5f00b5ea06af12db4e732465f8dd5b5386a41542",
+      "quality_latency.svg": "45c326a11c14b2f0f9d6053369b4f30d757a647c69cb11307cfa82c45261a736",
+      "quality_latency_baselines.svg": "1450dd8df86364c9a65211c9f846bc6e9a726191856d2457f4d53566914f0c54",
+      "stage-times.csv": "747a10707375a98657f85117ff9d7dd4da566eb67090ad6b3412e9ee1e6ea1c3",
+      "stage_times_main.svg": "6b5791ec0aa18e6c7ebf122b69a13d29d5d490fd3b08a3a1059c7432118e3557"
+    },
+    "study_manifest_sha256": "414d1c2eabf849d3a215ab76842f2d7a00031001e1c67c918fda6f7cfc749208"
+  },
+  "study": {
+    "baseline_conditions": 8,
+    "baseline_measurements": 1200,
+    "bootstrap_samples": 2000,
+    "bootstrap_seed": 20261011,
+    "chunker": "sentence_aware",
+    "confidence": 0.95,
+    "context_budget_reference_tokens": 1024,
+    "datasets": [
+      "hotpot_qa",
+      "squad"
+    ],
+    "embedder": "e5",
+    "main_conditions": 48,
+    "main_measurements": 7200,
+    "models": [
+      "llama",
+      "qwen"
+    ],
+    "name": "stage-b-v4-50",
+    "quality_repetition": 1,
+    "quantization": "Q4_K_M",
+    "question_units": 100,
+    "questions_per_dataset": 50,
+    "repetitions": 3,
+    "source_clusters": {
+      "hotpot_qa": 50,
+      "squad": 14
+    }
+  }
+}

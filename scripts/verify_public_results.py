@@ -56,6 +56,22 @@ NOTES = [
     "Hashes detect changes against this unsigned inventory; "
     "they are not signatures or data-access clearance.",
 ]
+# Keep the original v3 constants and default CLI behavior for historical checks.
+STUDY_V4 = {
+    **STUDY, "name": "stage-b-v4-50", "questions_per_dataset": 50,
+    "question_units": 100, "main_measurements": 7200, "baseline_measurements": 1200,
+    "source_clusters": {"hotpot_qa": 50, "squad": 14},
+}
+NOTES_V4 = [
+    "Stage B v4 only; Stage A, pilots, development gates and all earlier runs are excluded.",
+    "The 50-ID sample is a post-results nested expansion after v3 inspection; "
+    "measurements are fresh, with no historical pooling or untouched confirmatory holdout.",
+    *NOTES[2:],
+]
+PROFILES = {"v3": (STUDY, NOTES, "stage-b-study-v3-reduced.json"),
+            "v4": (STUDY_V4, NOTES_V4, "stage-b-study-v4-50.json")}
+
+
 PRIVATE = re.compile(
     r"/Users/|/home/|/private/|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}|"
     r"-----BEGIN .*PRIVATE KEY|\b(?:password|api_key|access_token)\s*[:=]|\b[0-9a-f]{24}\b",
@@ -132,13 +148,19 @@ def expected_pairs(conditions: dict[str, dict]) -> set[tuple[str, str, str]]:
     return pairs
 
 
-def verify(bundle: Path) -> dict:
+def verify(bundle: Path, *, profile: str | None = None) -> dict:
     require(not bundle.is_symlink(), "symlink bundle is not supported")
     require({p.name for p in bundle.iterdir()} == {*PAYLOAD, "manifest.json"},
             "unexpected or missing public files")
     require(all(p.is_file() and not p.is_symlink() for p in bundle.iterdir()),
             "public files must be regular, non-symlink files")
-    return verify_payload({p.name: p.read_bytes() for p in bundle.iterdir()})
+    contents = {p.name: p.read_bytes() for p in bundle.iterdir()}
+    result = verify_payload(contents)
+    if profile is not None:
+        require(profile in PROFILES, "unsupported public study profile")
+        require(json.loads(contents["manifest.json"])["study"] == PROFILES[profile][0],
+                "bundle belongs to another study profile")
+    return result
 
 
 def verify_payload(contents: dict[str, bytes]) -> dict:
@@ -146,9 +168,11 @@ def verify_payload(contents: dict[str, bytes]) -> dict:
     manifest = verified_manifest(json.loads(contents["manifest.json"]))
     require(set(manifest) == {"schema_version", "kind", "study", "notes", "sources", "files",
                               "manifest_sha256"}, "unexpected manifest fields")
+    matches = [(study, notes) for study, notes, _ in PROFILES.values()
+               if manifest["study"] == study and manifest["notes"] == notes]
     require(manifest["schema_version"] == 1 and manifest["kind"] == "public_stage_b_aggregates"
-            and manifest["study"] == STUDY and manifest["notes"] == NOTES,
-            "public scope or methods changed")
+            and len(matches) == 1, "public scope or methods changed")
+    study, _ = matches[0]
     sources = manifest["sources"]
     require(set(sources) == {"analysis_manifest_sha256", "figure_manifest_sha256",
                              "analysis_proof_sha256", "study_manifest_sha256", "source_files"},
@@ -172,18 +196,20 @@ def verify_payload(contents: dict[str, bytes]) -> dict:
     for cid, row in conditions.items():
         require(re.fullmatch(r"[0-9a-f]{64}", cid) is not None, "invalid condition ID")
         dataset, model, role = row["dataset"], row["model"], row["role"]
-        require(dataset in STUDY["datasets"] and model in STUDY["models"], "unknown dataset/model")
-        require(row["questions"] == "25" and row["timing_measurements"] == "75"
-                and row["source_clusters"] == str(STUDY["source_clusters"][dataset]),
+        require(dataset in study["datasets"] and model in study["models"], "unknown dataset/model")
+        require(row["questions"] == str(study["questions_per_dataset"])
+                and row["timing_measurements"] == str(
+                    study["questions_per_dataset"] * study["repetitions"])
+                and row["source_clusters"] == str(study["source_clusters"][dataset]),
                 "question/timing/cluster counts changed")
         profile = (dataset, model, role, row["family"], row["chunk_tokens"], row["reranking"])
         require(profile not in profiles, "duplicate condition profile")
         profiles.add(profile)
     expected = {(d, m, "rag", f, size, rr) for d, m, f, size, rr in product(
-        STUDY["datasets"], STUDY["models"], ("bm25", "dense", "hybrid"), ("128", "256"),
+        study["datasets"], study["models"], ("bm25", "dense", "hybrid"), ("128", "256"),
         ("off", "on"))}
     expected |= {(d, m, role, "", "", "") for d, m, role in product(
-        STUDY["datasets"], STUDY["models"], ("gold", "no_rag"))}
+        study["datasets"], study["models"], ("gold", "no_rag"))}
     require(profiles == expected, "incomplete or changed factorial matrix")
 
     points, pairs = {}, expected_pairs(conditions)
@@ -194,7 +220,8 @@ def verify_payload(contents: dict[str, bytes]) -> dict:
             left, right, metric = row["left_id"], row["right_id"], row["metric"]
             require(left in conditions and metric in METRICS, "unknown cell or metric")
             condition = conditions[left]
-            require(row["dataset"] == condition["dataset"] and row["questions"] == "25"
+            require(row["dataset"] == condition["dataset"]
+                    and row["questions"] == str(study["questions_per_dataset"])
                     and row["clusters"] == condition["source_clusters"], "metric scope mismatch")
             require(row["unit"] == ("seconds" if metric.startswith("latency_") else "fraction"),
                     "metric units changed")

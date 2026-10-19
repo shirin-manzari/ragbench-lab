@@ -6,7 +6,14 @@
   "optimized_command": "python3 -I -S -B -O scripts/verify_checkout.py --json",
   "minimum_python": "3.11",
   "dependencies": "Python standard library only; no pip install or editable installation",
-  "inputs": ["src/ragbench_lab", "configs/*.toml", "manifests/stage-b-study-*.json", "results/stage-b-v3", "scripts/verify_public_results.py"],
+  "inputs": [
+    "src/ragbench_lab",
+    "configs/*.toml",
+    "manifests/stage-b-study-*.json",
+    "results/stage-b-v3",
+    "results/stage-b-v4",
+    "scripts/verify_public_results.py"
+  ],
   "checks": {
     "configuration": "compile all Python source/scripts without execution or bytecode writes; load all experiment TOMLs; reject unsupported candidate depth",
     "factorials": "60 Stage A conditions; 48 Stage B conditions and 144 blocks for each v1/v2/v3/v4 plan; 14,400/14,400/3,600/7,200 exact unique request slots and two-generator pairing; reject a rehashed reduced sample containing a development ID",
@@ -15,18 +22,30 @@
     "retrieval": "BM25 relevant candidate before zero-score candidate; exact RRF rank contributions, duplicate suppression and conflicting identity rejection",
     "context_and_scoring": "headers/separators counted, duplicate suppression, ranked stop, partial final source/context offsets, evidence lost to truncation excluded, overlapping evidence union, normalized EM/F1 and Hotpot special answers",
     "resume_integrity": "exclusive writer, changed identity rejection, failed attempt preservation, consecutive retries, duplicate success rejection, chain/tail corruption refusal without repair and lock cleanup",
-    "public_results": "existing standalone verifier checks original hashes, 56 conditions, 448 metric rows, 1760 contrast rows and three SVGs"
+    "public_results": "Standalone verifier checks separate v3/v4 profiles with original hashes, 56 conditions, 448 metric rows, 1760 contrast rows and three SVGs each; 25/50 questions, 75/150 timings per cell, 12/14 SQuAD clusters and 25/50 Hotpot clusters; reject valid other-study substitution."
   },
   "writes": "synthetic inputs and records in auto-cleaned system temporary storage only; bytecode writes disabled",
   "runtime_guards": "reject model/viewer numerical dependencies, network connections/listeners/DNS and subprocess launches",
   "failure_behavior": "check groups run independently; named errors and exit status 1 on any failure; explicit checks survive Python -O; --json emits one schema-versioned summary",
   "ci": {
     "workflow": ".github/workflows/verify.yml",
-    "events": ["push", "pull_request", "workflow_dispatch"],
+    "events": [
+      "push",
+      "pull_request",
+      "workflow_dispatch"
+    ],
     "permissions": "contents: read; checkout credentials not persisted",
-    "matrix": ["ubuntu-latest / 3.11", "ubuntu-latest / 3.14", "macos-latest / 3.14", "windows-latest / 3.14"],
+    "matrix": [
+      "ubuntu-latest / 3.11",
+      "ubuntu-latest / 3.14",
+      "macos-latest / 3.14",
+      "windows-latest / 3.14"
+    ],
     "job_timeout_minutes": 10,
-    "action_sources": ["https://github.com/actions/checkout/releases/tag/v6.1.0", "https://github.com/actions/setup-python/releases/tag/v6.3.0"]
+    "action_sources": [
+      "https://github.com/actions/checkout/releases/tag/v6.1.0",
+      "https://github.com/actions/setup-python/releases/tag/v6.3.0"
+    ]
   },
   "local_validation": "PYTHONPATH=src .venv/bin/python -m unittest discover -s tests -p test_checkout_verification.py -v",
   "limits": [
@@ -37,5 +56,23 @@
     "CI Python provisioning and source checkout may access the network; the Python verification command is offline.",
     "Passing this check does not complete a fresh benchmark development gate, model rerun or full dependency/platform replication.",
     "Frozen study manifests, previous measurements and archives remain unchanged."
-  ]
+  ],
+  "public_delivery": {
+    "v4_export_check": "python3 scripts/export_public_results.py --study v4 --check",
+    "v4_verification": "python3 scripts/verify_public_results.py results/stage-b-v4",
+    "presentation_check": "python3 scripts/build_results_demo.py --check",
+    "local_tests": [
+      "PYTHONPATH=src .venv/bin/python -m unittest discover -s tests -p test_public_results.py -v",
+      "PYTHONPATH=src .venv/bin/python -m unittest discover -s tests -p test_results_demo.py -v"
+    ],
+    "invariants": [
+      "Historical v3 bytes/defaults preserved; public profiles never pooled.",
+      "Only aggregate CSVs, allowlisted static SVGs and unsigned identity inventory enter results.",
+      "No question IDs, question/answer/source text, prompts or machine-specific provenance are exported.",
+      "Source-copy checks require saved verified local inputs; aggregate verification requires only the Python standard library.",
+      "Builders refuse existing output paths; --check is read-only and checks source equality.",
+      "Presentation uses only verified v4 public CSVs/SVGs; no external network or inference.",
+      "Intervals are original source-cluster intervals; descriptive range/sign summaries do not establish significance."
+    ]
+  }
 }
