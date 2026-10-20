@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 from html import escape
 from pathlib import Path
 from urllib.parse import urlencode
@@ -143,6 +144,22 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
         raise DataError("stop the dashboard/active benchmark; do not compete with timed work")
     snapshot = load_snapshot(directory)
     runs = {r["key"]: r for r in snapshot["runs"]}
+    # Archived publication files keep their verified bytes; expose stale captions explicitly.
+    answering_counts = {
+        (c["questions"], c["timing_measurements"])
+        for run in snapshot["runs"] if run["stage"] in {"B", "baseline"}
+        for c in run["cells"]
+    }
+    caption_issues = []
+    for name in snapshot["files"]:
+        if name.endswith(".svg"):
+            caption = re.search(
+                r"(\d+) questions/cell;[^<]*all (\d+) measurements",
+                safe_file(directory, name).read_text(encoding="utf-8"),
+            )
+            if caption and tuple(map(int, caption.groups())) not in answering_counts:
+                caption_issues.append(f"{name}: caption says {caption[1]} questions / "
+                                      f"{caption[2]} timings per configuration")
     if not runs:
         raise DataError("snapshot has no available runs")
     assets = Path(__file__).with_name("dashboard_assets")
@@ -393,15 +410,34 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
             else "Unavailable"
         )
 
+    def sample_count(value):
+        if isinstance(value, dict):
+            if len(value) == 1:
+                return str(next(iter(value.values())))
+            return "; ".join(f"{dataset}: {count}" for dataset, count in sorted(value.items()))
+        return str(value)
+
+    def sample_description(cells):
+        dataset_names = {"squad": "SQuAD", "hotpot_qa": "HotpotQA"}
+        return "; ".join(
+            f"{dataset_names.get(dataset, dataset)}: "
+            + "/".join(str(n) for n in sorted({c["questions"] for c in cells
+                                             if c["dataset"] == dataset}))
+            + " questions per configuration"
+            for dataset in sorted({c["dataset"] for c in cells})
+        ) or "No matching configurations"
+
+    def measured_flag(value):
+        return "Yes" if value is True else "No" if value is False else "Not measured"
+
     def metric_table(metrics):
         return table(
-            ["Metric", "Estimate", "95% interval", "Source clusters"],
+            ["Metric", "Estimate", "95% interval"],
             [
                 [
                     METRICS.get(name, name.replace("_", " ")),
                     number(m["estimate"], m["unit"]),
                     interval_text(m.get("ci95"), m["unit"]),
-                    json.dumps(m.get("source_clusters", "not adjusted")),
                 ]
                 for name, m in metrics.items()
             ],
@@ -581,6 +617,22 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                                                 "Filtered CSV follows your selection. "
                                                 "Publication figures do not."
                                             ),
+                                            html.P(
+                                                "Some archived figure captions have stale sample "
+                                                "counts. See Archived figure caption notes before "
+                                                "citing these downloads."
+                                            ) if caption_issues else None,
+                                            notes("Archived figure caption notes", [
+                                                html.P("Saved answering-table counts per "
+                                                       "configuration: " + "; ".join(
+                                                           f"{q} questions / {n} timings"
+                                                           for q, n in sorted(answering_counts))),
+                                                html.Ul([html.Li(issue)
+                                                         for issue in caption_issues]),
+                                                html.P("The interactive charts use saved table "
+                                                       "counts. Archived files retain their "
+                                                       "verified original bytes."),
+                                            ]) if caption_issues else None,
                                             html.Ul(
                                                 [
                                                     html.Li(html.A(name, href=f"/exports/{name}"))
@@ -690,6 +742,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                      for c in cells for e in run["examples"]
                      if e["condition_id"] == c["condition_id"]}
         sampled = run["stage"] == "A"
+        sample_text = sample_description(cells)
         return [
             html.H2("Study summary"),
             table(["Run", "Purpose", "Status", "Configurations", "Successful requests"], [[
@@ -708,14 +761,17 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
             notes("Study limitations", [html.Ul([
                 html.Li("Findings describe the full selected run, regardless of sidebar "
                         "filters. Point signs and ranges are not significance claims."),
-                html.Li("The reduced Stage B study uses 25 questions per dataset. Source "
-                        "dependence reduces the effective information; three timing repeats "
-                        "do not triple the number of independent questions."),
+                html.Li(sample_text + ". Source dependence reduces the effective "
+                        "information; repeated timings do not increase the number of "
+                        "independent questions."),
                 html.Li("EM/F1 measure reference-text agreement, not factuality. Annotated "
                         "evidence coverage is not a guarantee of sufficient evidence."),
                 html.Li("Results concern the recorded models, adapted corpora and one machine. "
-                        "The sample-budget amendment happened after partial execution; "
-                        "historical runs are not pooled. Optional extensions remain unrun."),
+                        + ("The sample-budget amendment followed earlier result inspection; "
+                           "historical runs are not pooled. "
+                           if run["stage"] != "A" else
+                           "Component selection uses development data; evaluation is separate. ")
+                        + "Optional extensions remain unrun."),
             ])]),
         ]
 
@@ -723,7 +779,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
         return table(
             ["Configuration", "Quality questions", "Timing measurements", "Source clusters"],
             [[profile(c), c["questions"], c["timing_measurements"],
-              json.dumps(next((m["source_clusters"] for m in c["metrics"].values()
+              sample_count(next((m["source_clusters"] for m in c["metrics"].values()
                                if m.get("source_clusters") is not None), "not adjusted"))]
              for c in cells],
         )
@@ -746,8 +802,9 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                 for name in (metric, latency)
             ]),
             uncertainty(run),
+            html.P(sample_description(cells)),
             html.Details([html.Summary(f"Sample support · {len(cells)} visible configurations"),
-                          support_table(cells)], open=len(cells) <= 4),
+                          support_table(cells)], open=False),
         ]
 
     @app.callback(
@@ -792,7 +849,11 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
         original = [p for p in run["paired_contrasts"]
                     if {p["left_condition_id"], p["right_condition_id"]} == {left, right}]
         metrics = [
-            uncertainty(run), support_table([lookup[left], lookup[right]]),
+            uncertainty(run),
+            table(["Configuration", "Questions", "Timing measurements"],
+                  [[profile(lookup[cid]), lookup[cid]["questions"],
+                    lookup[cid]["timing_measurements"]] for cid in (left, right)]),
+            notes("Statistics details", [support_table([lookup[left], lookup[right]])]),
             html.Div([html.Section([
                 html.H3(profile(lookup[cid])), metric_table(lookup[cid]["metrics"]),
             ]) for cid in (left, right)], className="comparison-grid"),
@@ -983,6 +1044,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                 ),
                 uncertainty(run),
                 metric_table(cell["metrics"]),
+                notes("Statistics details", [support_table([cell])]),
                 raw(
                     "Raw configuration & provenance",
                     {
@@ -1073,7 +1135,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
             ),
             html.P(
                 f"Status: {record['status']} · Output truncated: "
-                f"{record.get('output_truncated', 'not measured')}"
+                f"{measured_flag(record.get('output_truncated'))}"
             ),
             *([html.P(record["error"])] if record.get("error") else []),
             table(
@@ -1099,7 +1161,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                         e["document_id"],
                         f"{e['source_start']}–{e['source_end']}",
                         f"{e['context_start']}–{e['context_end']}",
-                        str(e.get("truncated", False)),
+                        measured_flag(e.get("truncated")),
                     ]
                     for e in context.get("evidence", [])
                 ],
@@ -1160,8 +1222,8 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                         METRICS.get(name, name),
                         number(m["estimate"], unit, delta=True),
                         interval_text(ci, unit, delta=True),
-                        json.dumps(m.get("questions", "unavailable")),
-                        json.dumps(m.get("source_clusters", "unavailable")),
+                        sample_count(m.get("questions", "unavailable")),
+                        sample_count(m.get("source_clusters", "unavailable")),
                     ]
                 )
                 y = f"{index + 1}. {row['dataset']}"
@@ -1216,11 +1278,17 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                     "Metric",
                     "Difference",
                     "95% source interval",
-                    "Distinct questions",
-                    "Source clusters",
+                    "Questions",
                 ],
-                table_data,
+                [row[:-1] for row in table_data],
             ),
+            notes("Statistics details", [
+                html.P("Questions count unique question IDs. Source clusters group shared "
+                       "source material and account for dependence in the confidence intervals; "
+                       "they are not additional questions."),
+                table(["Pair", "Metric", "Questions", "Source clusters"],
+                      [[row[0], row[3], row[6], row[7]] for row in table_data]),
+            ]),
             raw("All original paired metrics & provenance", rows),
         ]
 
