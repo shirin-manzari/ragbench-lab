@@ -1,4 +1,4 @@
-# ragbench-lab
+# RAGBench Lab
 
 A local RAG benchmark comparing retrieval, chunking and reranking through evidence
 coverage, answer quality and latency. Includes a Python CLI, public results and a
