@@ -380,13 +380,14 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
             html.P("Repeated timings are not independent questions."),
         ])
 
-    def table(headers, rows):
+    def table(headers, rows, *, class_name=""):
         return html.Div(
             html.Table(
                 [
                     html.Thead(html.Tr([html.Th(h, scope="col") for h in headers])),
                     html.Tbody([html.Tr([html.Td(v) for v in row]) for row in rows]),
-                ]
+                ],
+                className=class_name,
             ),
             className="table-scroll",
             tabIndex=0,
@@ -775,12 +776,14 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
             ])]),
         ]
 
-    def support_table(cells):
+    def support_table(cells, run):
+        missing = ("Not used — question-level intervals"
+                   if run["stage"] == "A" else "Unavailable")
         return table(
             ["Configuration", "Quality questions", "Timing measurements", "Source clusters"],
             [[profile(c), c["questions"], c["timing_measurements"],
               sample_count(next((m["source_clusters"] for m in c["metrics"].values()
-                               if m.get("source_clusters") is not None), "not adjusted"))]
+                               if m.get("source_clusters") is not None), missing))]
              for c in cells],
         )
 
@@ -804,7 +807,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
             uncertainty(run),
             html.P(sample_description(cells)),
             html.Details([html.Summary(f"Sample support · {len(cells)} visible configurations"),
-                          support_table(cells)], open=False),
+                          support_table(cells, run)], open=False),
         ]
 
     @app.callback(
@@ -853,7 +856,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
             table(["Configuration", "Questions", "Timing measurements"],
                   [[profile(lookup[cid]), lookup[cid]["questions"],
                     lookup[cid]["timing_measurements"]] for cid in (left, right)]),
-            notes("Statistics details", [support_table([lookup[left], lookup[right]])]),
+            notes("Statistics details", [support_table([lookup[left], lookup[right]], run)]),
             html.Div([html.Section([
                 html.H3(profile(lookup[cid])), metric_table(lookup[cid]["metrics"]),
             ]) for cid in (left, right)], className="comparison-grid"),
@@ -1044,7 +1047,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                 ),
                 uncertainty(run),
                 metric_table(cell["metrics"]),
-                notes("Statistics details", [support_table([cell])]),
+                notes("Statistics details", [support_table([cell], run)]),
                 raw(
                     "Raw configuration & provenance",
                     {
@@ -1281,6 +1284,7 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
                     "Questions",
                 ],
                 [row[:-1] for row in table_data],
+                class_name="paired-results-table",
             ),
             notes("Statistics details", [
                 html.P("Questions count unique question IDs. Source clusters group shared "
