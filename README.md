@@ -8,6 +8,8 @@ The study evaluates **12 pipelines** using BM25, Dense and Hybrid retrieval on S
 and an adapted HotpotQA corpus, with Qwen and Llama 3B generators. It completed
 **7,200 main and 1,200 separate baseline requests** across 100 distinct questions.
 
+![Dashboard showing saved SQuAD/Llama answer-quality and latency comparisons.](docs/assets/dashboard.png)
+
 ## Quick start
 
 Check the checkout and verify public results with Python 3.11+, without model downloads:
