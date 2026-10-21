@@ -263,6 +263,17 @@ records are preserved unchanged, outside the current presentation narrative.
 
 ## Install and open the dashboard
 
+Wide results tables scroll within their own keyboard-focusable regions. Headings
+stay on one line, while long configuration names can wrap without widening the page.
+
+For question-level intervals, the source-cluster field reads “Not used — question-level
+intervals”; interval notes explain that shared-source dependence was not adjusted.
+
+Question counts remain visible in the main views; source-cluster counts are available
+in closed statistics details. The overview derives sample counts from the selected
+run. Downloads identify archived figure captions that disagree with saved table
+counts, while preserving the original verified files.
+
 The browser tab displays no dashboard favicon.
 
 The viewer uses optional Dash/Plotly dependencies from
