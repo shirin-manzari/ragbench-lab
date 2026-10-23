@@ -84,7 +84,8 @@ report.md
 !/results/stage-b-v4/manifest.json
 
 # Local presentation materials
-/presentations/
+/presentations/*
+!/presentations/ragbench-lab-presentation.pdf
 
 # Historical inventory, pilot summaries and capacity estimates stay local.
 /manifests/hardware.json
