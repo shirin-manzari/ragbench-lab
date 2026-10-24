@@ -11,5 +11,6 @@
     "PYTHONPATH=src python scripts/prepare_hosted_dashboard.py",
     "PYTHONPATH=src python -m unittest discover -s tests -p test_hosted_dashboard.py -v"
   ],
-  "scope": "original read-only Dash viewer with saved v4/Stage A snapshot; no benchmark execution"
+  "scope": "original read-only Dash viewer with saved v4/Stage A snapshot; no benchmark execution",
+  "host_policy": "local viewer accepts loopback only; hosted WSGI additionally permits RENDER_EXTERNAL_HOSTNAME; unknown hosts return 403 and active benchmark writers return 503"
 }

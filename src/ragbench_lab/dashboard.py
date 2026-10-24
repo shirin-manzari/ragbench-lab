@@ -128,7 +128,13 @@ def active_writers(root: Path) -> bool:
     return root.exists() and next(root.glob("*/.writer.lock"), None) is not None
 
 
-def create_app(directory: Path, benchmark_root: Path = Path("runs")):
+def create_app(
+    directory: Path,
+    benchmark_root: Path = Path("runs"),
+    *,
+    allowed_hosts: frozenset[str] = frozenset(),
+):
+    hosts = frozenset({"127.0.0.1", "localhost", "::1"}) | allowed_hosts
     # Optional imports are isolated here. The viewer never imports export/runner/model code.
     try:
         import plotly.graph_objects as go
@@ -1306,8 +1312,8 @@ def create_app(directory: Path, benchmark_root: Path = Path("runs")):
     def refuse_timed_work():
         from urllib.parse import urlsplit
 
-        if urlsplit(request.host_url).hostname not in {"127.0.0.1", "localhost", "::1"}:
-            return Response("Local dashboard accepts only loopback hosts", status=403)
+        if urlsplit(request.host_url).hostname not in hosts:
+            return Response("Dashboard host is not allowed", status=403)
         if active_writers(benchmark_root):
             return Response(
                 "A benchmark writer is active. Stop the dashboard before timed work.",
