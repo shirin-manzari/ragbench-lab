@@ -8,7 +8,6 @@ import math
 from collections import Counter
 from pathlib import Path
 
-from ragbench_lab.data.preparation import digest
 from ragbench_lab.data.records import DataError
 
 
@@ -294,6 +293,18 @@ def _validate_snapshot(snapshot: dict) -> None:
                 )
 
 
+def snapshot_digest(snapshot: dict) -> str:
+    encoder = json.JSONEncoder(
+        ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False,
+    )
+    checksum = hashlib.sha256()
+    for fragment in encoder.iterencode(
+        {key: value for key, value in snapshot.items() if key != "manifest_sha256"}
+    ):
+        checksum.update(fragment.encode("utf-8"))
+    return checksum.hexdigest()
+
+
 def load_snapshot(directory: Path) -> dict:
     path = safe_file(directory, "snapshot.json")
     try:
@@ -302,7 +313,7 @@ def load_snapshot(directory: Path) -> dict:
         raise DataError("dashboard snapshot is not valid UTF-8 JSON") from error
     try:
         identity = snapshot.get("manifest_sha256")
-        if digest({k: v for k, v in snapshot.items() if k != "manifest_sha256"}) != identity:
+        if snapshot_digest(snapshot) != identity:
             raise DataError("dashboard snapshot identity mismatch")
     except (AttributeError, ValueError, TypeError) as error:
         raise DataError("dashboard snapshot must be a finite JSON object") from error

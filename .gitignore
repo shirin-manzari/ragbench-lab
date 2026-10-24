@@ -87,3 +87,6 @@ dist/
 /manifests/hotpot-data-pilot-v1.json
 /manifests/squad-data-pilot-v1.json
 /manifests/stage-a-capacity-v1.json
+
+# Expanded at build time from the hosted dashboard snapshot.
+/deployment/dashboard/snapshot.json

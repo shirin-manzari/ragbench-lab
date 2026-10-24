@@ -2,3 +2,8 @@
 results/stage-b-v3/* -text
 results/stage-b-v4/* -text
 results/stage-b-v4/*.csv whitespace=cr-at-eol
+
+# Preserve the hosted snapshot asset checksums on every platform.
+deployment/dashboard/** -text
+deployment/dashboard/**/*.pdf binary
+deployment/dashboard/tables.csv whitespace=cr-at-eol

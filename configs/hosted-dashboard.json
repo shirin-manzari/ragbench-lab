@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "source": "reports/dashboard-snapshot-v4-50",
+  "snapshot_sha256": "02842c34395b4d01115e53b01f954ba85f14418db2269c2a99994209ed76bfb3",
+  "snapshot_manifest_sha256": "16c246cb39b39e874e74008bd3a7682acdf1b92f70e854f2953edcafa04582a0",
+  "snapshot_bytes": 53645457,
+  "runs": 4,
+  "cells": 176,
+  "examples": 2920,
+  "validation_commands": [
+    "PYTHONPATH=src python scripts/prepare_hosted_dashboard.py",
+    "PYTHONPATH=src python -m unittest discover -s tests -p test_hosted_dashboard.py -v"
+  ],
+  "scope": "original read-only Dash viewer with saved v4/Stage A snapshot; no benchmark execution"
+}
