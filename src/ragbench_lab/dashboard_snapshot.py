@@ -1,5 +1,3 @@
-"""Small validated read-only snapshot contract, independent of Dash/model libraries."""
-
 from __future__ import annotations
 
 import csv

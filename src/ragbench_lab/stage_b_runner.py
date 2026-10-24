@@ -1,5 +1,3 @@
-"""Bounded sequential Stage B execution with immutable provenance and explicit retries."""
-
 from __future__ import annotations
 
 import json

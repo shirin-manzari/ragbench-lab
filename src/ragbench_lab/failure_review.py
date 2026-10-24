@@ -1,5 +1,3 @@
-"""Declared, deterministic paired case sampling from verified saved measurements."""
-
 from __future__ import annotations
 
 import json
@@ -14,7 +12,7 @@ from ragbench_lab.embeddings import file_sha256
 from ragbench_lab.figures import collect
 from ragbench_lab.metrics import evidence_metrics
 from ragbench_lab.pipeline import write_new_json
-from ragbench_lab.run_store import iter_records, verified_manifest
+from ragbench_lab.run_store import iter_records, request_key, verified_manifest
 from ragbench_lab.stage_a import implementation_identity
 
 STRATA = ("candidate_evidence_incomplete", "packing_evidence_loss",
@@ -149,8 +147,9 @@ def review_failures(report_dir: Path, proof: Path, main: Path, baselines: Path,
         for row in iter_records(path, manifests[role]):
             if row["kind"] == "event" or row["repetition"] != 1:
                 continue
-            if (row["request_key"] not in wanted if role == "main" else
-                    (row["dataset"], row["question_id"]) not in question_ids):
+            selected = (row["request_key"] in wanted if role == "main" else
+                        (row["dataset"], row["question_id"]) in question_ids)
+            if not selected:
                 continue
             questions, documents = prepared[row["dataset"]]
             records[row["request_key"]] = inspect_record(
@@ -161,7 +160,7 @@ def review_failures(report_dir: Path, proof: Path, main: Path, baselines: Path,
         q = questions[unit["question_id"]]
         main_records = [records[k] for k in unit["request_keys"]]
         # Link baseline request keys to this question, not merely its dataset.
-        baseline_keys = {digest([cid, q.question_id, 1]) for cid, c in conditions.items()
+        baseline_keys = {request_key(cid, q.question_id, 1) for cid, c in conditions.items()
                          if c.get("baseline") and c["dataset"] == q.dataset}
         baseline_records = [records[k] for k in sorted(baseline_keys) if k in records]
         if len(main_records) != 2 or len(baseline_records) != 4:

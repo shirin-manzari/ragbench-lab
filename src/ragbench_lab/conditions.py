@@ -1,5 +1,3 @@
-"""Stable Stage A factorial enumeration independent of runtime ordering."""
-
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass

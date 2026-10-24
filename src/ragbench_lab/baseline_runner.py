@@ -1,5 +1,3 @@
-"""Separate pinned No-RAG/gold baseline plans and bounded sequential execution."""
-
 from __future__ import annotations
 
 import json

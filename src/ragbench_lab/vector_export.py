@@ -1,5 +1,3 @@
-"""Small vector writer for offline scientific charts; no rendering dependencies."""
-
 from __future__ import annotations
 
 import math

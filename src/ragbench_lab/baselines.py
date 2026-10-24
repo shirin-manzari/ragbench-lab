@@ -1,5 +1,3 @@
-"""Explicit oracle and empty-context diagnostic baselines, separate from the factorial."""
-
 from __future__ import annotations
 
 from ragbench_lab.chunking import Chunk, TokenCounter

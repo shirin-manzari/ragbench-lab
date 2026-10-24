@@ -1,9 +1,8 @@
-"""Export a native tokenizer from verified local model metadata and a pinned chat template."""
-
 from __future__ import annotations
 
 import json
 import shutil
+from copy import deepcopy
 from pathlib import Path
 
 from ragbench_lab.data.preparation import digest
@@ -54,7 +53,7 @@ def correct_llama_export(source: Path, expected_files: dict[str, str], output: P
     configure_llama_bpe(backend)
     if json.loads(backend.to_str())["pre_tokenizer"] != original["pre_tokenizer"]:
         raise DataError("source does not have the verified Llama split rule")
-    corrected = json.loads(json.dumps(original))
+    corrected = deepcopy(original)
     corrected["model"]["ignore_merges"] = True
     checked = Tokenizer.from_str(json.dumps(corrected))
     if checked.get_vocab() != backend.get_vocab():

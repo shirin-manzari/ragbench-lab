@@ -1,5 +1,3 @@
-"""Small, dependency-free hardware and local backend inventory."""
-
 from __future__ import annotations
 
 import ctypes
@@ -8,7 +6,6 @@ import os
 import platform
 import shutil
 import subprocess
-import urllib.error
 import urllib.request
 from pathlib import Path
 from typing import Any
@@ -75,7 +72,7 @@ def _ollama() -> dict[str, Any]:
     try:
         with urllib.request.urlopen("http://127.0.0.1:11434/api/version", timeout=1) as response:
             api_version = json.load(response).get("version")
-    except (OSError, ValueError, urllib.error.URLError):
+    except (OSError, ValueError):
         pass
     return {
         "name": "ollama",

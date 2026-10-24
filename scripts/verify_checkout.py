@@ -1,10 +1,3 @@
-"""Verify a checkout with Python 3.11+ only; no installed package or model assets.
-
-Synthetic smoke scenarios exercise the real algorithms in temporary storage.
-The character counter deliberately does not validate the frozen BGE tokenizer.
-The ignored local unittest suite and full study replay remain separate checks.
-"""
-
 from __future__ import annotations
 
 import argparse
@@ -333,7 +326,13 @@ CHECKS = (configuration, factorials, datasets, chunk_boundaries, retrieval,
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(description=(
+        'Verify a checkout with Python 3.11+ only; no installed package or '
+        'model assets.\n\nSynthetic smoke scenarios exercise the real '
+        'algorithms in temporary storage.\nThe character counter deliberately '
+        'does not validate the frozen BGE tokenizer.\nThe ignored local '
+        'unittest suite and full study replay remain separate checks.\n'
+    ))
     parser.add_argument("--json", action="store_true", help="print one machine-readable summary")
     args = parser.parse_args(argv)
     sys.dont_write_bytecode = True

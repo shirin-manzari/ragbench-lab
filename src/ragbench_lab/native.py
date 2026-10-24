@@ -1,5 +1,3 @@
-"""Use one OpenMP runtime on macOS; do not suppress duplicate-runtime checks."""
-
 from __future__ import annotations
 
 import os

@@ -1,5 +1,3 @@
-"""Export aggregate-only copies of the checked Stage B v3 or v4 results; never run models."""
-
 from __future__ import annotations
 
 import argparse
@@ -106,7 +104,10 @@ def build(analysis: Path, figures: Path, proof_path: Path,
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(description=(
+        'Export aggregate-only copies of the checked Stage B v3 or v4 '
+        'results; never run models.'
+    ))
     parser.add_argument("--study", choices=tuple(PROFILES), default="v3",
                         help="explicit public scope (default: historical v3)")
     parser.add_argument("--analysis-dir", type=Path)

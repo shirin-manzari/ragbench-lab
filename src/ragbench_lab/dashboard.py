@@ -1,5 +1,3 @@
-"""Loopback-only Dash viewer; all measurements/intervals are precomputed offline."""
-
 from __future__ import annotations
 
 import hashlib

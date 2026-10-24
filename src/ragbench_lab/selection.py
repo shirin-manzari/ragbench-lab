@@ -1,5 +1,3 @@
-"""Development-only macro selection; diagnostic results never freeze the study."""
-
 from __future__ import annotations
 
 from pathlib import Path

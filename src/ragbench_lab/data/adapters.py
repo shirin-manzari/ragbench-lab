@@ -1,5 +1,3 @@
-"""Adapters for native SQuAD v1.1 and HotpotQA distractor validation JSON."""
-
 from __future__ import annotations
 
 import hashlib

@@ -1,5 +1,3 @@
-"""Source-only Stage A capacity checks; sampled encoding is a cost estimate."""
-
 from __future__ import annotations
 
 import argparse
@@ -145,7 +143,10 @@ def measure(config_path: Path, data_dirs: dict[str, Path], output: Path,
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(description=(
+        'Source-only Stage A capacity checks; sampled encoding is a cost '
+        'estimate.'
+    ))
     parser.add_argument("config", type=Path)
     parser.add_argument("--squad-dir", type=Path, required=True)
     parser.add_argument("--hotpot-dir", type=Path, required=True)

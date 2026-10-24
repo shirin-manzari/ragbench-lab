@@ -1,5 +1,3 @@
-"""Two-part offline delivery: immutable raw archive plus verified analysis overlay."""
-
 from __future__ import annotations
 
 import hashlib

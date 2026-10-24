@@ -1,5 +1,3 @@
-"""Evidence scoring over source intervals, independent of answer-string matching."""
-
 from __future__ import annotations
 
 from collections import defaultdict

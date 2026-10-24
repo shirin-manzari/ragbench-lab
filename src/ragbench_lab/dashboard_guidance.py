@@ -1,5 +1,3 @@
-"""Presentation-only explanations and descriptive facts from a single saved run."""
-
 METRIC_HELP = {
     "token_f1": "Token F1 measures normalized word overlap with reference answers. "
     "Higher overlap is not proof of factual correctness or grounding.",

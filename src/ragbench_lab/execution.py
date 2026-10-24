@@ -1,5 +1,3 @@
-"""Block-scoped generation setup and fresh, measured retrieval-to-answer requests."""
-
 from __future__ import annotations
 
 from dataclasses import asdict

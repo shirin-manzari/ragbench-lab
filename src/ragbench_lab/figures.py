@@ -1,5 +1,3 @@
-"""Offline figures bound to independently verified paired-analysis inputs."""
-
 from __future__ import annotations
 
 import csv

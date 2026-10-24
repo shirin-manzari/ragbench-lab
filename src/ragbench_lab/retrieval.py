@@ -1,5 +1,3 @@
-"""Small inverted BM25 index with an explicit positive Robertson IDF variant."""
-
 from __future__ import annotations
 
 import heapq

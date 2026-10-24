@@ -1,5 +1,3 @@
-"""Explicit prompt-cache isolation with loaded weights; never operate on another model."""
-
 from time import perf_counter
 
 from ragbench_lab.data.records import DataError

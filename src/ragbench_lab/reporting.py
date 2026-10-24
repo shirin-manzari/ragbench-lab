@@ -1,5 +1,3 @@
-"""Traceable retrieval summaries with question-clustered timing uncertainty."""
-
 from __future__ import annotations
 
 import random

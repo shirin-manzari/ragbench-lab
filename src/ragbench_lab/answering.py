@@ -1,5 +1,3 @@
-"""Development-only retrieval-to-answer diagnostic; setup stays outside request timing."""
-
 from __future__ import annotations
 
 import json
@@ -121,7 +119,7 @@ def answer(config: ExperimentConfig, data: Path, index: Path | None, tokenizer_p
         result["context_evidence_metrics"] = evidence_metrics(question, [
             (item.document_id, item.source_start, item.source_end) for item in context.evidence])
         result.update(status="success", stage="complete")
-    except (OSError, DataError, HTTPException, ValueError, KeyError, TypeError) as error:
+    except (OSError, HTTPException, ValueError, KeyError, TypeError) as error:
         result.update(status="failed", error=str(error), error_type=type(error).__name__)
         if isinstance(error, HTTPError):
             result["http_status"] = error.code

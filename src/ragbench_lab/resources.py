@@ -1,5 +1,3 @@
-"""Sample resident process memory for the caller and a dedicated model-server tree."""
-
 import os
 import subprocess
 from threading import Event, Thread
