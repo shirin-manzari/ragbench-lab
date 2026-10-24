@@ -1,5 +1,8 @@
-# Markdown stays local for now; use git add -f PATH for an explicit exception.
-*.[mM][dD]
+# Locak markdowns
+PRD.md
+PLAN.md
+PROGRESS.md
+report.md
 
 # Local explanatory documents
 [Rr][Ee][Aa][Dd][Mm][Ee]*
@@ -36,8 +39,6 @@ dist/
 !.env.example
 .DS_Store
 
-# JSON outputs stay local unless they are project configuration, frozen study
-# metadata, or an explicitly allowlisted public results inventory below.
 *.json
 *.jsonl
 !/configs/*.json
@@ -64,12 +65,6 @@ dist/
 !/results/stage-b-v3/quality_latency_baselines.svg
 !/results/stage-b-v3/stage_times_main.svg
 !/results/stage-b-v3/manifest.json
-
-
-PRD.md
-PLAN.md
-PROGRESS.md
-report.md
 
 # Reviewed v4 aggregate export, separate from historical v3.
 !/results/stage-b-v4/
