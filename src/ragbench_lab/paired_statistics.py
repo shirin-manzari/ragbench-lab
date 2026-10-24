@@ -1,5 +1,3 @@
-"""Paired whole-cluster bootstrap estimators; timing repetitions stay together."""
-
 from __future__ import annotations
 
 from collections import defaultdict

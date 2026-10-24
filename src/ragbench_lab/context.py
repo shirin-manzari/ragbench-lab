@@ -1,5 +1,3 @@
-"""Rank-ordered context packing with exact source provenance after truncation."""
-
 from __future__ import annotations
 
 from dataclasses import dataclass

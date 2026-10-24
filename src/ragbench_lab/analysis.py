@@ -1,5 +1,3 @@
-"""Traceable offline paired comparisons of frozen main and baseline measurements."""
-
 from __future__ import annotations
 
 import csv
@@ -178,16 +176,16 @@ def compute_report(conditions: list[dict], rows: list[dict], clusters: dict,
     macro_cells = defaultdict(list)
     for c in sorted(conditions, key=condition_key):
         selected = by_condition[c["condition_id"]]
-        answers = defaultdict(list)
-        normalized = defaultdict(list)
+        answers = defaultdict(set)
+        normalized = defaultdict(set)
         for row in selected:
-            answers[row["question_id"]].append(row["answer_sha256"])
-            normalized[row["question_id"]].append(row["normalized_answer_sha256"])
+            answers[row["question_id"]].add(row["answer_sha256"])
+            normalized[row["question_id"]].add(row["normalized_answer_sha256"])
         cells.append({"condition": c, "questions": len(answers),
             "timing_measurements": len(selected),
             "metrics": metrics([c]), "output_instability": {
-                "raw": sum(len(set(v)) > 1 for v in answers.values()) / len(answers),
-                "normalized": sum(len(set(v)) > 1 for v in normalized.values()) / len(normalized)}})
+                "raw": sum(len(v) > 1 for v in answers.values()) / len(answers),
+                "normalized": sum(len(v) > 1 for v in normalized.values()) / len(normalized)}})
         macro_cells[condition_key(c)[1:]].append(c)
     contrasts, macro_pairs = [], defaultdict(list)
     for label, left, right in contrast_pairs(conditions):

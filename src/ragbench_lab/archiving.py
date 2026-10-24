@@ -1,5 +1,3 @@
-"""Read-only completeness checks and explicitly scoped, checksum-verified ZIP exports."""
-
 from __future__ import annotations
 
 import hashlib

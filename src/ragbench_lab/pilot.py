@@ -1,5 +1,3 @@
-"""A bounded development pilot with explicit cache isolation and traceable feasibility."""
-
 import json
 import math
 import os

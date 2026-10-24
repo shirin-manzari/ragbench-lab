@@ -1,12 +1,10 @@
-"""Offline preparation of immutable dashboard data; never invoked by UI callbacks."""
-
 from __future__ import annotations
 
 import json
 import random
 import shutil
 import zipfile
-from collections import defaultdict
+from collections import Counter, defaultdict
 from dataclasses import asdict
 from pathlib import Path
 from statistics import mean
@@ -161,7 +159,8 @@ def stage_a_snapshot(directory: Path, summary_path: Path, prepared: dict) -> dic
         "records_sha256"
     ] != file_sha256(directory / "records.jsonl"):
         raise DataError("Stage A saved summary/run identity mismatch")
-    first, failures, retries, quality = (defaultdict(list) for _ in range(4))
+    first, retries = Counter(), Counter()
+    failures, quality = defaultdict(list), defaultdict(list)
     times = defaultdict(lambda: defaultdict(list))
     requests, examples = [], []
     selected = {
@@ -188,9 +187,9 @@ def stage_a_snapshot(directory: Path, summary_path: Path, prepared: dict) -> dic
         )
         cid = row["condition_id"]
         if row["attempt"] != 1:
-            retries[cid].append(row["request_key"])
+            retries[cid] += 1
             continue
-        first[cid].append(row["request_key"])
+        first[cid] += 1
         if row["status"] != "success":
             failures[cid].append(row.get("result", {}).get("error", "failed"))
             continue
@@ -214,9 +213,9 @@ def stage_a_snapshot(directory: Path, summary_path: Path, prepared: dict) -> dic
         if (
             timing != item["retrieval_seconds"]
             or coverage != item["context_coverage"]
-            or len(first[cid]) != item["first_attempts"]
+            or first[cid] != item["first_attempts"]
             or len(failures[cid]) != item["failed_first_attempts"]
-            or len(retries[cid]) != item["retry_attempts"]
+            or retries[cid] != item["retry_attempts"]
         ):
             raise DataError("offline Stage A aggregate differs from saved report")
         ci = None
@@ -232,9 +231,9 @@ def stage_a_snapshot(directory: Path, summary_path: Path, prepared: dict) -> dic
                 "context_budget": identity["config"]["retrieval"]["context_budget_tokens"],
                 "questions": len(quality[cid]),
                 "timing_measurements": timing["measurements"],
-                "first_attempts": len(first[cid]),
+                "first_attempts": first[cid],
                 "failures": len(failures[cid]),
-                "retries": len(retries[cid]),
+                "retries": retries[cid],
                 "failure_messages": failures[cid],
                 "metrics": {
                     "evidence_coverage": {"estimate": coverage, "ci95": ci, "unit": "fraction"},

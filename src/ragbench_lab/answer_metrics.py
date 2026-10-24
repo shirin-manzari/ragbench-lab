@@ -1,5 +1,3 @@
-"""SQuAD/HotpotQA answer normalization and scoring, independent of evidence labels."""
-
 from __future__ import annotations
 
 import re

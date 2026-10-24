@@ -1,5 +1,3 @@
-"""Offline indexing and uncached development retrieval diagnostics."""
-
 from __future__ import annotations
 
 import json

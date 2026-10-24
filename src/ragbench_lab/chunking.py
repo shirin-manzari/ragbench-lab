@@ -1,5 +1,3 @@
-"""Non-overlapping source slices with verified reference-token sizes."""
-
 from __future__ import annotations
 
 import re

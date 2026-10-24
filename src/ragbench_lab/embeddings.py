@@ -1,5 +1,3 @@
-"""Pinned local BERT encoders; explicit prefixes, pooling, and no input truncation."""
-
 from __future__ import annotations
 
 import hashlib

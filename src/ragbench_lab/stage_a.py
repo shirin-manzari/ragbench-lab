@@ -1,5 +1,3 @@
-"""Sequential Stage A blocks, explicit warmups, recorded failures, and safe resume."""
-
 from __future__ import annotations
 
 import os

@@ -1,5 +1,3 @@
-"""Pinned reference-tokenizer adapter; no model weights or implicit truncation."""
-
 from __future__ import annotations
 
 import hashlib

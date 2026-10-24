@@ -1,5 +1,3 @@
-"""Exclusive-writer, hash-chained JSONL records with strict append-only recovery."""
-
 from __future__ import annotations
 
 import json

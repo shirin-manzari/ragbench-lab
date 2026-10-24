@@ -1,5 +1,3 @@
-"""Prepare the ID-only 50-question expansion; never execute model requests."""
-
 from __future__ import annotations
 
 import argparse
@@ -52,7 +50,10 @@ def prepare() -> dict:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(description=(
+        'Prepare the ID-only 50-question expansion; never execute model '
+        'requests.'
+    ))
     parser.add_argument("--output", type=Path,
                         default=ROOT / "manifests/stage-b-study-v4-50.json")
     args = parser.parse_args()

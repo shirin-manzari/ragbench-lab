@@ -1,5 +1,3 @@
-"""Descriptive dataset/model synthesis from verified saved analysis artifacts."""
-
 from __future__ import annotations
 
 import json

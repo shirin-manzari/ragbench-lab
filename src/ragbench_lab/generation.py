@@ -1,5 +1,3 @@
-"""Local Ollama generation diagnostics with pinned identity and explicit limits."""
-
 from __future__ import annotations
 
 import json
@@ -11,7 +9,7 @@ from datetime import datetime
 from http.client import HTTPConnection, HTTPException
 from pathlib import Path
 from time import perf_counter
-from urllib.error import HTTPError, URLError
+from urllib.error import HTTPError
 from urllib.parse import urlparse
 
 from ragbench_lab.data.preparation import digest
@@ -284,8 +282,7 @@ class LocalGenerator:
                           abstained=False)
             record["abstained"] = record["answer"].strip() == ABSTENTION
             return record
-        except (DataError, OSError, URLError, HTTPException,
-                ValueError, KeyError, TypeError) as error:
+        except (OSError, HTTPException, ValueError, KeyError, TypeError) as error:
             reason = getattr(error, "reason", error)
             record.update(error=str(error), error_type=type(error).__name__,
                           timed_out=isinstance(reason, (TimeoutError, socket.timeout)),

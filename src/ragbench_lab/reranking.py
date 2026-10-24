@@ -1,5 +1,3 @@
-"""Pinned six-layer cross-encoder with explicit pair limits and stable candidate identity."""
-
 from __future__ import annotations
 
 import math

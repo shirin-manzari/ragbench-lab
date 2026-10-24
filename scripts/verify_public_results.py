@@ -1,5 +1,3 @@
-"""Check the public aggregate bundle without models, raw data or third-party packages."""
-
 from __future__ import annotations
 
 import argparse
@@ -278,7 +276,10 @@ def verify_payload(contents: dict[str, bytes]) -> dict:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(description=(
+        'Check the public aggregate bundle without models, raw data or '
+        'third-party packages.'
+    ))
     parser.add_argument("bundle", nargs="?", type=Path, default=DEFAULT_BUNDLE)
     args = parser.parse_args()
     try:

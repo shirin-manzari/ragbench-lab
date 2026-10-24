@@ -1,5 +1,3 @@
-"""Build an offline v4 presentation from the verified aggregate bundle; no models."""
-
 from __future__ import annotations
 
 import argparse
@@ -234,7 +232,10 @@ document.addEventListener('keydown',event=>{
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(description=(
+        'Build an offline v4 presentation from the verified aggregate bundle;'
+        ' no models.'
+    ))
     parser.add_argument("--bundle", type=Path, default=ROOT / "results/stage-b-v4")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--check", action="store_true", help="compare without writing")

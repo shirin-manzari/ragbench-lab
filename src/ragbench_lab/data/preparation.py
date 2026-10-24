@@ -1,5 +1,3 @@
-"""Validate, split, and export a frozen local dataset without overwriting artifacts."""
-
 from __future__ import annotations
 
 import hashlib

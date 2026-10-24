@@ -1,8 +1,3 @@
-"""Source-only corpus records and separate evaluation annotations.
-
-Offsets are Python character indices with an exclusive end, never byte/token offsets.
-"""
-
 from __future__ import annotations
 
 from dataclasses import dataclass
