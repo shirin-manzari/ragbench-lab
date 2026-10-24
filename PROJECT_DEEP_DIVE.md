@@ -297,6 +297,47 @@ The viewer never loads generators, executes benchmarks or mutates records. It co
 verified snapshots built offline and must be stopped before timed experiments. The
 public aggregate bundle does not include the local snapshot or viewer environment.
 
+## Hosting the original dashboard on Render
+
+`render.yaml` defines a free Python web service using the existing Dash app.
+The hosted environment installs only `requirements-render.lock`; it does not
+install the benchmark package or model dependencies. `dashboard_wsgi.py` exposes
+the original Flask server through one Gunicorn worker with two threads.
+
+The deployment copy in `deployment/dashboard/` contains the unchanged v4 snapshot
+as gzip plus its existing figures and CSV. At build time,
+`PYTHONPATH=src python scripts/prepare_hosted_dashboard.py` expands the JSON and
+checks its byte hash, manifest identity and every asset checksum against
+`configs/hosted-dashboard.json`. The original local snapshot stays unchanged.
+This copy includes saved questions, generated answers and evidence examples.
+
+After these files are pushed, choose New > Blueprint in Render, connect the
+GitHub repository and review the free service described by `render.yaml`.
+For manual Web Service creation, select Python, branch main, no root subdirectory,
+and the Free instance. Set PYTHON_VERSION=3.14.7 and PYTHONPATH=src. Use these:
+
+```sh
+# Build command
+pip install -r requirements-render.lock && python scripts/prepare_hosted_dashboard.py
+# Start command
+gunicorn dashboard_wsgi:server --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120
+```
+
+The health-check path is `/healthz`. Render supplies PORT and a public URL.
+The hosted entry point explicitly permits RENDER_EXTERNAL_HOSTNAME in the viewer
+host guard; local CLI defaults still accept only loopback hosts.
+No API keys or models are needed.
+The free service can sleep when idle; the local CLI continues binding to loopback.
+
+Local checks passed 45 dashboard regressions and nine hosted checks, including
+original snapshot bytes, figure download, app routes, corrupt-package rejection
+and absence of model imports. Streaming identity verification preserves canonical
+hashes while reducing local startup peak from 616,710,144 to 453,836,800 bytes.
+Those are macOS memory observations. The deployed health endpoint, page, Dash
+layout/dependencies and original CSS/JS assets subsequently passed live checks.
+A Linux wheel-resolution check was blocked by DNS failures for files.pythonhosted.org.
+The hosted lock pins dependency versions separately from macOS wheel hashes.
+
 ## Running and reproducing the study
 
 [requirements.lock](requirements.lock) pins the core Python dependencies. On macOS,
