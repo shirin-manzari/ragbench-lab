@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: ragbench-dashboard
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements-render.lock && python scripts/prepare_hosted_dashboard.py
+    startCommand: gunicorn dashboard_wsgi:server --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120
+    healthCheckPath: /healthz
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.14.7
+      - key: PYTHONPATH
+        value: src

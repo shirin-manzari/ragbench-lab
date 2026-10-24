@@ -1,0 +1,204 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 920">
+<desc>Run 2d621cf0c65ef2b18ae7009a24ead7eb8e46cf771b809bd4e1769cec08f182b2; exact dashboard cell estimates</desc>
+<rect width="100%" height="100%" fill="white"/>
+<text x="25" y="35" font-family="Helvetica,Arial,sans-serif" font-size="22" fill="#222222">Stage A development / evidence_coverage</text>
+<text x="25" y="64" font-family="Helvetica,Arial,sans-serif" font-size="13" fill="#222222">Repetition-one quality; within-question timing repeats. 95% question-cluster intervals; source dependence not adjusted.</text>
+<text x="35" y="110" font-family="Helvetica,Arial,sans-serif" font-size="18" fill="#222222">squad</text>
+<text x="35" y="132" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">Per cell: n=50 questions, 150 timing measurements</text>
+<text x="30" y="160" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">bm25/fixe/64</text>
+<rect x="215" y="150" width="296.7" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="477.2" y1="156" x2="539.3" y2="156" stroke="#222222"/>
+<text x="30" y="182" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">bm25/fixe/128</text>
+<rect x="215" y="172" width="317.40000000000003" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="504.8" y1="178" x2="553.0999999999999" y2="178" stroke="#222222"/>
+<text x="30" y="204" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">bm25/fixe/256</text>
+<rect x="215" y="194" width="310.5" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="497.9" y1="200" x2="549.8224999999998" y2="200" stroke="#222222"/>
+<text x="30" y="226" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">bm25/sent/64</text>
+<rect x="215" y="216" width="303.6" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="484.1" y1="222" x2="546.2" y2="222" stroke="#222222"/>
+<text x="30" y="248" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">bm25/sent/128</text>
+<rect x="215" y="238" width="324.29999999999995" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="514.9775" y1="244" x2="560.0" y2="244" stroke="#222222"/>
+<text x="30" y="270" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">bm25/sent/256</text>
+<rect x="215" y="260" width="296.7" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="477.2" y1="266" x2="539.3" y2="266" stroke="#222222"/>
+<text x="30" y="292" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_bge/fixe/64</text>
+<rect x="215" y="282" width="296.7" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="477.2" y1="288" x2="546.2" y2="288" stroke="#222222"/>
+<text x="30" y="314" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_bge/fixe/128</text>
+<rect x="215" y="304" width="289.8" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="463.4" y1="310" x2="539.3" y2="310" stroke="#222222"/>
+<text x="30" y="336" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_bge/fixe/256</text>
+<rect x="215" y="326" width="220.8" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="390.77750000000003" y1="332" x2="484.1" y2="332" stroke="#222222"/>
+<text x="30" y="358" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_bge/sent/64</text>
+<rect x="215" y="348" width="310.5" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="497.9" y1="354" x2="553.0999999999999" y2="354" stroke="#222222"/>
+<text x="30" y="380" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_bge/sent/128</text>
+<rect x="215" y="370" width="317.40000000000003" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="504.8" y1="376" x2="553.0999999999999" y2="376" stroke="#222222"/>
+<text x="30" y="402" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_bge/sent/256</text>
+<rect x="215" y="392" width="269.1" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="442.70000000000005" y1="398" x2="525.5" y2="398" stroke="#222222"/>
+<text x="30" y="424" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_e5/fixe/64</text>
+<rect x="215" y="414" width="310.5" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="497.9" y1="420" x2="553.0999999999999" y2="420" stroke="#222222"/>
+<text x="30" y="446" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_e5/fixe/128</text>
+<rect x="215" y="436" width="310.5" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="491.0" y1="442" x2="553.0999999999999" y2="442" stroke="#222222"/>
+<text x="30" y="468" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_e5/fixe/256</text>
+<rect x="215" y="458" width="282.9" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="449.6" y1="464" x2="532.4000000000001" y2="464" stroke="#222222"/>
+<text x="30" y="490" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_e5/sent/64</text>
+<rect x="215" y="480" width="338.09999999999997" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="539.3" y1="486" x2="560.0" y2="486" stroke="#222222"/>
+<text x="30" y="512" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_e5/sent/128</text>
+<rect x="215" y="502" width="338.09999999999997" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="539.3" y1="508" x2="560.0" y2="508" stroke="#222222"/>
+<text x="30" y="534" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_e5/sent/256</text>
+<rect x="215" y="524" width="269.1" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="439.0775" y1="530" x2="518.6" y2="530" stroke="#222222"/>
+<text x="30" y="556" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_bge/fixe/64</text>
+<rect x="215" y="546" width="317.40000000000003" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="504.8" y1="552" x2="553.0999999999999" y2="552" stroke="#222222"/>
+<text x="30" y="578" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_bge/fixe/128</text>
+<rect x="215" y="568" width="331.2" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="525.5" y1="574" x2="560.0" y2="574" stroke="#222222"/>
+<text x="30" y="600" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_bge/fixe/256</text>
+<rect x="215" y="590" width="317.40000000000003" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="501.1775" y1="596" x2="553.0999999999999" y2="596" stroke="#222222"/>
+<text x="30" y="622" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_bge/sent/64</text>
+<rect x="215" y="612" width="317.40000000000003" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="504.8" y1="618" x2="553.0999999999999" y2="618" stroke="#222222"/>
+<text x="30" y="644" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_bge/sent/128</text>
+<rect x="215" y="634" width="324.29999999999995" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="518.6" y1="640" x2="560.0" y2="640" stroke="#222222"/>
+<text x="30" y="666" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_bge/sent/256</text>
+<rect x="215" y="656" width="310.5" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="497.9" y1="662" x2="553.0999999999999" y2="662" stroke="#222222"/>
+<text x="30" y="688" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_e5/fixe/64</text>
+<rect x="215" y="678" width="310.5" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="497.9" y1="684" x2="553.0999999999999" y2="684" stroke="#222222"/>
+<text x="30" y="710" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_e5/fixe/128</text>
+<rect x="215" y="700" width="331.2" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="525.5" y1="706" x2="560.0" y2="706" stroke="#222222"/>
+<text x="30" y="732" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_e5/fixe/256</text>
+<rect x="215" y="722" width="310.5" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="497.9" y1="728" x2="553.0999999999999" y2="728" stroke="#222222"/>
+<text x="30" y="754" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_e5/sent/64</text>
+<rect x="215" y="744" width="331.2" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="525.5" y1="750" x2="560.0" y2="750" stroke="#222222"/>
+<text x="30" y="776" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_e5/sent/128</text>
+<rect x="215" y="766" width="338.09999999999997" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="539.3" y1="772" x2="560.0" y2="772" stroke="#222222"/>
+<text x="30" y="798" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_e5/sent/256</text>
+<rect x="215" y="788" width="317.40000000000003" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="504.8" y1="794" x2="553.0999999999999" y2="794" stroke="#222222"/>
+<text x="207.0" y="845" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#222222">0.00</text>
+<text x="276.0" y="845" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#222222">20.00</text>
+<text x="345.0" y="845" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#222222">40.00</text>
+<text x="414.0" y="845" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#222222">60.00</text>
+<text x="483.0" y="845" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#222222">80.00</text>
+<text x="552.0" y="845" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#222222">100.00</text>
+<text x="215" y="877" font-family="Helvetica,Arial,sans-serif" font-size="13" fill="#222222">Evidence coverage (%)</text>
+<text x="635" y="110" font-family="Helvetica,Arial,sans-serif" font-size="18" fill="#222222">hotpot_qa</text>
+<text x="635" y="132" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">Per cell: n=50 questions, 150 timing measurements</text>
+<text x="630" y="160" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">bm25/fixe/64</text>
+<rect x="815" y="150" width="159.85" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="939.17125" y1="156" x2="1010.5" y2="156" stroke="#222222"/>
+<text x="630" y="182" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">bm25/fixe/128</text>
+<rect x="815" y="172" width="175.375" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="954.69625" y1="178" x2="1023.725" y2="178" stroke="#222222"/>
+<text x="630" y="204" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">bm25/fixe/256</text>
+<rect x="815" y="194" width="189.75000000000003" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="971.4" y1="200" x2="1036.95" y2="200" stroke="#222222"/>
+<text x="630" y="226" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">bm25/sent/64</text>
+<rect x="815" y="216" width="181.125" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="964.5" y1="222" x2="1028.325" y2="222" stroke="#222222"/>
+<text x="630" y="248" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">bm25/sent/128</text>
+<rect x="815" y="238" width="184.57500000000002" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="967.34625" y1="244" x2="1031.775" y2="244" stroke="#222222"/>
+<text x="630" y="270" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">bm25/sent/256</text>
+<rect x="815" y="260" width="189.75000000000003" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="971.4" y1="266" x2="1036.95" y2="266" stroke="#222222"/>
+<text x="630" y="292" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_bge/fixe/64</text>
+<rect x="815" y="282" width="223.67499999999998" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="997.548125" y1="288" x2="1075.776875" y2="288" stroke="#222222"/>
+<text x="630" y="314" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_bge/fixe/128</text>
+<rect x="815" y="304" width="248.975" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="1031.775" y1="310" x2="1094.751875" y2="310" stroke="#222222"/>
+<text x="630" y="336" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_bge/fixe/256</text>
+<rect x="815" y="326" width="278.3" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="1063.37125" y1="332" x2="1120.051875" y2="332" stroke="#222222"/>
+<text x="630" y="358" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_bge/sent/64</text>
+<rect x="815" y="348" width="235.17499999999998" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="1016.25" y1="354" x2="1083.2806249999999" y2="354" stroke="#222222"/>
+<text x="630" y="380" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_bge/sent/128</text>
+<rect x="815" y="370" width="271.975" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="1056.744375" y1="376" x2="1113.425" y2="376" stroke="#222222"/>
+<text x="630" y="402" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_bge/sent/256</text>
+<rect x="815" y="392" width="278.3" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="1063.37125" y1="398" x2="1120.051875" y2="398" stroke="#222222"/>
+<text x="630" y="424" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_e5/fixe/64</text>
+<rect x="815" y="414" width="221.95" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="999.2731249999999" y1="420" x2="1072.025" y2="420" stroke="#222222"/>
+<text x="630" y="446" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_e5/fixe/128</text>
+<rect x="815" y="436" width="248.975" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="1030.294375" y1="442" x2="1097.6556249999999" y2="442" stroke="#222222"/>
+<text x="630" y="468" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_e5/fixe/256</text>
+<rect x="815" y="458" width="267.95" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="1051.87125" y1="464" x2="1110.55" y2="464" stroke="#222222"/>
+<text x="630" y="490" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_e5/sent/64</text>
+<rect x="815" y="480" width="239.77499999999998" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="1019.973125" y1="486" x2="1086.4" y2="486" stroke="#222222"/>
+<text x="630" y="512" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_e5/sent/128</text>
+<rect x="815" y="502" width="261.625" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="1046.69625" y1="508" x2="1107.401875" y2="508" stroke="#222222"/>
+<text x="630" y="534" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">dense_e5/sent/256</text>
+<rect x="815" y="524" width="267.95" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="1051.87125" y1="530" x2="1110.55" y2="530" stroke="#222222"/>
+<text x="630" y="556" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_bge/fixe/64</text>
+<rect x="815" y="546" width="211.6" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="987.5" y1="552" x2="1063.975" y2="552" stroke="#222222"/>
+<text x="630" y="578" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_bge/fixe/128</text>
+<rect x="815" y="568" width="238.625" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="1019.973125" y1="574" x2="1087.851875" y2="574" stroke="#222222"/>
+<text x="630" y="600" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_bge/fixe/256</text>
+<rect x="815" y="590" width="243.8" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="1024.27125" y1="596" x2="1089.001875" y2="596" stroke="#222222"/>
+<text x="630" y="622" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_bge/sent/64</text>
+<rect x="815" y="612" width="224.25" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="1001.84625" y1="618" x2="1074.9575" y2="618" stroke="#222222"/>
+<text x="630" y="644" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_bge/sent/128</text>
+<rect x="815" y="634" width="257.025" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="1042.973125" y1="640" x2="1099.351875" y2="640" stroke="#222222"/>
+<text x="630" y="666" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_bge/sent/256</text>
+<rect x="815" y="656" width="247.25" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="1030.05" y1="662" x2="1090.726875" y2="662" stroke="#222222"/>
+<text x="630" y="688" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_e5/fixe/64</text>
+<rect x="815" y="678" width="204.70000000000002" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="981.75" y1="684" x2="1055.651875" y2="684" stroke="#222222"/>
+<text x="630" y="710" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_e5/fixe/128</text>
+<rect x="815" y="700" width="239.77499999999998" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="1019.369375" y1="706" x2="1089.85" y2="706" stroke="#222222"/>
+<text x="630" y="732" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_e5/fixe/256</text>
+<rect x="815" y="722" width="234.60000000000002" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="1014.525" y1="728" x2="1084.70375" y2="728" stroke="#222222"/>
+<text x="630" y="754" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_e5/sent/64</text>
+<rect x="815" y="744" width="231.15" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="1011.65" y1="750" x2="1081.31125" y2="750" stroke="#222222"/>
+<text x="630" y="776" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_e5/sent/128</text>
+<rect x="815" y="766" width="254.725" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="1040.673125" y1="772" x2="1099.351875" y2="772" stroke="#222222"/>
+<text x="630" y="798" font-family="Helvetica,Arial,sans-serif" font-size="10" fill="#222222">hybrid_e5/sent/256</text>
+<rect x="815" y="788" width="241.49999999999997" height="13" fill="#0072B2" stroke="#0072B2"/>
+<line x1="1026.025" y1="794" x2="1087.276875" y2="794" stroke="#222222"/>
+<text x="807.0" y="845" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#222222">0.00</text>
+<text x="876.0" y="845" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#222222">20.00</text>
+<text x="945.0" y="845" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#222222">40.00</text>
+<text x="1014.0" y="845" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#222222">60.00</text>
+<text x="1083.0" y="845" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#222222">80.00</text>
+<text x="1152.0" y="845" font-family="Helvetica,Arial,sans-serif" font-size="11" fill="#222222">100.00</text>
+<text x="815" y="877" font-family="Helvetica,Arial,sans-serif" font-size="13" fill="#222222">Evidence coverage (%)</text>
+</svg>
