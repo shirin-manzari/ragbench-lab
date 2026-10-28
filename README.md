@@ -31,7 +31,7 @@ requires the saved local snapshot and optional viewer environment.
 
 ## Results and documentation
 
-[Public results](results/stage-b-v4/) · [Study report](report.md) ·
+[Public results](results/stage-b-v4/) ·
 [Architecture](ARCHITECTURE.md) · [Methods and reproduction](PROJECT_DEEP_DIVE.md)
 
 Results describe trade-offs on one machine. Repeated timings are not independent
