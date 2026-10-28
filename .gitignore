@@ -90,3 +90,10 @@ dist/
 
 # Expanded at build time from the hosted dashboard snapshot.
 /deployment/dashboard/snapshot.json
+
+# Local history, reports and demo notes.
+/PROGRESS_HISTORY.md
+/PLAN_HISTORY.md
+/report.md
+/REPORT_V3.md
+/DEMO.md
